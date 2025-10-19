@@ -1,4 +1,4 @@
-package Tests;
+package todo;
 
 public class AccionExplorar implements Accion {
 	@Override

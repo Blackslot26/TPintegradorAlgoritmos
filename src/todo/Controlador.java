@@ -1,4 +1,4 @@
-package Tests;
+package todo;
 
 import java.util.HashMap;
 
@@ -70,19 +70,22 @@ public class Controlador {
 	}
 	
 	private void dibujar() {
-		System.out.println("████████████████             █");
-        System.out.println("               █             █");
-        System.out.println("               █             █");
-        System.out.println("               █             █");
-        System.out.println("               █             █");
-        System.out.println("               █             █");
-        System.out.println("██████████████████████████████");
-        System.out.println("█              █              ");
-        System.out.println("█              █              ");
-        System.out.println("█              █              ");
-        System.out.println("█              █              ");
-        System.out.println("█              █              ");
+		System.out.println("██████████████████████████████");
+         System.out.printf("█%-14s█   _     _   █\n",jugadorActual.nombre);
+         System.out.printf("█%-14d█  |*|   |*|  █\n",jugadorActual.vida);
+         System.out.printf("█%-14d█      l      █\n",jugadorActual.nivel);
+        System.out.println("█              █  |_______|  █");
+        System.out.println("█              █             █");
         System.out.println("█              ███████████████");
-		
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+        System.out.println("█                            █");
+		System.out.println("██████████████████████████████");
 	}
 }
