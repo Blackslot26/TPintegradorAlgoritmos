@@ -1,6 +1,8 @@
 package todo;
+import java.io.Serializable;
 
-public class Jugador extends Personaje{
+public class Jugador extends Personaje implements Serializable{
+	private static final long serialVersionUID = 1L;
 	int monedas;
 	int experiencia;
 	Inventario inventario;
@@ -16,5 +18,14 @@ public class Jugador extends Personaje{
 		renacimientos = 0;
 	}
 	
-	
+	public String getNombre() {
+		return nombre;
+	}
+	public int getMonedas() {
+		return monedas;
+	}
+	public int getExperiencia() {
+		return experiencia;
+	}
+
 }
