@@ -3,19 +3,25 @@ package todo;
 import java.util.HashMap;
 
 public class Controlador {
-	Jugador jugadorActual;
-	private HashMap<String,Accion> accionesMapeadas;
+
+	Jugador jugadorActual;	//Para conocer el jugador que estará jugando.
+	private HashMap<String,Accion> accionesMapeadas; //Lista de acciones.
 	
 	public Controlador(Jugador jugadorActual) {
 		this.jugadorActual = jugadorActual;
 
 		accionesMapeadas = new HashMap<>();
+		
+		//Lista de acciones.
 		this.accionesMapeadas.put("/explorar",new AccionExplorar());
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
 	};
 	
 	
-	//Procesar la entrada y devolver si continúa jugando o no.
+	/**
+	*Función que procesa el imput.
+	@return Devuelve false si el jugador decide salir del juego y true si elije una acción.
+	*/
 	public boolean procesarInput(String input) {
 		input = input.toLowerCase(); //sacar las mayúscula
 		
@@ -30,8 +36,9 @@ public class Controlador {
 			listarComandos();
 			break;
 		
-		case "/dibujar":
-			dibujar();
+			
+		case "/estado":
+			jugadorActual.mostrarEstadoJugador();
 			break;
 			
 		default: 
@@ -46,13 +53,17 @@ public class Controlador {
 		return true;
 	}
 	
-	//Listar todas las acciones
+	/**
+	*Función para listar los comandos disponibles.
+	@return Imprime todos los comandos disponibles.
+	*/
 	private void listarComandos() {
 		System.out.println("Comandos disponibles: ");
 	
 		//Imprimir comandos especiales
 		System.out.println("/salir -> Termina el juego.");
 		System.out.println("/comandos -> Muestra la lista de comandos disponibles");
+		System.out.println("/estado -> Muestra las características actuales del jugador");
 		
 		for(String c: accionesMapeadas.keySet()) {
 			System.out.printf("%s -> *Inserte Descripción*. \n",c);
@@ -66,26 +77,7 @@ public class Controlador {
 	    for (int i = 0; i < 50; i++) {
 	        System.out.println();
 	    }
-	    System.out.println("---------------------------------------------");
 	}
 	
-	private void dibujar() {
-		System.out.println("██████████████████████████████");
-         System.out.printf("█%-14s█   _     _   █\n",jugadorActual.nombre);
-         System.out.printf("█%-14d█  |*|   |*|  █\n",jugadorActual.vida);
-         System.out.printf("█%-14d█      l      █\n",jugadorActual.nivel);
-        System.out.println("█              █  |_______|  █");
-        System.out.println("█              █             █");
-        System.out.println("█              ███████████████");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-        System.out.println("█                            █");
-		System.out.println("██████████████████████████████");
-	}
+
 }
