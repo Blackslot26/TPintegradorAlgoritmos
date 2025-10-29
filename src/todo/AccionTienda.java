@@ -1,11 +1,38 @@
 package todo;
 
-public class AccionTienda implements Accion {
-	
-	
+import java.util.HashMap;
 
+public class AccionTienda implements Accion {
+	//Crear el inventario de la tienda
+	HashMap<Item,Integer> stock = new HashMap<>();
+	
+	public AccionTienda() {
+		stock.put(new Arma(Arma.tipoArma.daga), 20);
+	}
 	public void realizar(Jugador jugador,Controlador controlador) {
+		//Al entrar a la tienda se muestra un título
 		mostrarTitulo();
+		
+		//Seguido a esto se muestran los items disponibles para la compra
+		mostrarItems();
+	
+	}
+	
+	/**
+	 * Función para mostrar los ítems disponibles en la tienda.
+	 */
+	private void mostrarItems() {
+		System.out.println("Elementos disponibles: ");
+		for(Item item : stock.keySet()) {
+			System.out.println(">" + item.nombre + " : $" + stock.get(item));
+		}
+	}
+	
+	/**
+	 * Función para realizar la venta.
+	 */
+	private void realizarVenta(Jugador jugador) {
+		
 	}
 	
 	/**
@@ -30,4 +57,6 @@ public class AccionTienda implements Accion {
 		System.out.println("      T:::::::::T      i::::::i  ee:::::::::::::e    n::::n    n::::n  d:::::::::ddd::::d a::::::::::aa:::a");
 		System.out.println("      TTTTTTTTTTT      iiiiiiii    eeeeeeeeeeeeee    nnnnnn    nnnnnn   ddddddddd   ddddd  aaaaaaaaaa  aaaa");
 	}
+	
+	
 }
