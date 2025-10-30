@@ -7,6 +7,7 @@ public class Controlador {
 	Jugador jugadorActual;	//Para conocer el jugador que estará jugando.
 	private HashMap<String,Accion> accionesMapeadas; //Lista de acciones.
 	private String estadoActual;//Variable que señala el estado en el que está el jugador
+
 	
 	public Controlador(Jugador jugadorActual) {
 		this.jugadorActual = jugadorActual;
@@ -52,14 +53,6 @@ public class Controlador {
 
 
 		return true;
-	}
-	
-	private void cambiarEstado(String nuevoEstado) {
-		this.estadoActual = nuevoEstado;
-		
-		limpiarConsola();
-		
-		
 	}
 	
 	/**
