@@ -1,6 +1,7 @@
 package todo;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class AccionTienda implements Accion {
 	// Crear el inventario de la tienda
@@ -14,10 +15,32 @@ public class AccionTienda implements Accion {
 	public void realizar(Jugador jugador, Controlador controlador) {
 		// Al entrar a la tienda se muestra un título
 		mostrarTitulo();
-
-		// Seguido a esto se muestran los items disponibles para la compra
-		mostrarItems();
-
+		
+		boolean enTienda = true;
+		Scanner scTienda = new Scanner(System.in);
+		String inputTienda = " ";
+		
+		while(enTienda) {
+			controlador.limpiarConsola();
+			
+			// Se muestran los elementos disponibles para comprar
+			mostrarItems();
+			
+			inputTienda = scTienda.nextLine().toLowerCase().trim();
+			
+			switch(inputTienda) {
+			case "/comprar" :
+				realizarVenta(jugador,scTienda,inputTienda);
+				break;
+			
+			case "/atras" :
+				enTienda = false;
+				break;
+			}
+			
+			
+			
+		}
 	}
 
 	/**
@@ -74,8 +97,16 @@ public class AccionTienda implements Accion {
 	/**
 	 * Función para realizar la venta.
 	 */
-	private void realizarVenta(Jugador jugador) {
-
+	private void realizarVenta(Jugador jugador, Scanner sc, String inputTienda) {
+		boolean verificarInput= true;
+		System.out.print("Qué objeto desea comprar? : ");
+		inputTienda = sc.next();
+		
+		//Proceso de compra
+		while(verificarInput) {
+			if(inputTienda.equals("daga"));
+		}
+		//COMPLETARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 	}
 
 	/**
