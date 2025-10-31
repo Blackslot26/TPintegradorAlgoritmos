@@ -1,26 +1,40 @@
 package todo;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Controlador {
 	Jugador jugadorActual;
 	private HashMap<String,Accion> accionesMapeadas;
+	private Scanner sc;
 	
 	public Controlador(Jugador jugadorActual) {
 		this.jugadorActual = jugadorActual;
 
+		sc = new Scanner(System.in);
+		
 		accionesMapeadas = new HashMap<>();
 		this.accionesMapeadas.put("/explorar",new AccionExplorar());
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
+		
 	};
 	
 	
 	//Procesar la entrada y devolver si continúa jugando o no.
 	public boolean procesarInput(String input) {
-		input = input.toLowerCase(); //sacar las mayúscula
+		input = input.toLowerCase().replace(" ", ""); //sacar las mayúscula y espacios
 		
 		//Comandos especiales
 		switch (input) {
+		case "/leaderboard":
+			Leaderboard.update(jugadorActual);
+			Leaderboard.mostrarLeaderboard();
+			break;
+		
+		case "/money":
+			System.out.println("Agregando 10 de dinero");
+			money();
+			break;
 		
 		case "/salir":
 			System.out.println("Saliendo...");
@@ -53,6 +67,8 @@ public class Controlador {
 		//Imprimir comandos especiales
 		System.out.println("/salir -> Termina el juego.");
 		System.out.println("/comandos -> Muestra la lista de comandos disponibles");
+		System.out.println("/money -> añade 10 de dinero al jugador (temporal para testeos de leaderboard)");
+		System.out.println("/leaderboard -> muestra el top global de jugadores de esta computadora");
 		
 		for(String c: accionesMapeadas.keySet()) {
 			System.out.printf("%s -> *Inserte Descripción*. \n",c);
@@ -87,5 +103,10 @@ public class Controlador {
         System.out.println("█                            █");
         System.out.println("█                            █");
 		System.out.println("██████████████████████████████");
+	}
+	
+	
+	private void money() {
+		jugadorActual.monedas = jugadorActual.monedas+10;
 	}
 }

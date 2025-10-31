@@ -21,6 +21,14 @@ public class Jugador extends Personaje implements Serializable{
 	public String getNombre() {
 		return nombre;
 	}
+	public int getNivel() {
+		return nivel;
+	}
+	
+	public int getRebirth() {
+		return renacimientos;
+	}
+	
 	public int getMonedas() {
 		return monedas;
 	}
