@@ -13,34 +13,37 @@ public class Arma extends Item {
 
 	Arma(tipoArma tipo) {
 		this.tipo = tipo;
-		danio = calcularDanioTotal();
+		iniciarArma();
 	}
 	
-	private int calcularDanioTotal(){
-		int danioTotal = 0;
+	private void iniciarArma(){
 		switch (this.tipo){
 			
 		case daga :
 			nombre = "Daga";
-			danioTotal = 8;
+			precio = 20;
+			danio = 8;
 			break;
 		
 		case espada:
 			nombre = "Espada";
-			danioTotal= 12;
+			precio = 50;
+			danio= 12;
 			break;
 			
 		case hacha:
 			nombre = "Hacha";
-			danioTotal = 15;
+			precio = 100;
+			danio = 15;
+			break;
 			
 		case arco:
 			nombre = "Arco";
-			danioTotal = 10;
+			precio = 25;
+			danio = 10;
+			break;
 			
 		}
-		
-		return danioTotal;
 	}
 	
 	public void atacarMonstruo(Monstruo monstruo) {

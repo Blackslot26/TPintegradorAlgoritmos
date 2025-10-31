@@ -66,7 +66,7 @@ public class Controlador {
 		System.out.println("/estado -> Muestra las características actuales del jugador");
 		
 		for(String c: accionesMapeadas.keySet()) {
-			System.out.printf("%s -> *Inserte Descripción*. \n",c);
+			System.out.printf("%s -> %s \n",c,accionesMapeadas.get(c).getDescripcion());
 		}
 	}
 	

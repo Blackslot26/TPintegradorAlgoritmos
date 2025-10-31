@@ -1,116 +1,114 @@
 package todo;
+import dibujos.DibujosTienda;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class AccionTienda implements Accion {
+	
+	DibujosTienda graficos;
 	// Crear el inventario de la tienda
-	HashMap<Item, Integer> stock = new HashMap<>();
+	private HashMap<String, Item> stock = new HashMap<>();
+
+	private String descripcion = "Accedes a la tienda, para realizar compra y venta de elementos";
 
 	public AccionTienda() {
-		//Inventario inicial de la tienda
-		stock.put(new Arma(Arma.tipoArma.daga), 20);
+		//Instancia de clase para los graficos.
+		graficos = new DibujosTienda();
+		
+		// Inventario inicial de la tienda
+		stock.put("daga", new Arma(Arma.tipoArma.daga));
+		stock.put("espada", new Arma(Arma.tipoArma.espada));
+		stock.put("hacha", new Arma(Arma.tipoArma.hacha));
+		stock.put("arco", new Arma(Arma.tipoArma.arco));
+
 	}
 
 	public void realizar(Jugador jugador, Controlador controlador) {
-		// Al entrar a la tienda se muestra un título
-		mostrarTitulo();
-		
+
 		boolean enTienda = true;
 		Scanner scTienda = new Scanner(System.in);
 		String inputTienda = " ";
-		
-		while(enTienda) {
-			controlador.limpiarConsola();
-			
-			// Se muestran los elementos disponibles para comprar
-			mostrarItems();
-			
-			inputTienda = scTienda.nextLine().toLowerCase().trim();
-			
-			switch(inputTienda) {
-			case "/comprar" :
-				realizarVenta(jugador,scTienda,inputTienda);
+
+		// Al acceder se borra la pantalla, se muesta el título y el inventario de la
+		// tienda.
+		controlador.limpiarConsola();
+		graficos.mostrarTitulo();
+		mostrarItems();
+
+		while (enTienda) {
+			inputTienda = scTienda.nextLine().toLowerCase();
+
+			switch (inputTienda) {
+			case "/comprar daga":
+				realizarVenta(jugador, stock.get("daga"));
 				break;
-			
-			case "/atras" :
+
+			case "/comprar espada":
+				realizarVenta(jugador, stock.get("espada"));
+				break;
+
+			case "/comprar hacha":
+				realizarVenta(jugador, stock.get("hacha"));
+				break;
+
+			case "/comprar arco":
+				realizarVenta(jugador, stock.get("arco"));
+				break;
+
+			case "/comandos":
+				mostrarComandosTienda();
+				break;
+			case "/salir":
 				enTienda = false;
+				controlador.limpiarConsola();
 				break;
+
+			default:
+				System.out.println("No se reconoció el comando, intente de nuevo");
+
 			}
-			
-			
-			
 		}
 	}
-
-	/**
-	 * Función para Imprimir el título "TIENDA" (17 líneas).
-	 */
-	private void mostrarTitulo() {
-		System.out.println(
-				"                                                                                 dddddddd                  ");
-		System.out.println(
-				"TTTTTTTTTTTTTTTTTTTTTTT  iiii                                                    d::::::d                  ");
-		System.out.println(
-				"T:::::::::::::::::::::T i::::i                                                   d::::::d                  ");
-		System.out.println(
-				"T:::::::::::::::::::::T  iiii                                                    d::::::d                  ");
-		System.out.println(
-				"T:::::TT:::::::TT:::::T                                                          d:::::d                   ");
-		System.out.println(
-				"TTTTTT  T:::::T  TTTTTTiiiiiii     eeeeeeeeeeee    nnnn  nnnnnnnn        ddddddddd:::::d   aaaaaaaaaaaaa   ");
-		System.out.println(
-				"        T:::::T        i:::::i   ee::::::::::::ee  n:::nn::::::::nn    dd::::::::::::::d   a::::::::::::a  ");
-		System.out.println(
-				"        T:::::T         i::::i  e::::::eeeee:::::een::::::::::::::nn  d::::::::::::::::d   aaaaaaaaa:::::a ");
-		System.out.println(
-				"        T:::::T         i::::i e::::::e     e:::::enn:::::::::::::::nd:::::::ddddd:::::d            a::::a ");
-		System.out.println(
-				"        T:::::T         i::::i e:::::::eeeee::::::e  n:::::nnnn:::::nd::::::d    d:::::d     aaaaaaa:::::a ");
-		System.out.println(
-				"        T:::::T         i::::i e:::::::::::::::::e   n::::n    n::::nd:::::d     d:::::d   aa::::::::::::a ");
-		System.out.println(
-				"        T:::::T         i::::i e::::::eeeeeeeeeee    n::::n    n::::nd:::::d     d:::::d  a::::aaaa::::::a ");
-		System.out.println(
-				"        T:::::T         i::::i e:::::::e             n::::n    n::::nd:::::d     d:::::d a::::a    a:::::a ");
-		System.out.println(
-				"      TT:::::::TT      i::::::ie::::::::e            n::::n    n::::nd::::::ddddd::::::dda::::a    a:::::a ");
-		System.out.println(
-				"      T:::::::::T      i::::::i e::::::::eeeeeeee    n::::n    n::::n d:::::::::::::::::da:::::aaaa::::::a ");
-		System.out.println(
-				"      T:::::::::T      i::::::i  ee:::::::::::::e    n::::n    n::::n  d:::::::::ddd::::d a::::::::::aa:::a");
-		System.out.println(
-				"      TTTTTTTTTTT      iiiiiiii    eeeeeeeeeeeeee    nnnnnn    nnnnnn   ddddddddd   ddddd  aaaaaaaaaa  aaaa");
-	}
-
 
 	/**
 	 * Función para mostrar los ítems disponibles en la tienda.
 	 */
 	private void mostrarItems() {
 		System.out.println("Elementos disponibles: ");
-		for (Item item : stock.keySet()) {
-			System.out.println(">" + item.nombre + " : $" + stock.get(item));
+
+		for (String item : stock.keySet()) {
+			System.out.println(">" + stock.get(item).nombre + " : $" + stock.get(item).precio);
 		}
+
 	}
 
 	/**
 	 * Función para realizar la venta.
 	 */
-	private void realizarVenta(Jugador jugador, Scanner sc, String inputTienda) {
-		boolean verificarInput= true;
-		System.out.print("Qué objeto desea comprar? : ");
-		inputTienda = sc.next();
-		
-		//Proceso de compra
-		while(verificarInput) {
-			if(inputTienda.equals("daga"));
+	private void realizarVenta(Jugador jugador, Item item) {
+		if (jugador.monedas >= item.precio) {
+			jugador.inventario.addItem(item);
+			jugador.monedas -= item.precio;
+			System.out.println("Compra realizada con éxito");
 		}
-		//COMPLETARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 	}
 
 	/**
-	 * Función para Imprimir el título "TIENDA" (17 líneas).
+	 * Función para Imprimir los comandos de la tienda
 	 */
+	private void mostrarComandosTienda() {
+		System.out.println("/comprar *Item deseado* -> Comprar un Item específico");
+		System.out.println("/salir -> salir de la tienda");
+		System.out.println("/comandos -> Listar los comandos");
+	}
 
+	/**
+	 * Función para poder obtener la descripción fuera de la clase
+	 */
+	@Override
+	public String getDescripcion() {
+		return descripcion;
+	}
+	
 }

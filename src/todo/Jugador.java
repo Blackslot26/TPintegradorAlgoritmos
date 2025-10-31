@@ -9,7 +9,7 @@ public class Jugador extends Personaje{
 	
 	public Jugador(String nombre) {
 		super(nombre,100,1); //Empieza con 100 de vida y nivel 1.
-		monedas = 0;
+		monedas = 100;
 		experiencia = 0;
 		inventario = new Inventario();
 		bonificadorRenacimiento = 1;
@@ -32,7 +32,8 @@ public class Jugador extends Personaje{
 		System.out.println("Modenas: " + monedas);
 		System.out.println("Experiencia: " + experiencia);
 		System.out.println("Renaciemientos: " + renacimientos);
-		
+		System.out.println();
+		inventario.mostrarInventario();
 		
 		
 	}
