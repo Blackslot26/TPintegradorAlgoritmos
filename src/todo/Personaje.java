@@ -1,6 +1,9 @@
 package todo;
 
-public abstract class Personaje {
+import java.io.Serializable;
+
+public abstract class Personaje implements Serializable{
+	private static final long serialVersionUID = 1L;
 	int vida;
 	int nivel;
 	String nombre;
