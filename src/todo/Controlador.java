@@ -2,6 +2,7 @@ package todo;
 
 import java.util.HashMap;
 
+
 public class Controlador {
 
 	Jugador jugadorActual;	//Para conocer el jugador que estará jugando.
@@ -15,6 +16,7 @@ public class Controlador {
 		//Lista de acciones.
 		this.accionesMapeadas.put("/explorar",new AccionExplorar());
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
+		
 	};
 	
 	
@@ -23,10 +25,18 @@ public class Controlador {
 	@return Devuelve false si el jugador decide salir del juego y true si elije una acción.
 	*/
 	public boolean procesarInput(String input) {
-		input = input.toLowerCase(); //sacar las mayúscula
+		input = input.toLowerCase().replace(" ", ""); //sacar las mayúscula y espacios
 		
 		//Comandos especiales
 		switch (input) {
+		case "/leaderboard":
+			Leaderboard.update(jugadorActual);
+			Leaderboard.mostrarLeaderboard();
+			break;
+		
+		case "/money":
+			System.out.println("Agregando 10 de dinero");
+			break;
 		
 		case "/salir":
 			System.out.println("Saliendo...");
@@ -63,6 +73,7 @@ public class Controlador {
 		//Imprimir comandos especiales
 		System.out.println("/salir -> Termina el juego.");
 		System.out.println("/comandos -> Muestra la lista de comandos disponibles");
+		System.out.println("/leaderboard -> muestra el top global de jugadores de esta computadora");
 		System.out.println("/estado -> Muestra las características actuales del jugador");
 		
 		for(String c: accionesMapeadas.keySet()) {

@@ -1,0 +1,2 @@
+Blackslot,1,0,60
+ELNOOB,1,0,10
