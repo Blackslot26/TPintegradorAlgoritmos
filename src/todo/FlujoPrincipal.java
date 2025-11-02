@@ -20,16 +20,18 @@ public class FlujoPrincipal {
 		System.out.println(
 				"Puedes escribir \"/explorar\" para hacer tu primera exploración \n o puedes escribir \"/comandos\" para guiarte");
 		
-		while (enJuego) {
-			input = sc.nextLine();
-			controlador.limpiarConsola();
-			enJuego = controlador.procesarInput(input);
+		//Bucle Principal
+		while(enJuego) {
+			input = sc.nextLine(); //Ingresa Imput
+			controlador.limpiarConsola(); //Redirecciona a la acción.
+			enJuego = controlador.procesarInput(input); //Verifica si sigue en juego o no.
 		}
 		
 		
 		GestorPartidas.guardarPartida(jugadorActual);			//GUARDAR LA PARTIDA AL ROMPER EL BUCLE WHILE CUANDO enJuego SE VUELVE FALSE
 		
 		System.out.println("Se ha cerrado el juego");
+		//Fin del Juego.
 	}
 
 	public static Jugador logIn() {
