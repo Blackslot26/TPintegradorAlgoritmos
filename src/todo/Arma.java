@@ -1,6 +1,8 @@
 package todo;
 
 public class Arma extends Item {
+	private static final long serialVersionUID = 1L;
+
 	// Definir los tipos de armas
 	public enum tipoArma {
 		daga, espada, hacha, arco;

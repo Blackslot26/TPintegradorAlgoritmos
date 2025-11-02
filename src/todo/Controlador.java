@@ -1,7 +1,7 @@
 package todo;
 
 import java.util.HashMap;
-import java.util.Scanner;
+
 
 public class Controlador {
 
@@ -36,7 +36,6 @@ public class Controlador {
 		
 		case "/money":
 			System.out.println("Agregando 10 de dinero");
-			money();
 			break;
 		
 		case "/salir":
