@@ -6,21 +6,21 @@ import java.util.Scanner;
 
 public class AccionTienda implements Accion {
 	
-	DibujosTienda graficos;
+	DibujosTienda dibujos;
 	// Crear el inventario de la tienda
 	private HashMap<String, Item> stock = new HashMap<>();
 
-	private String descripcion = "Accedes a la tienda, para realizar compra y venta de elementos";
+	private String descripcion = "Accedes a la tienda, para realizar compra y venta de elementos, también puedes usar /t";
 
 	public AccionTienda() {
 		//Instancia de clase para los graficos.
-		graficos = new DibujosTienda();
+		dibujos = new DibujosTienda();
 		
 		// Inventario inicial de la tienda
-		stock.put("daga", new Arma(Arma.tipoArma.daga));
-		stock.put("espada", new Arma(Arma.tipoArma.espada));
-		stock.put("hacha", new Arma(Arma.tipoArma.hacha));
-		stock.put("arco", new Arma(Arma.tipoArma.arco));
+		stock.put("daga", new Arma(TipoArma.DAGA));
+		stock.put("espada", new Arma(TipoArma.ESPADA));
+		stock.put("hacha", new Arma(TipoArma.HACHA));
+		stock.put("arco", new Arma(TipoArma.ARCO));
 
 	}
 
@@ -33,7 +33,7 @@ public class AccionTienda implements Accion {
 		// Al acceder se borra la pantalla, se muesta el título y el inventario de la
 		// tienda.
 		controlador.limpiarConsola();
-		graficos.mostrarTitulo();
+		dibujos.mostrarTitulo();
 		mostrarItems();
 
 		while (enTienda) {

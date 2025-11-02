@@ -3,49 +3,16 @@ package todo;
 public class Arma extends Item {
 	private static final long serialVersionUID = 1L;
 
-	// Definir los tipos de armas
-	public enum tipoArma {
-		daga, espada, hacha, arco;
-	}
-	
-	
 	//Atributos de las armas
 	private int danio;
-	private tipoArma tipo;
+	private TipoArma tipo;
 
-	Arma(tipoArma tipo) {
-		this.tipo = tipo;
-		iniciarArma();
-	}
-	
-	private void iniciarArma(){
-		switch (this.tipo){
-			
-		case daga :
-			nombre = "Daga";
-			precio = 20;
-			danio = 8;
-			break;
-		
-		case espada:
-			nombre = "Espada";
-			precio = 50;
-			danio= 12;
-			break;
-			
-		case hacha:
-			nombre = "Hacha";
-			precio = 100;
-			danio = 15;
-			break;
-			
-		case arco:
-			nombre = "Arco";
-			precio = 25;
-			danio = 10;
-			break;
-			
-		}
+	Arma(TipoArma tipo) {
+		// Asigna los valores dependiendo del tipo
+        this.nombre = tipo.getNombre();
+        this.precio = tipo.getPrecio();
+        this.danio = tipo.getDanio();
+        this.tipo = tipo;
 	}
 	
 	public void atacarMonstruo(Monstruo monstruo) {
