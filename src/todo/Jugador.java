@@ -1,51 +1,87 @@
 package todo;
+
 import java.io.Serializable;
 
-public class Jugador extends Personaje implements Serializable{
+public class Jugador extends Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
-	int monedas;
-	int experiencia;
+	private Trabajar trabajo;
+
+	static int monedas;
+	static int experiencia;
 	Inventario inventario;
-	int bonificadorRenacimiento;
-	int renacimientos;
+	static int bonificadorRenacimiento;
+	static int renacimientos;
+
+	// estadisticas EXTRA (principalmente afectan trabajos o eventos)
+	public static double suerte;
+	public static double multiplicadorVenta;
+	public static double multiplicadorGanancia;
+
+	
+	
+	
 	
 	public Jugador(String nombre) {
-		super(nombre,100,1); //Empieza con 100 de vida y nivel 1.
+		super(nombre, 100, 1); // Empieza con 100 de vida y nivel 1.
 		monedas = 100;
 		experiencia = 0;
 		inventario = new Inventario();
 		bonificadorRenacimiento = 1;
 		renacimientos = 0;
+		trabajo = null;
+		
+		
+		//estadisticas extra
+		suerte = 0;
+		multiplicadorGanancia = 1;
+		
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
-	public int getNivel() {
+
+	public static int getNivel() {
 		return nivel;
 	}
-	
+
 	public int getRebirth() {
 		return renacimientos;
 	}
-	
-	public int getMonedas() {
+
+	public static int getMonedas() {
 		return monedas;
 	}
+
 	public int getExperiencia() {
 		return experiencia;
 	}
 
-	public void mostrarEstadoJugador(){
-		//Mostrar el nombre del jugador en mayúsculas
+	//////////////////////////////////////////////////////////////
+	// estadisticas
+	public static double getSuerte() {
+		return suerte;
+	}
+	public static void modificarSuerte(double valor) {
+		suerte =+ valor;
+	}
+
+	/////////////////////////////////////////////////////////////
+
+	public static void agregarDinero(int amount) {
+		monedas = +amount;
+	}
+
+	public void mostrarEstadoJugador() {
+		// Mostrar el nombre del jugador en mayúsculas
 		System.out.println(nombre.toUpperCase());
-		
-		//Subrayado para el nombre del jugador de acuerdo a su largo.
-		for(int i=0; i< nombre.length();i++) {
+
+		// Subrayado para el nombre del jugador de acuerdo a su largo.
+		for (int i = 0; i < nombre.length(); i++) {
 			System.out.print("=");
 		}
-		System.out.println(); //salto de línea
-		
+		System.out.println(); // salto de línea
+
 		System.out.println("Vida: " + vida);
 		System.out.println("Nivel: " + nivel);
 		System.out.println("Modenas: " + monedas);
@@ -53,8 +89,7 @@ public class Jugador extends Personaje implements Serializable{
 		System.out.println("Renaciemientos: " + renacimientos);
 		System.out.println();
 		inventario.mostrarInventario();
-		
-		
+
 	}
-	
+
 }
