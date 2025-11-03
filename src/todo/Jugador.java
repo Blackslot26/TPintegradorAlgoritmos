@@ -46,7 +46,7 @@ public class Jugador extends Personaje implements Serializable{
 		}
 		System.out.println(); //salto de línea
 		
-		System.out.println("Vida: " + vida);
+		System.out.println("Vida: " + vidaActual + "/" + vidaMaxima);
 		System.out.println("Nivel: " + nivel);
 		System.out.println("Modenas: " + monedas);
 		System.out.println("Experiencia: " + experiencia);

@@ -4,13 +4,15 @@ import java.io.Serializable;
 
 public abstract class Personaje implements Serializable{
 	private static final long serialVersionUID = 1L;
-	int vida;
+	int vidaMaxima;
+	int vidaActual;
 	int nivel;
 	String nombre;
 	
-	public Personaje(String nombre, int vida, int nivel) {
+	public Personaje(String nombre, int vidaMaxima, int nivel) {
 		this.nombre = nombre;
-		this.vida = 100;
+		this.vidaMaxima = vidaMaxima;
+		this.vidaActual = this.vidaMaxima;
 		this.nivel = 1;
 	}
 	
