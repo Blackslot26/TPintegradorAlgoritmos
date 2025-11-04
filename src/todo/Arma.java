@@ -16,7 +16,7 @@ public class Arma extends Item {
 	}
 	
 	public void atacarMonstruo(Monstruo monstruo) {
-		monstruo.vida -= danio;
+		monstruo.vidaActual -= danio;
 	}
 
 }

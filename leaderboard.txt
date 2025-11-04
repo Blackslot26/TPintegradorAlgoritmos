@@ -1,3 +1,5 @@
+a,1,0,100
+BLACKSLOT,1,0,100
 Blackslot,1,0,60
 elnoob,1,0,100
 ELNOOB,1,0,10
