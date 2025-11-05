@@ -6,16 +6,16 @@ public class Jugador extends Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Trabajar trabajo;
 
-	static int monedas;
-	static int experiencia;
+	int monedas;
+	int experiencia;
 	Inventario inventario;
-	static int bonificadorRenacimiento;
-	static int renacimientos;
+	int bonificadorRenacimiento;
+	int renacimientos;
 
 	// estadisticas EXTRA (principalmente afectan trabajos o eventos)
-	public static double suerte;
-	public static double multiplicadorVenta;
-	public static double multiplicadorGanancia;
+	public double suerte;
+	public double multiplicadorVenta;
+	public double multiplicadorGanancia;
 
 	
 	
@@ -36,39 +36,51 @@ public class Jugador extends Personaje implements Serializable {
 		multiplicadorGanancia = 1;
 		
 	}
-
+	
 	public String getNombre() {
 		return nombre;
 	}
-
-	public static int getNivel() {
+	
+	public int getNivel() {
 		return nivel;
 	}
-
+	
 	public int getRebirth() {
 		return renacimientos;
 	}
-
-	public static int getMonedas() {
+	
+	public int getMonedas() {
 		return monedas;
 	}
-
+	
 	public int getExperiencia() {
 		return experiencia;
+	}
+	public void setExperiencia(int value) {
+		experiencia =+ value;
+	}
+	
+	
+	public void setTrabajo(Trabajar choise) {
+		trabajo = choise;
+	}
+	
+	public Trabajar getTrabajo() {
+		return trabajo;
 	}
 
 	//////////////////////////////////////////////////////////////
 	// estadisticas
-	public static double getSuerte() {
+	public double getSuerte() {
 		return suerte;
 	}
-	public static void modificarSuerte(double valor) {
+	public void modificarSuerte(double valor) {
 		suerte =+ valor;
 	}
 
 	/////////////////////////////////////////////////////////////
 
-	public static void agregarDinero(int amount) {
+	public void agregarDinero(int amount) {
 		monedas = +amount;
 	}
 
@@ -87,6 +99,7 @@ public class Jugador extends Personaje implements Serializable {
 		System.out.println("Modenas: " + monedas);
 		System.out.println("Experiencia: " + experiencia);
 		System.out.println("Renaciemientos: " + renacimientos);
+		System.out.println("Trabajo:" + trabajo.getNombre());
 		System.out.println();
 		inventario.mostrarInventario();
 

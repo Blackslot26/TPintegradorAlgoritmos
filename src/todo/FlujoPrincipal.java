@@ -4,22 +4,28 @@ import java.util.Scanner;
 
 public class FlujoPrincipal {
 	static Scanner sc;
-	static GestorPartidas gm;
-
+	
 	public static void main(String[] args) {
 		sc = new Scanner(System.in);
-		
+	
 		Jugador jugadorActual = logIn();   //logIn retorna el jugador logueado, si este no existe se crea uno nuevo
 											//luego se crea el controlador e inicia el bucle while principal
 		Controlador controlador = new Controlador(jugadorActual);
 		boolean enJuego = true;
 		
 		
-		String input = " ";
-		System.out.println("Bienvenid@!, el juego empieza aquí \n");
-		System.out.println(
-				"Puedes escribir \"/explorar\" para hacer tu primera exploración \n o puedes escribir \"/comandos\" para guiarte");
 		
+
+		if(jugadorActual.getExperiencia() == 0) {					//SI LA EXPERIENCIA DEL JUGADOR ES 0 SIGNIFICA QUE ES UN JUGADOR NUEVO Y ESTA FORZADO A REALIZAR EL TUTORIAL.
+			Tutorial tutorial = new Tutorial(jugadorActual);
+			try {
+				tutorial.iniciarTutorial();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String input = " ";
 		//Bucle Principal
 		while(enJuego) {
 			input = sc.nextLine(); //Ingresa Imput
@@ -35,9 +41,15 @@ public class FlujoPrincipal {
 	}
 
 	public static Jugador logIn() {
-		System.out.println("Bienvenid@!, por favor escribe tu nombre de jugador para loguearte \n");
+		System.out.println("			╔════════════════════════════════════════════════════════════════════════╗");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			║   Bienvenid@!, por favor escribe tu nombre de jugador para loguearte   ║");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			╚════════════════════════════════════════════════════════════════════════╝");
 		while (true) {	
-			String player = sc.nextLine();
+			String player = sc.nextLine().toLowerCase().trim();
 			System.out.println("Esta seguro de que su nombre es: " + player + "?   yes/no");
 			String choise = sc.nextLine();
 			choise = choise.toLowerCase().replace(" ", "");
@@ -49,8 +61,5 @@ public class FlujoPrincipal {
 		}
 	}
 
-	public static void tutorial() {
-
-	}
 
 }

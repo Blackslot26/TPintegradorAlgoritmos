@@ -8,9 +8,9 @@ public interface Trabajar {
 	
 	String getDescription();
 	
-	double multiplicadorVenta(double precioBase);
+	double multiplicadorVenta(double precioBase, Jugador jugador);
 	
-	double multiplicadorGanancias(double gananciaBase);
+	double multiplicadorGanancias(double gananciaBase, Jugador jugador);
 	
 	
 	
