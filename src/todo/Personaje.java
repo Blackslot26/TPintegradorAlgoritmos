@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public abstract class Personaje implements Serializable{
 	private static final long serialVersionUID = 1L;
-	int vidaMaxima;
-	int vidaActual;
-	int nivel;
+	private int vidaMaxima;
+	private int vidaActual;
+	private int nivel;
 	String nombre;
 	
 	public Personaje(String nombre, int vidaMaxima, int nivel) {
@@ -16,4 +16,33 @@ public abstract class Personaje implements Serializable{
 		this.nivel = 1;
 	}
 	
+	public String getNombre() {
+		return nombre;
+	}
+	public int getNivel() {
+		return nivel;
+	}
+	
+	public void recibirDanio(int danio) {
+		vidaActual -= danio;
+	}
+	public int getVidaActual() {
+		return vidaActual;
+	}
+	public int getVidaMaxima() {
+		return vidaMaxima;
+	}
+	public void curar(int curacion) {
+		vidaActual+= curacion;
+	}
+	
+	
+	public void morir() {
+	}
+	
+	public void actualizar() {
+		if(vidaActual <=0) {
+			morir();
+		}
+	}
 	}

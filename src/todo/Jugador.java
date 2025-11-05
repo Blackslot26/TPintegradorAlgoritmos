@@ -3,11 +3,11 @@ import java.io.Serializable;
 
 public class Jugador extends Personaje implements Serializable{
 	private static final long serialVersionUID = 1L;
-	int monedas;
-	int experiencia;
-	Inventario inventario;
-	int bonificadorRenacimiento;
-	int renacimientos;
+	private int monedas;
+	private int experiencia;
+	private Inventario inventario;
+	private int bonificadorRenacimiento;
+	private int renacimientos;
 	
 	public Jugador(String nombre) {
 		super(nombre,100,1); //Empieza con 100 de vida y nivel 1.
@@ -16,13 +16,6 @@ public class Jugador extends Personaje implements Serializable{
 		inventario = new Inventario();
 		bonificadorRenacimiento = 1;
 		renacimientos = 0;
-	}
-	
-	public String getNombre() {
-		return nombre;
-	}
-	public int getNivel() {
-		return nivel;
 	}
 	
 	public int getRebirth() {
@@ -35,6 +28,19 @@ public class Jugador extends Personaje implements Serializable{
 	public int getExperiencia() {
 		return experiencia;
 	}
+	public void addMonedas(int cantidad) {
+		monedas += cantidad*bonificadorRenacimiento; 
+		System.out.println("Has ganado $" + cantidad + " Monedas");
+	}
+	public void perderMonedas(int monedas) {
+		this.monedas-=monedas;
+		System.out.println("Perdiste $" + monedas + " Monedas");
+	}
+	@Override
+	public void morir() {
+		perderMonedas((int) (monedas*0.5)); //Pierde la mitad de sus monedas actuales
+		curar(getVidaMaxima());//Se restaura la vida
+	}
 
 	public void mostrarEstadoJugador(){
 		//Mostrar el nombre del jugador en mayúsculas
@@ -46,8 +52,8 @@ public class Jugador extends Personaje implements Serializable{
 		}
 		System.out.println(); //salto de línea
 		
-		System.out.println("Vida: " + vidaActual + "/" + vidaMaxima);
-		System.out.println("Nivel: " + nivel);
+		System.out.println("Vida: " + this.getVidaActual() + "/" + this.getVidaMaxima());
+		System.out.println("Nivel: " + this.getNivel());
 		System.out.println("Modenas: " + monedas);
 		System.out.println("Experiencia: " + experiencia);
 		System.out.println("Renaciemientos: " + renacimientos);

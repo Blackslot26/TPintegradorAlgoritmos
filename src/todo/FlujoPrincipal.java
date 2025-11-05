@@ -18,6 +18,7 @@ public class FlujoPrincipal {
 		
 		//Bucle Principal
 		while(enJuego) {
+			jugadorActual.actualizar();;
 			controlador.limpiarConsola();
 			//Mostrar el titulo del lobby
 			graficos.TituloLobby();

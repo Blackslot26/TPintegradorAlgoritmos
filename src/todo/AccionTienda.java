@@ -87,11 +87,11 @@ public class AccionTienda implements Accion {
 	 * Función para realizar la venta.
 	 */
 	private void realizarVenta(Jugador jugador, Item item) {
-		if (jugador.monedas >= item.precio) {
-			jugador.inventario.addItem(item);
-			jugador.monedas -= item.precio;
-			System.out.println("Compra realizada con éxito");
-		}
+//		if (jugador.monedas >= item.precio) {
+//			jugador.inventario.addItem(item);
+//			jugador.monedas -= item.precio;
+//			System.out.println("Compra realizada con éxito");
+//		}
 	}
 
 	/**
