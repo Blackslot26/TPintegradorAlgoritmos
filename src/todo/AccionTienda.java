@@ -1,12 +1,12 @@
 package todo;
-import dibujos.DibujosTienda;
-
 import java.util.HashMap;
 import java.util.Scanner;
 
+import utiles.Titulos;
+
 public class AccionTienda implements Accion {
 	
-	DibujosTienda dibujos;
+	Titulos dibujos;
 	// Crear el inventario de la tienda
 	private HashMap<String, Item> stock = new HashMap<>();
 
@@ -14,7 +14,7 @@ public class AccionTienda implements Accion {
 
 	public AccionTienda() {
 		//Instancia de clase para los graficos.
-		dibujos = new DibujosTienda();
+		dibujos = new Titulos();
 		
 		// Inventario inicial de la tienda
 		stock.put("daga", new Arma(TipoArma.DAGA));
@@ -33,7 +33,7 @@ public class AccionTienda implements Accion {
 		// Al acceder se borra la pantalla, se muesta el título y el inventario de la
 		// tienda.
 		controlador.limpiarConsola();
-		dibujos.mostrarTitulo();
+		dibujos.mostrarTituloTienda();
 		mostrarItems();
 
 		while (enTienda) {

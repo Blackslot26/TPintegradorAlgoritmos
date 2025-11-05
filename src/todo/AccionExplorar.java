@@ -3,16 +3,19 @@ package todo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import dibujos.DibujosExplorar;
+import utiles.Functions;
+import utiles.Dibujos;
 
 public class AccionExplorar implements Accion {
 	String descripcion = "Te encuentras con un evento aleatorio donde puedes conseguir botín y aventuras";
 	Scanner scExplorar = new Scanner(System.in);
-	DibujosExplorar graficos;	// Instancia para usar los dibujos
+	Functions myUtil;	// Instancia para usar funciones utiles
+	Dibujos misDibujos;
 	
 
 	AccionExplorar() {
-		graficos = new DibujosExplorar();
+		myUtil = new Functions();
+		misDibujos = new Dibujos();
 	}
 
 	@Override
@@ -47,8 +50,8 @@ public class AccionExplorar implements Accion {
 	private void realizarAhorcado(Jugador jugador, Controlador controlador) throws InterruptedException {
 		IntroAhorcado(controlador);// Realizar la introducción
 		String input = ""; // Para registrar el input del usuario
-		int probabilidadPalabra = (int) (Math.random() * graficos.palabrasAhorcado.length); // Calcula la probabilidad de la palabra
-		String palabra = graficos.palabrasAhorcado[probabilidadPalabra]; // Instancia la palabraf
+		int probabilidadPalabra = (int) (Math.random() * myUtil.palabrasAhorcado.length); // Calcula la probabilidad de la palabra
+		String palabra =myUtil.palabrasAhorcado[probabilidadPalabra]; // Instancia la palabraf
 		StringBuilder tablero = new StringBuilder(); // crea el tablero
 		boolean enAhorcado = true; // Para el subMain del minijuego
 		boolean entradaInvalida = false; // Para indicar que ingresó más de una letra
@@ -59,26 +62,26 @@ public class AccionExplorar implements Accion {
 		while (enAhorcado) {
 			
 			if (entradaInvalida) {
-				graficos.marco("SOLO UNA LETRA TE DIJE, intenta de nuevo");
+				myUtil.marco("SOLO UNA LETRA TE DIJE, intenta de nuevo");
 				Thread.sleep(2000);
 			}
 			
 			controlador.limpiarConsola();// Borrar lo anterior
 			// Mostrar las letras que ya intentó
-			graficos.dibujarCalavera();
+			misDibujos.dibujarCalavera();
 			
-			graficos.marco(mostrarLetrasIntentadas);
+			myUtil.marco(mostrarLetrasIntentadas);
 			
-			graficos.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima());
-			graficos.marco(tablero.toString()); //Muestra el marco
-			System.out.print("Ingrese su letra elegida (SOLO UNA LETRA): ");
+			myUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima());
+			myUtil.marco(tablero.toString()); //Muestra el marco
+			System.out.print("Ingrese una letra o intente adivinar la palabra: ");
 
 			input = scExplorar.nextLine().toLowerCase().trim();//Entrada del usuario formalizada
 			
-			if(input.equals("/casino")) { //Siempre puedes salir
+			if(input.equals("/casino") || input.equals("/salis")) { //Siempre puedes salir
 				enAhorcado = false;
 
-				graficos.marco("Has recurrido a ténicas prohibidas para salir de tu grave situación");
+				myUtil.marco("Has recurrido a ténicas prohibidas para salir de tu grave situación");
 				jugador.perderMonedas((int)(jugador.getMonedas()*0.25));
 				Thread.sleep(3000);
 			}
@@ -88,7 +91,7 @@ public class AccionExplorar implements Accion {
 				char letraInput = input.charAt(0);
 
 				if (letrasIntentadas.contains(letraInput)) {
-					graficos.marco("Esa letra ya la intentaste. Prueba otra.");
+					myUtil.marco("Esa letra ya la intentaste. Prueba otra.");
 					Thread.sleep(1500);
 					continue;
 				}
@@ -109,21 +112,28 @@ public class AccionExplorar implements Accion {
 				} else {
 					int danio = (int) (jugador.getVidaMaxima() * 0.1);
 					jugador.recibirDanio(danio);
-					graficos.marco("Esta letra no se encuentra en la palabra [-" + danio + "HP]");
+					myUtil.marco("Esta letra no se encuentra en la palabra [-" + danio + "HP]");
 					Thread.sleep(2500);
 					letrasIntentadas.add(letraInput);
 					mostrarLetrasIntentadas = mostrarLetrasIntentadas + " " + letraInput;
 				}
-			} else {
-				entradaInvalida = true;
-			}
+			} else if(input.equals(palabra)){
+				int recompensa = (int) ((Math.random() * 50)+40);
+				myUtil.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
+				myUtil.marco("Y Has sobrevido a un ataque de depresión");
+				Thread.sleep(2500);
+				jugador.addMonedas(recompensa);
+				Thread.sleep(5000);
+				enAhorcado = false;
+				break;
+			} else entradaInvalida = true;
 
 			// --- Lógica de Victoria/Derrota ---
 			// Si ya no quedan '_', el jugador gana
 			if (tablero.indexOf("_") == -1) {
 				int recompensa = (int) (Math.random() * 50);
-				graficos.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
-				graficos.marco("Y Has sobrevido a un ataque de depresión");
+				myUtil.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
+				myUtil.marco("Y Has sobrevido a un ataque de depresión");
 				Thread.sleep(2500);
 				jugador.addMonedas(recompensa);
 				Thread.sleep(5000);
@@ -134,18 +144,20 @@ public class AccionExplorar implements Accion {
 			}
 		}
 	}
+	
+	
 
 	private void IntroAhorcado(Controlador controlador) throws InterruptedException {
-		graficos.marco("Has pasado por muchas dificultades en tu vida un transtorno depresivo te ha invadido...");
+		myUtil.marco("Has pasado por muchas dificultades en tu vida un transtorno depresivo te ha invadido...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
-		graficos.marco("La muerte te busca, está a punto de tomar una decisión muy drástica..");
+		myUtil.marco("La muerte te busca, está a punto de tomar una decisión muy drástica..");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
-		graficos.marco("Pero hay otra alternativa...");
+		myUtil.marco("Pero hay otra alternativa...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
-		graficos.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
+		myUtil.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
 		Thread.sleep(2500);
 
 	}

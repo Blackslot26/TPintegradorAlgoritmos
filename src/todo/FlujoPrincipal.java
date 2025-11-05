@@ -1,7 +1,7 @@
 package todo;
 
 import java.util.Scanner;
-import dibujos.DibujosLobby;
+
 public class FlujoPrincipal {
 	static Scanner sc;
 	static GestorPartidas gm;
@@ -9,7 +9,6 @@ public class FlujoPrincipal {
 	public static void main(String[] args) {
 		//Intancia de clases y variables necesarias.
 		sc = new Scanner(System.in);
-		DibujosLobby graficos = new DibujosLobby();
 		Jugador jugadorActual = logIn();   //logIn retorna el jugador logueado, si este no existe se crea uno nuevo
 		Controlador controlador = new Controlador(jugadorActual);
 		boolean enJuego = true;
@@ -20,8 +19,6 @@ public class FlujoPrincipal {
 		while(enJuego) {
 			jugadorActual.actualizar();;
 			controlador.limpiarConsola();
-			//Mostrar el titulo del lobby
-			graficos.TituloLobby();
 			jugadorActual.mostrarEstadoJugador();
 			input = sc.nextLine(); //Ingresa Imput.
 			enJuego = controlador.procesarInput(input); //Verifica si sigue en juego o no.
