@@ -112,12 +112,12 @@ public class Controlador {
 	 * Simula la limpieza de la consola imprimiendo muchas líneas nuevas.
 	 */
 	public void limpiarConsola() {
-		for (int i = 0; i < 50; i++) {
+		/*for (int i = 0; i < 50; i++) {
 			System.out.println();
 		}/**/
 		
 		//Para cuando se exporte como archivo jar
-		/*try {
+		try {
 	        // Obtenemos el nombre del sistema operativo
 	        String os = System.getProperty("os.name");
 
