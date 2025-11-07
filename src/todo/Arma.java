@@ -7,10 +7,9 @@ public class Arma extends Item {
 	private int danio;
 	private TipoArma tipo;
 
-	Arma(TipoArma tipo) {
-		// Asigna los valores dependiendo del tipo
-        this.nombre = tipo.getNombre();
-        this.precio = tipo.getPrecio();
+	Arma(TipoArma tipo,int cantidad) {
+		//Asignar los valores dependiendo del tipo
+		super(tipo.getNombre(),tipo.getPrecio(),cantidad);
         this.danio = tipo.getDanio();
         this.tipo = tipo;
 	}

@@ -1,7 +1,25 @@
 package todo;
 import java.io.Serializable;
 public abstract class Item implements Serializable{
-	private static final long serialVersionUID = 1L;
-	String nombre;
-	int precio;
+	protected static final long serialVersionUID = 1L;
+	protected String nombre;
+	protected int precio;
+	protected int cantidad;
+	
+	Item(String nombre,int precio,int cantidad){
+		this.nombre = nombre;
+		this.precio = precio;
+		this.cantidad = cantidad;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public int getPrecio() {
+		return precio;
+	}
+	public int getCantidad() {
+		return cantidad;
+	}
 }

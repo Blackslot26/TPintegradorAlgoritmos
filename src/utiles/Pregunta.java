@@ -25,4 +25,17 @@ public class Pregunta {
 	public int getRecompensa() {
 		return recompensa;
 	}
+	
+	public String opcionesToString() {
+		StringBuilder sb = new StringBuilder();
+		
+		for (int o = 0; o < opciones.length; o++) {
+	        sb.append("[");
+	        sb.append(o + 1);
+	        sb.append(". ");
+	        sb.append(opciones[o]);
+	        sb.append("]  "); // Espacio entre opciones
+	    }
+		return sb.toString();
+	}
 }

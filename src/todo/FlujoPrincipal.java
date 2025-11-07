@@ -17,7 +17,7 @@ public class FlujoPrincipal {
 		
 		//Bucle Principal
 		while(enJuego) {
-			jugadorActual.actualizar();;
+			jugadorActual.actualizar();
 			controlador.limpiarConsola();
 			jugadorActual.mostrarEstadoJugador();
 			input = sc.nextLine(); //Ingresa Imput.

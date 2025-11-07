@@ -43,10 +43,27 @@ public class Jugador extends Personaje implements Serializable{
 		this.monedas-=monedas;
 		System.out.println("Perdiste $" + monedas + " Monedas");
 	}
+	public void addItem(Item item) {
+		inventario.addItem(item);
+		System.out.println("Has adquirido 1 " + item.getNombre());
+		
+	}
 	@Override
 	public void morir() {
 		perderMonedas((int) (monedas*0.5)); //Pierde la mitad de sus monedas actuales
 		vidaActual= vidaMaxima;
+	}
+	@Override
+	public void actualizar() {
+		if(vidaActual <=0) {
+			System.out.println("Moriste...");
+			morir();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void mostrarEstadoJugador(){
