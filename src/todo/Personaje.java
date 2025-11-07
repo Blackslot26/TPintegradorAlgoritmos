@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public abstract class Personaje implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private int vidaMaxima;
-	private int vidaActual;
-	private int nivel;
-	String nombre;
+	protected int vidaMaxima;
+	protected int vidaActual;
+	protected int nivel;
+	protected String nombre;
 	
 	public Personaje(String nombre, int vidaMaxima, int nivel) {
 		this.nombre = nombre;
@@ -35,7 +35,6 @@ public abstract class Personaje implements Serializable{
 	public void curar(int curacion) {
 		vidaActual+= curacion;
 	}
-	
 	
 	public void morir() {
 	}

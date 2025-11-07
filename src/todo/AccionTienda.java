@@ -24,10 +24,9 @@ public class AccionTienda implements Accion {
 
 	}
 
-	public void realizar(Jugador jugador, Controlador controlador) {
+	public void realizar(Jugador jugador, Controlador controlador,Scanner scTienda) {
 
 		boolean enTienda = true;
-		Scanner scTienda = new Scanner(System.in);
 		String inputTienda = " ";
 
 		// Al acceder se borra la pantalla, se muesta el título y el inventario de la

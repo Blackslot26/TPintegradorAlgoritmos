@@ -29,8 +29,15 @@ public class Jugador extends Personaje implements Serializable{
 		return experiencia;
 	}
 	public void addMonedas(int cantidad) {
-		monedas += cantidad*bonificadorRenacimiento; 
-		System.out.println("Has ganado $" + cantidad + " Monedas");
+		int cantidadReal = cantidad*bonificadorRenacimiento; 
+		monedas += cantidadReal;
+		System.out.println("Has ganado $" + cantidadReal + " Monedas");
+	}
+	public void ganarExperiencia(int expGanada) {
+		int expGanadaReal = expGanada * bonificadorRenacimiento;
+		experiencia += expGanadaReal;
+		System.out.println("Ganaste "+ expGanadaReal + "EXP");
+		
 	}
 	public void perderMonedas(int monedas) {
 		this.monedas-=monedas;
@@ -39,7 +46,7 @@ public class Jugador extends Personaje implements Serializable{
 	@Override
 	public void morir() {
 		perderMonedas((int) (monedas*0.5)); //Pierde la mitad de sus monedas actuales
-		curar(getVidaMaxima());//Se restaura la vida
+		vidaActual= vidaMaxima;
 	}
 
 	public void mostrarEstadoJugador(){

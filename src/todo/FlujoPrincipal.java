@@ -21,7 +21,7 @@ public class FlujoPrincipal {
 			controlador.limpiarConsola();
 			jugadorActual.mostrarEstadoJugador();
 			input = sc.nextLine(); //Ingresa Imput.
-			enJuego = controlador.procesarInput(input); //Verifica si sigue en juego o no.
+			enJuego = controlador.procesarInput(input,sc); //Verifica si sigue en juego o no.
 		}
 		
 		

@@ -1,6 +1,7 @@
 package todo;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 public class Controlador {
@@ -25,7 +26,7 @@ public class Controlador {
 	 * @return Devuelve false si el jugador decide salir del juego y true si elije
 	 *         una acción.
 	 */
-	public boolean procesarInput(String input) {
+	public boolean procesarInput(String input,Scanner sc) {
 		input = input.toLowerCase().trim(); // sacar las mayúscula y espacios
 		input = aliasToAccion(input); //pasar de alias a comando
 		
@@ -53,7 +54,7 @@ public class Controlador {
 			Accion accion = accionesMapeadas.get(input);
 
 			if (accion != null) {
-				accion.realizar(jugadorActual, this);
+				accion.realizar(jugadorActual, this,sc);
 			} else
 				System.out.printf("No se reconoció el comando %s :( \n ", input);
 		}
