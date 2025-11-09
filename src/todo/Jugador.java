@@ -140,7 +140,7 @@ public class Jugador extends Personaje implements Serializable {
 		System.out.println("Modenas: " + monedas);
 		System.out.println("Experiencia: " + experiencia);
 		System.out.println("Renaciemientos: " + renacimientos);
-		System.out.println("Trabajo:" + trabajo.getNombre());
+		System.out.println("Trabajo:\n" + trabajo.getNombre());
 		System.out.println();
 		inventario.mostrarInventario();
 

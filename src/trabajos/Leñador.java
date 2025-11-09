@@ -1,6 +1,7 @@
 package trabajos;
 
 import java.util.Random;
+import java.util.Scanner;
 
 import todo.Controlador;
 import todo.Jugador;
@@ -10,7 +11,7 @@ public class Leñador extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c) {
+	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
 		Random r = new Random();
 		int ganancia = (int) (3000 + r.nextInt(2000) * (1 + jugador.getNivel() / 5)); ////////////
 		jugador.agregarDinero(ganancia); // gana entre 3000 y 5000	//////////////

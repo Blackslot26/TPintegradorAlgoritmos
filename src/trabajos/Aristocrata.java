@@ -5,13 +5,14 @@ import todo.Jugador;
 import todo.Trabajar;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Aristocrata extends Trabajar {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c) {
+	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
 		Random r = new Random();
 		double multiplier = jugador.getNivel() * (1.25 + jugador.getNivel() / 10);
 		

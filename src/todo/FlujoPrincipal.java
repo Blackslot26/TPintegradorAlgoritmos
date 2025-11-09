@@ -26,7 +26,6 @@ public class FlujoPrincipal {
 			}
 		}
 	/**/
-		String input = " ";
 		//Bucle Principal
 		while(enJuego) {
 			jugadorActual.actualizar();
