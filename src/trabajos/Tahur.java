@@ -1,11 +1,11 @@
 package trabajos;
 
 import todo.Jugador;
-import todo.TrabajarBase;
+import todo.Trabajar;
 
 import java.util.Random;
 
-public class Tahur extends TrabajarBase {
+public class Tahur extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -16,7 +16,9 @@ public class Tahur extends TrabajarBase {
 		int ganancia = 10 + r.nextInt(140);
 		jugador.agregarDinero(ganancia); // mendigas por un maximo de 140
 		int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-		System.out.println(trabajarTexts(event, ganancia, jugador));
+		int xp = 10 + r.nextInt(20);
+		jugador.setExperiencia(xp);
+		System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 	}
 
 	@Override

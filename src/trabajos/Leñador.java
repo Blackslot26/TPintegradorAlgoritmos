@@ -3,9 +3,9 @@ package trabajos;
 import java.util.Random;
 
 import todo.Jugador;
-import todo.TrabajarBase;
+import todo.Trabajar;
 
-public class Leñador extends TrabajarBase {
+public class Leñador extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -14,7 +14,9 @@ public class Leñador extends TrabajarBase {
 		int ganancia = (int) (3000 + r.nextInt(2000) * (1 + jugador.getNivel() / 5)); ////////////
 		jugador.agregarDinero(ganancia); // gana entre 3000 y 5000	//////////////
 		int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-		System.out.println(trabajarTexts(event, ganancia, jugador));			////////////							// de dinero
+		int xp = 10 + r.nextInt(20);
+		jugador.setExperiencia(xp);
+		System.out.println(trabajarTexts(event, ganancia, jugador, xp));			////////////							// de dinero
 	}
 	@Override
 	public String[] trabajarTextsBase(int ganancia) {

@@ -8,6 +8,7 @@ public class Jugador extends Personaje implements Serializable {
 
 	int monedas;
 	int experiencia;
+	int experienciaLevel;
 	Inventario inventario;
 	int bonificadorRenacimiento;
 	int renacimientos;
@@ -29,7 +30,7 @@ public class Jugador extends Personaje implements Serializable {
 		bonificadorRenacimiento = 1;
 		renacimientos = 0;
 		trabajo = null;
-		
+		experienciaLevel = 100;
 		
 		//estadisticas extra
 		suerte = 0;
@@ -57,7 +58,10 @@ public class Jugador extends Personaje implements Serializable {
 		return experiencia;
 	}
 	public void setExperiencia(int value) {
-		experiencia =+ value;
+		experiencia += value;
+	}
+	public int getExperienciaLevel() {
+		return experienciaLevel;
 	}
 	
 	

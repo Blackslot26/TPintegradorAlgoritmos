@@ -1,11 +1,11 @@
 package trabajos;
 
 import todo.Jugador;
-import todo.TrabajarBase;
+import todo.Trabajar;
 
 import java.util.Random;
 
-public class Mercenario extends TrabajarBase {
+public class Mercenario extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -15,7 +15,9 @@ public class Mercenario extends TrabajarBase {
 			int ganancia = (10000 + r.nextInt(5000)) - (jugador.getNivel() / 3) * 1500;
 			jugador.agregarDinero(ganancia);
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-			System.out.println(trabajarTexts(event, ganancia, jugador));
+			int xp = 10 + r.nextInt(20);
+			jugador.setExperiencia(xp);
+			System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 		}
 		// gana mucho y sin
 		// riesgo pero cada 3
@@ -25,7 +27,9 @@ public class Mercenario extends TrabajarBase {
 			int ganancia = 1000 + r.nextInt(1000);
 			jugador.agregarDinero(ganancia); // a partir del nivel 15 se alcanzan los menores ingresos.
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-			System.out.println(trabajarTexts(event, ganancia, jugador));
+			int xp = 10 + r.nextInt(20);
+			jugador.setExperiencia(xp);
+			System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 		}
 
 	}

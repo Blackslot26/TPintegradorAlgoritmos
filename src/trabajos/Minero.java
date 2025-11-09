@@ -1,11 +1,11 @@
 package trabajos;
 
 import todo.Jugador;
-import todo.TrabajarBase;
+import todo.Trabajar;
 
 import java.util.Random;
 
-public class Minero extends TrabajarBase {
+public class Minero extends Trabajar {
 	private static final long serialVersionUID = 1L;
 	double mineral;
 	@Override
@@ -17,7 +17,9 @@ public class Minero extends TrabajarBase {
 			int ganancia = (int) (1000 + r.nextInt(1500) * (1 + jugador.getNivel() / 10));
 			jugador.agregarDinero(ganancia); // gana un maximo de
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-			System.out.println(trabajarTexts(event, ganancia, jugador));																						// 2500 por minar
+			int xp = 10 + r.nextInt(20);
+			jugador.setExperiencia(xp);
+			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// 2500 por minar
 																									// carbon, un 50% de
 																									// la ganancia de
 																									// leñador
@@ -26,7 +28,9 @@ public class Minero extends TrabajarBase {
 			int ganancia = (int) (2000 + r.nextInt(1750)) * (1 + jugador.getNivel() / 10);
 			jugador.agregarDinero(ganancia); // gana un maximo de
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-			System.out.println(trabajarTexts(event, ganancia, jugador));																						// 3750, un 75% de
+			int xp = 10 + r.nextInt(20);
+			jugador.setExperiencia(xp);
+			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// 3750, un 75% de
 																									// la ganancia de
 																									// leñador
 		}
@@ -34,7 +38,9 @@ public class Minero extends TrabajarBase {
 			int ganancia = (int) (4000 + r.nextInt(2000)) * (1 + jugador.getNivel() / 10);
 			jugador.agregarDinero(ganancia); // puede ganar hasta
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-			System.out.println(trabajarTexts(event, ganancia, jugador));																						// un maximo de
+			int xp = 10 + r.nextInt(20);
+			jugador.setExperiencia(xp);
+			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// un maximo de
 																									// 6000, un poco mas
 																									// que leñador
 		}
@@ -42,7 +48,9 @@ public class Minero extends TrabajarBase {
 			int ganancia = (int) (10000 + r.nextInt(5000)) * (1 + jugador.getNivel() / 10);
 			jugador.agregarDinero(ganancia); // puede ganar hasta
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-			System.out.println(trabajarTexts(event, ganancia, jugador));																						// un triple que
+			int xp = 10 + r.nextInt(20);
+			jugador.setExperiencia(xp);
+			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// un triple que
 																									// leñador con la
 																									// garantia de ganar
 																									// el doble
@@ -51,7 +59,9 @@ public class Minero extends TrabajarBase {
 			int ganancia = (int) (250000 + r.nextInt(250000)) * (1 + jugador.getNivel() / 10);
 			jugador.agregarDinero(ganancia); // puede ganar
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
-			System.out.println(trabajarTexts(event, ganancia, jugador));																							// hasta 500.000
+			int xp = 10 + r.nextInt(20);
+			jugador.setExperiencia(xp);
+			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																							// hasta 500.000
 																										// de dinero
 		}
 	}
