@@ -30,7 +30,7 @@ public class Controlador {
 		//Comandos especiales
 		switch (input) {
 		case "/trabajar":
-			jugadorActual.getTrabajo().trabajar(jugadorActual);
+			jugadorActual.getTrabajo().realizar(jugadorActual, this);
 			break;
 		
 		case "/leaderboard":

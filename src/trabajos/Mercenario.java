@@ -1,5 +1,6 @@
 package trabajos;
 
+import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
@@ -9,7 +10,7 @@ public class Mercenario extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void trabajar(Jugador jugador) {
+	public void realizar(Jugador jugador, Controlador c) {
 		Random r = new Random();
 		if (jugador.getNivel() < 15) {
 			int ganancia = (10000 + r.nextInt(5000)) - (jugador.getNivel() / 3) * 1500;
@@ -76,5 +77,12 @@ public class Mercenario extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

@@ -1,5 +1,6 @@
 package trabajos;
 
+import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
@@ -9,7 +10,7 @@ public class Mercader extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void trabajar(Jugador jugador) {
+	public void realizar(Jugador jugador, Controlador c) {
 		Random r = new Random();
 		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
 		jugador.agregarDinero(ganancia);
@@ -62,6 +63,12 @@ public class Mercader extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

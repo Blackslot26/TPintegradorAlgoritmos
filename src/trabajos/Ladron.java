@@ -1,5 +1,6 @@
 package trabajos;
 
+import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
@@ -10,7 +11,7 @@ public class Ladron extends Trabajar {
 	double success;
 
 	@Override
-	public void trabajar(Jugador jugador) {
+	public void realizar(Jugador jugador, Controlador c) {
 		if (jugador.getExperiencia() == 0) {	//esta garantizado de ganar en el tutorial para que no sea injusto
 			Random r = new Random();
 			int ganancia = (int) (8000 + r.nextInt(5000)) * (1 + jugador.getNivel() / 10);
@@ -102,5 +103,13 @@ public class Ladron extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

@@ -2,6 +2,7 @@ package trabajos;
 
 import java.util.Random;
 
+import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
@@ -9,7 +10,7 @@ public class Leñador extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void trabajar(Jugador jugador) {
+	public void realizar(Jugador jugador, Controlador c) {
 		Random r = new Random();
 		int ganancia = (int) (3000 + r.nextInt(2000) * (1 + jugador.getNivel() / 5)); ////////////
 		jugador.agregarDinero(ganancia); // gana entre 3000 y 5000	//////////////
@@ -18,6 +19,7 @@ public class Leñador extends Trabajar {
 		jugador.setExperiencia(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));			////////////							// de dinero
 	}
+	
 	@Override
 	public String[] trabajarTextsBase(int ganancia) {
 		String[] a = {
@@ -58,6 +60,13 @@ public class Leñador extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

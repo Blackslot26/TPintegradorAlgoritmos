@@ -1,5 +1,6 @@
 package trabajos;
 
+import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
@@ -10,7 +11,7 @@ public class Aristocrata extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void trabajar(Jugador jugador) {
+	public void realizar(Jugador jugador, Controlador c) {
 		Random r = new Random();
 		double multiplier = jugador.getNivel() * (1.25 + jugador.getNivel() / 10);
 		
@@ -66,6 +67,13 @@ public class Aristocrata extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

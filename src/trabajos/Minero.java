@@ -1,5 +1,6 @@
 package trabajos;
 
+import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
@@ -9,9 +10,9 @@ public class Minero extends Trabajar {
 	private static final long serialVersionUID = 1L;
 	double mineral;
 	@Override
-	public void trabajar(Jugador jugador) {
+	public void realizar(Jugador jugador, Controlador c) {
 		Random r = new Random();
-		double mineral = r.nextInt(100) + jugador.getSuerte();
+		double mineral = r.nextInt(101) + jugador.getSuerte();
 		this.mineral = mineral;
 		if (mineral < 40) { // encuentra carbon
 			int ganancia = (int) (1000 + r.nextInt(1500) * (1 + jugador.getNivel() / 10));
@@ -134,6 +135,13 @@ public class Minero extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

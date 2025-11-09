@@ -1,5 +1,6 @@
 package trabajos;
 
+import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
@@ -9,7 +10,7 @@ public class Tahur extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void trabajar(Jugador jugador) {
+	public void realizar(Jugador jugador, Controlador c) {
 		Random r = new Random();
 		jugador.modificarSuerte(2 + (int) jugador.getNivel() / 10); // tiene 2% mas de probabilidades en todo y gana un
 																	// 1% mas cada 10 niveles.
@@ -60,5 +61,14 @@ public class Tahur extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase * (1.10 + (int) jugador.getNivel() / 100);
 	}
+
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 
 }

@@ -1,10 +1,8 @@
 package todo;
 import java.io.Serializable;
 
-public abstract class Trabajar implements Serializable{
+public abstract class Trabajar implements Serializable, Accion{
 	private static final long serialVersionUID = 1L;
-	
-	public abstract void trabajar(Jugador jugador);
 	
 	
 	public String trabajarTexts(int event, int ganancia, Jugador jugador, int xp) {
@@ -61,7 +59,7 @@ public abstract class Trabajar implements Serializable{
 
 	}
 
-	public String getDescription() {
+	public String getDescriptionT() {
 		String[] descripcionSimple = getDescriptionBase();
 		int total = 100; // 100 + 2
 		
