@@ -1,74 +1,75 @@
 package todo;
-import dibujos.DibujosTienda;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
+import utiles.Titulos;
+
 public class AccionTienda implements Accion {
-	
-	DibujosTienda graficos;
+
+	Titulos titulos;
 	// Crear el inventario de la tienda
 	private HashMap<String, Item> stock = new HashMap<>();
 
-	private String descripcion = "Accedes a la tienda, para realizar compra y venta de elementos";
+	private String descripcion = "Accedes a la tienda, para realizar compra y venta de elementos, también puedes usar /t";
+
+	/**
+	 * Función para poder obtener la descripción fuera de la clase
+	 */
+	@Override
+	public String getDescripcion() {
+		return descripcion;
+	}
 
 	public AccionTienda() {
-		//Instancia de clase para los graficos.
-		graficos = new DibujosTienda();
-		
-		// Inventario inicial de la tienda
-		stock.put("daga", new Arma(Arma.tipoArma.daga));
-		stock.put("espada", new Arma(Arma.tipoArma.espada));
-		stock.put("hacha", new Arma(Arma.tipoArma.hacha));
-		stock.put("arco", new Arma(Arma.tipoArma.arco));
+		// Instancia de clase para los graficos.
+		titulos = new Titulos();
+
+		// Inventario inicial de la tienda, 10 de cda arma
+		stock.put("daga", new Arma(TipoArma.DAGA,10));
+		stock.put("espada", new Arma(TipoArma.ESPADA,10));
+		stock.put("hacha", new Arma(TipoArma.HACHA,10));
+		stock.put("arco", new Arma(TipoArma.ARCO,10));
 
 	}
 
-	public void realizar(Jugador jugador, Controlador controlador) {
+	@Override
+	public void realizar(Jugador jugador, Controlador controlador, Scanner scTienda) {
 
-		boolean enTienda = true;
-		Scanner scTienda = new Scanner(System.in);
-		String inputTienda = " ";
+	    boolean enTienda = true;
+	    String inputTienda = " ";
 
-		// Al acceder se borra la pantalla, se muesta el título y el inventario de la
-		// tienda.
-		controlador.limpiarConsola();
-		graficos.mostrarTitulo();
-		mostrarItems();
+	    controlador.limpiarConsola();
+	    titulos.mostrarTituloTienda();
+	    mostrarItems();
 
-		while (enTienda) {
-			inputTienda = scTienda.nextLine().toLowerCase();
+	    while (enTienda) {
+	        System.out.print("\n[TIENDA]Prueba /comprar [item] o /salir > ");
+	        inputTienda = scTienda.nextLine().toLowerCase().trim(); // Añadir trim()
+	        
+	        inputTienda = normalizarInput(inputTienda);
+	        if (inputTienda.equals("/salir") ) {
+	            enTienda = false;
+	            controlador.limpiarConsola();
+	        
+	        } else if (inputTienda.equals("/comandos")) {
+	            mostrarComandosTienda();
+	        
+	        } else if (inputTienda.startsWith("/comprar ")) {
+	            String nombreItem = inputTienda.substring("/comprar ".length()).trim();//Conseguir el nombre del item
 
-			switch (inputTienda) {
-			case "/comprar daga":
-				realizarVenta(jugador, stock.get("daga"));
-				break;
+	            Item itemAComprar = stock.get(nombreItem);//Buscar el item
 
-			case "/comprar espada":
-				realizarVenta(jugador, stock.get("espada"));
-				break;
-
-			case "/comprar hacha":
-				realizarVenta(jugador, stock.get("hacha"));
-				break;
-
-			case "/comprar arco":
-				realizarVenta(jugador, stock.get("arco"));
-				break;
-
-			case "/comandos":
-				mostrarComandosTienda();
-				break;
-			case "/salir":
-				enTienda = false;
-				controlador.limpiarConsola();
-				break;
-
-			default:
-				System.out.println("No se reconoció el comando, intente de nuevo");
-
-			}
-		}
+	            if (itemAComprar != null) {//Comprobar si existe el item
+	                realizarVenta(jugador, itemAComprar); 
+	            } else {
+	                System.out.println("El item '" + nombreItem + "' no existe en la tienda.");
+	            }
+	            
+	        } else {
+	            System.out.println("No se reconoció el comando. Usa /comprar [item], /comandos o /salir.");
+	        }
+	    }
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class AccionTienda implements Accion {
 		System.out.println("Elementos disponibles: ");
 
 		for (String item : stock.keySet()) {
-			System.out.println(">" + stock.get(item).nombre + " : $" + stock.get(item).precio);
+			System.out.println(">" + stock.get(item).getNombre() + " : $" + stock.get(item).getPrecio());
 		}
 
 	}
@@ -87,10 +88,10 @@ public class AccionTienda implements Accion {
 	 * Función para realizar la venta.
 	 */
 	private void realizarVenta(Jugador jugador, Item item) {
-		if (jugador.monedas >= item.precio) {
-			jugador.inventario.addItem(item);
-			jugador.monedas -= item.precio;
-			System.out.println("Compra realizada con éxito");
+		if (jugador.getMonedas() >= item.getPrecio()) {
+			jugador.addItem(item);
+			jugador.perderMonedas(item.getPrecio());
+
 		}
 	}
 
@@ -102,13 +103,19 @@ public class AccionTienda implements Accion {
 		System.out.println("/salir -> salir de la tienda");
 		System.out.println("/comandos -> Listar los comandos");
 	}
-
-	/**
-	 * Función para poder obtener la descripción fuera de la clase
-	 */
-	@Override
-	public String getDescripcion() {
-		return descripcion;
-	}
 	
+	private String normalizarInput(String input) {
+				switch(input) {
+		case "/s" :
+			input = "/salir";
+			break;
+		
+		case "/exit" :
+			input = "/salir";
+			break;
+		}
+		return input;
+	}
+
 }
+
