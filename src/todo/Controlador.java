@@ -29,6 +29,10 @@ public class Controlador {
 		
 		//Comandos especiales
 		switch (input) {
+		case "/trabajar":
+			jugadorActual.getTrabajo().trabajar(jugadorActual);
+			break;
+		
 		case "/leaderboard":
 			Leaderboard.update(jugadorActual);
 			Leaderboard.mostrarLeaderboard();

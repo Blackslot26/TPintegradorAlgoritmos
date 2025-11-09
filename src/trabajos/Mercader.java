@@ -6,12 +6,26 @@ import todo.TrabajarBase;
 import java.util.Random;
 
 public class Mercader extends TrabajarBase {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void trabajar(Jugador jugador) {
 		Random r = new Random();
-		jugador.agregarDinero((int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10));
+		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
+		jugador.agregarDinero(ganancia);
+		int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
+		System.out.println(trabajarTexts(event, ganancia, jugador));
 
+	}
+	@Override
+	public String[] trabajarTextsBase(int ganancia) {
+		String[] a = {
+			"¡Trueque exitoso! Convences a un granjero de que sus gallinas valen poco. Ganas " + ganancia + " monedas.",
+			"Vendes 'especias exóticas' (básicamente, sal con pimienta) por " + ganancia + " monedas.",
+			"Tu caravana llega a salvo. Las sedas se venden por " + ganancia + " monedas.",
+			"Logras evadir al recaudador de impuestos del rey. Te quedas con " + ganancia + " monedas extra."
+		};
+		return a;
 	}
 
 	@Override
@@ -46,5 +60,7 @@ public class Mercader extends TrabajarBase {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+
+
 
 }

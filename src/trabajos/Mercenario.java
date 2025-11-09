@@ -6,18 +6,39 @@ import todo.TrabajarBase;
 import java.util.Random;
 
 public class Mercenario extends TrabajarBase {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void trabajar(Jugador jugador) {
 		Random r = new Random();
-		if (jugador.getNivel() < 15)
-			jugador.agregarDinero((10000 + r.nextInt(5000)) - (jugador.getNivel() / 3) * 1500); // gana mucho y sin
-																								// riesgo pero cada 3
-																								// niveles gana 1500
-																								// menos.
-		if (jugador.getNivel() > 15)
-			jugador.agregarDinero(1000 + r.nextInt(1000)); // a partir del nivel 15 se alcanzan los menores ingresos.
+		if (jugador.getNivel() < 15) {
+			int ganancia = (10000 + r.nextInt(5000)) - (jugador.getNivel() / 3) * 1500;
+			jugador.agregarDinero(ganancia);
+			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
+			System.out.println(trabajarTexts(event, ganancia, jugador));
+		}
+		// gana mucho y sin
+		// riesgo pero cada 3
+		// niveles gana 1500
+		// menos.
+		if (jugador.getNivel() > 15) {
+			int ganancia = 1000 + r.nextInt(1000);
+			jugador.agregarDinero(ganancia); // a partir del nivel 15 se alcanzan los menores ingresos.
+			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
+			System.out.println(trabajarTexts(event, ganancia, jugador));
+		}
 
+	}
+
+	@Override
+	public String[] trabajarTextsBase(int ganancia) {
+		String[] a = {
+			"Un Lord te paga generosamente por escoltar su carruaje. Ganas " + ganancia + " monedas.",
+			"¡Limpia fácil! Ahuyentas a unos goblins de una bodega. Recibes " + ganancia + " monedas.",
+			"Tu fama te precede. Un noble te paga " + ganancia + " monedas solo por intimidar a un rival.",
+			"Aceptas un trabajo simple de guardaespaldas por " + ganancia + " monedas."
+		};
+		return a;
 	}
 
 	@Override
@@ -30,8 +51,7 @@ public class Mercenario extends TrabajarBase {
 	@Override
 	public String[] getDescriptionBase() {
 		// TODO Auto-generated method stub
-		String[] a = {
-				"Eres una espada de alquiler, un prodigio del combate cuya fama te precede. ",
+		String[] a = { "Eres una espada de alquiler, un prodigio del combate cuya fama te precede. ",
 				"Los lores y reyes pagan sumas exorbitantes por tus servicios... por ahora.",
 				"La clase perfecta para un arranque explosivo o para dominar el juego temprano.",
 				"Tus contratos iniciales te otorgan ganancias inmensas, permitiéndote amasar una fortuna rápidamente.",

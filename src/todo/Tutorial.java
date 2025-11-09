@@ -12,7 +12,6 @@ import trabajos.Tahur;
 
 public class Tutorial {
 	Jugador jugador;
-	Trabajar work;
 	Scanner sc;
 	
 	Tutorial(Jugador jugador) {

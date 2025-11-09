@@ -6,13 +6,28 @@ import todo.TrabajarBase;
 import java.util.Random;
 
 public class Tahur extends TrabajarBase {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void trabajar(Jugador jugador) {
 		Random r = new Random();
 		jugador.modificarSuerte(2 + (int) jugador.getNivel() / 10); // tiene 2% mas de probabilidades en todo y gana un
 																	// 1% mas cada 10 niveles.
-		jugador.agregarDinero(10 + r.nextInt(140)); // mendigas por un maximo de 140
+		int ganancia = 10 + r.nextInt(140);
+		jugador.agregarDinero(ganancia); // mendigas por un maximo de 140
+		int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
+		System.out.println(trabajarTexts(event, ganancia, jugador));
+	}
+
+	@Override
+	public String[] trabajarTextsBase(int ganancia) {
+		String[] a = {
+			"Te arrodillas en una esquina y pones tu mejor cara de pena. Un noble te tira " + ganancia + " monedas.",
+			"Finges una cojera muy convincente durante una hora. Ganas " + ganancia + " monedas por lástima.",
+			"Cuentas una historia triste sobre tu dragón mascota perdido. Te dan " + ganancia + " monedas.",
+			"Te confundieron con un mendigo real. ¡Funciona! Ganas " + ganancia + " monedas."
+		};
+		return a;
 	}
 
 	@Override
@@ -23,8 +38,7 @@ public class Tahur extends TrabajarBase {
 
 	@Override
 	public String[] getDescriptionBase() {
-		String[] a = {
-				"La Dama de la Fortuna es tu única diosa y maestra.",
+		String[] a = { "La Dama de la Fortuna es tu única diosa y maestra.",
 				"Desprecias el trabajo honesto y vives por el sonido de los dados en la taberna.",
 				"El camino del adicto a la adrenalina. Todo o nada.",
 				"Tienes prohibido realizar un trabajo normal y no generas ingresos fijos.",

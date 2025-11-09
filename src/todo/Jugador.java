@@ -81,7 +81,7 @@ public class Jugador extends Personaje implements Serializable {
 	/////////////////////////////////////////////////////////////
 
 	public void agregarDinero(int amount) {
-		monedas = +amount;
+		monedas = monedas +  amount;
 	}
 
 	public void mostrarEstadoJugador() {

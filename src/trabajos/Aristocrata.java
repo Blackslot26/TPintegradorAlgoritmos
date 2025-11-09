@@ -7,12 +7,32 @@ import java.util.Random;
 
 public class Aristocrata extends TrabajarBase {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void trabajar(Jugador jugador) {
 		Random r = new Random();
-		double multiplier = jugador.getNivel() * (0.25 + jugador.getNivel() / 10);
-		jugador.agregarDinero((int) ((1000 + r.nextInt(500)) * multiplier));
+		double multiplier = jugador.getNivel() * (1.25 + jugador.getNivel() / 10);
+		
+		int ganancia = (int) ((1000 + r.nextInt(500)) * multiplier);
+		jugador.agregarDinero(ganancia);
+		
+		int event = r.nextInt(trabajarTextsBase(ganancia).length);
+		System.out.println(trabajarTexts(event, ganancia, jugador));
 	}
+
+	@Override
+	public String[] trabajarTextsBase(int ganancia) {
+		String[] a = {
+			"Firmas un decreto que apenas lees. Ganas " + ganancia + " monedas.",
+			"Tu inversión en 'Viñedos Élficos S.A.' da frutos inesperados. Recibes " + ganancia + " monedas.",
+			"Amenazas a un gremio menor con 'influencias políticas'. Te pagan " + ganancia + " monedas por tu silencio.",
+			"Organizas una fiesta aburrida. Los invitados te pagan " + ganancia + " monedas solo para que termine."
+		};
+		return a;
+	}
+	
+	
 
 	@Override
 	public String getNombreBase() {
@@ -22,13 +42,13 @@ public class Aristocrata extends TrabajarBase {
 
 	@Override
 	public String[] getDescriptionBase() {
-		String[] a = new String[]{"Perteneces a una casa noble menor.",
+		String[] a = new String[] { "Perteneces a una casa noble menor.",
 				"Tu trabajo no es sudar, sino mover los hilos del comercio y la política desde salones opulentos.",
 				"El oficio del estratega a largo plazo, para quien la paciencia es una inversión.",
 				"Tus ganancias iniciales son irrisorias, apenas una limosna.",
 				"No obstante, la experiencia hace al maestro,",
 				"por lo que iras escalando tus ingresos futuros de forma exponencial,",
-				"hasta que el tesoro real parezca un simple monedero."};
+				"hasta que el tesoro real parezca un simple monedero." };
 		return a;
 
 	}
@@ -44,5 +64,7 @@ public class Aristocrata extends TrabajarBase {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
+
+
 
 }

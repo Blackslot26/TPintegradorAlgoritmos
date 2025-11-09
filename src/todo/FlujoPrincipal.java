@@ -24,7 +24,7 @@ public class FlujoPrincipal {
 				e.printStackTrace();
 			}
 		}
-		
+	/**/
 		String input = " ";
 		//Bucle Principal
 		while(enJuego) {
