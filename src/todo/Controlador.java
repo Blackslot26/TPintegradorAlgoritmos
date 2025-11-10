@@ -3,6 +3,10 @@ package todo;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import acciones.Accion;
+import acciones.AccionExplorar;
+import acciones.AccionTienda;
+
 
 public class Controlador {
 

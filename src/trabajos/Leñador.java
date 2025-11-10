@@ -3,9 +3,9 @@ package trabajos;
 import java.util.Random;
 import java.util.Scanner;
 
+import acciones.Trabajar;
 import todo.Controlador;
 import todo.Jugador;
-import todo.Trabajar;
 
 public class Leñador extends Trabajar {
 	private static final long serialVersionUID = 1L;

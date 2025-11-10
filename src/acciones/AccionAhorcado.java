@@ -1,9 +1,11 @@
-package todo;
+package acciones;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import todo.Controlador;
+import todo.Jugador;
 import utiles.Dibujos;
 import utiles.Functions;
 

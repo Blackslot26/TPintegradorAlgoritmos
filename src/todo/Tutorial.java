@@ -2,6 +2,7 @@ package todo;
 
 import java.util.Scanner;
 
+import acciones.Trabajar;
 import trabajos.Aristocrata;
 import trabajos.Ladron;
 import trabajos.Mercader;
@@ -15,9 +16,9 @@ public class Tutorial {
 	Scanner sc;
 	Controlador tutorial;
 	
-	Tutorial(Jugador jugador) {
+	Tutorial(Jugador jugador,Scanner sc) {
 		this.jugador = jugador;
-		this.sc = new Scanner(System.in);
+		this.sc = sc;
 	}
 
 	void iniciarTutorial() throws InterruptedException {

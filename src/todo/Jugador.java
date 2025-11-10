@@ -2,6 +2,8 @@ package todo;
 
 import java.io.Serializable;
 
+import acciones.Trabajar;
+
 public class Jugador extends Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Trabajar trabajo;

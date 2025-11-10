@@ -16,7 +16,7 @@ public class Functions {
 			"isrs", "fluoxetina", "sertralina", "escitalopram", "citalopram", "paroxetina", "venlafaxina", "duloxetina",
 			"mirtazapina", "bupropion", "trazodona", "amitriptilina", "nortriptilina", "ansiolitico", "antidepresivo",
 			// Otras opciones
-			"gambling", "apuestas", "alcohol", "methyl" };
+			"gambling", "apuestas", "alcohol", "methyl","problemas"};
 
 	public ArrayList<Pregunta> preguntas = new ArrayList<>();
 

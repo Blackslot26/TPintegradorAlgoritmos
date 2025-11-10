@@ -1,6 +1,9 @@
-package todo;
+package acciones;
 
 import java.util.Scanner;
+
+import todo.Controlador;
+import todo.Jugador;
 
 public interface Accion {
 	public String getDescripcion();

@@ -1,8 +1,13 @@
-package todo;
+package acciones;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
+import todo.Arma;
+import todo.Controlador;
+import todo.Item;
+import todo.Jugador;
+import todo.TipoArma;
 import utiles.Titulos;
 
 public class AccionTienda implements Accion {

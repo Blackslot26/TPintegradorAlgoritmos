@@ -2,7 +2,7 @@ package todo;
 
 import java.util.Scanner;
 
-public class FlujoPrincipal {
+public class Main {
 	static Scanner sc;
 	
 	public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class FlujoPrincipal {
 		
 
 		if(jugadorActual.getExperiencia() == 0) {					//SI LA EXPERIENCIA DEL JUGADOR ES 0 SIGNIFICA QUE ES UN JUGADOR NUEVO Y ESTA FORZADO A REALIZAR EL TUTORIAL.
-			Tutorial tutorial = new Tutorial(jugadorActual);
+			Tutorial tutorial = new Tutorial(jugadorActual,sc);
 			try {
 				tutorial.iniciarTutorial();
 			} catch (InterruptedException e) {

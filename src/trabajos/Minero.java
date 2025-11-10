@@ -2,10 +2,11 @@ package trabajos;
 
 import todo.Controlador;
 import todo.Jugador;
-import todo.Trabajar;
 
 import java.util.Random;
 import java.util.Scanner;
+
+import acciones.Trabajar;
 
 public class Minero extends Trabajar {
 	private static final long serialVersionUID = 1L;
