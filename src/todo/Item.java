@@ -22,4 +22,7 @@ public abstract class Item implements Serializable{
 	public int getCantidad() {
 		return cantidad;
 	}
+	public void setCantidad(int amount) {
+		cantidad += amount;
+	}
 }
