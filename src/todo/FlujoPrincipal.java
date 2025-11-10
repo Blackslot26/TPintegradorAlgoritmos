@@ -4,8 +4,7 @@ import java.util.Scanner;
 
 public class FlujoPrincipal {
 	static Scanner sc;
-	static GestorPartidas gm;
-
+	
 	public static void main(String[] args) {
 		//Intancia de clases y variables necesarias.
 		sc = new Scanner(System.in);
@@ -15,6 +14,18 @@ public class FlujoPrincipal {
 		String input = "";
 
 		
+		
+		
+
+		if(jugadorActual.getExperiencia() == 0) {					//SI LA EXPERIENCIA DEL JUGADOR ES 0 SIGNIFICA QUE ES UN JUGADOR NUEVO Y ESTA FORZADO A REALIZAR EL TUTORIAL.
+			Tutorial tutorial = new Tutorial(jugadorActual);
+			try {
+				tutorial.iniciarTutorial();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	/**/
 		//Bucle Principal
 		while(enJuego) {
 			jugadorActual.actualizar();
@@ -32,9 +43,15 @@ public class FlujoPrincipal {
 	}
 
 	public static Jugador logIn() {
-		System.out.println("Bienvenid@!, por favor escribe tu nombre de jugador para loguearte \n");
+		System.out.println("			╔════════════════════════════════════════════════════════════════════════╗");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			║   Bienvenid@!, por favor escribe tu nombre de jugador para loguearte   ║");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			║                                                                        ║");
+		System.out.println("			╚════════════════════════════════════════════════════════════════════════╝");
 		while (true) {	
-			String player = sc.nextLine();
+			String player = sc.nextLine().toLowerCase().trim();
 			System.out.println("Esta seguro de que su nombre es: " + player + "?   yes/no");
 			String choise = sc.nextLine();
 			choise = choise.toLowerCase().trim();
@@ -46,8 +63,5 @@ public class FlujoPrincipal {
 		}
 	}
 
-	public static void tutorial() {
-
-	}
 
 }
