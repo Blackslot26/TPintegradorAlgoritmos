@@ -14,7 +14,7 @@ public class Arma extends Item {
         //this.tipo = tipo;
 	}
 	
-	public void atacarMonstruo(Monstruo monstruo) {
+	public void atacarMonstruo(Enemigo monstruo) {
 		monstruo.recibirDanio(danio) ;
 	}
 

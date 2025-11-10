@@ -8,12 +8,14 @@ public abstract class Personaje implements Serializable{
 	protected int vidaActual;
 	protected int nivel;
 	protected String nombre;
+	protected int danio;
 	
-	public Personaje(String nombre, int vidaMaxima, int nivel) {
+	public Personaje(String nombre, int vidaMaxima,int danio) {
 		this.nombre = nombre;
 		this.vidaMaxima = vidaMaxima;
 		this.vidaActual = this.vidaMaxima;
 		this.nivel = 1;
+		this.danio = danio;
 	}
 	
 	public String getNombre() {

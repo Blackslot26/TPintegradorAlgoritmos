@@ -25,7 +25,7 @@ public class Jugador extends Personaje implements Serializable {
 	
 	
 	public Jugador(String nombre) {
-		super(nombre, 100, 1); // Empieza con 100 de vida y nivel 1.
+		super(nombre, 100,30); // Empieza con 100 de vida y nivel 1.
 		monedas = 100;
 		experiencia = 0;
 		inventario = new Inventario();
