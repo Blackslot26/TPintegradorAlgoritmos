@@ -12,7 +12,7 @@ public class Inventario implements Serializable{
 	
 	public void mostrarInventario() {
 		for(int i = 0; i<slots.size();i++) {
-			System.out.printf(" | %s | ", slots.get(i).nombre);
+			System.out.printf(" | %s | ", slots.get(i).getNombre());
 		}
 		System.out.println();
 	}

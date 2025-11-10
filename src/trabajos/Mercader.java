@@ -5,12 +5,13 @@ import todo.Jugador;
 import todo.Trabajar;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Mercader extends Trabajar {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c) {
+	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
 		Random r = new Random();
 		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
 		jugador.agregarDinero(ganancia);

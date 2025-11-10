@@ -5,12 +5,13 @@ import todo.Jugador;
 import todo.Trabajar;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Minero extends Trabajar {
 	private static final long serialVersionUID = 1L;
 	double mineral;
 	@Override
-	public void realizar(Jugador jugador, Controlador c) {
+	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
 		Random r = new Random();
 		double mineral = r.nextInt(101) + jugador.getSuerte();
 		this.mineral = mineral;

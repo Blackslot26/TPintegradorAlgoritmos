@@ -5,13 +5,14 @@ import todo.Jugador;
 import todo.Trabajar;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Ladron extends Trabajar {
 	private static final long serialVersionUID = 1L;
 	double success;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c) {
+	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
 		if (jugador.getExperiencia() == 0) {	//esta garantizado de ganar en el tutorial para que no sea injusto
 			Random r = new Random();
 			int ganancia = (int) (8000 + r.nextInt(5000)) * (1 + jugador.getNivel() / 10);

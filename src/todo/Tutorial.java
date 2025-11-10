@@ -47,7 +47,7 @@ public class Tutorial {
 		while (true) {
 			String trabajar = sc.nextLine().toLowerCase();
 			if (trabajar.equals("/trabajar") || trabajar.equals("/t") || trabajar.equals("/work")) {
-				jugador.getTrabajo().realizar(jugador, tutorial);
+				jugador.getTrabajo().realizar(jugador, tutorial, sc);
 				break;
 			}
 			System.out.println("Comando incorrecto. Escriba /trabajar para realizar un trabajo.");

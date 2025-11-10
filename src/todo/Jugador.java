@@ -57,6 +57,43 @@ public class Jugador extends Personaje implements Serializable {
 	public int getExperiencia() {
 		return experiencia;
 	}
+	public void addMonedas(int cantidad) {
+		int cantidadReal = cantidad*bonificadorRenacimiento; 
+		monedas += cantidadReal;
+		System.out.println("Has ganado $" + cantidadReal + " Monedas");
+	}
+	public void ganarExperiencia(int expGanada) {
+		int expGanadaReal = expGanada * bonificadorRenacimiento;
+		experiencia += expGanadaReal;
+		System.out.println("Ganaste "+ expGanadaReal + "EXP");
+		
+	}
+	public void perderMonedas(int monedas) {
+		this.monedas-=monedas;
+		System.out.println("Perdiste $" + monedas + " Monedas");
+	}
+	public void addItem(Item item) {
+		inventario.addItem(item);
+		System.out.println("Has adquirido 1 " + item.getNombre());
+		
+	}
+	@Override
+	public void morir() {
+		perderMonedas((int) (monedas*0.5)); //Pierde la mitad de sus monedas actuales
+		vidaActual= vidaMaxima;
+	}
+	@Override
+	public void actualizar() {
+		if(vidaActual <=0) {
+			System.out.println("Moriste...");
+			morir();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public void setExperiencia(int value) {
 		experiencia += value;
 	}
@@ -96,14 +133,14 @@ public class Jugador extends Personaje implements Serializable {
 		for (int i = 0; i < nombre.length(); i++) {
 			System.out.print("=");
 		}
-		System.out.println(); // salto de línea
-
-		System.out.println("Vida: " + vida);
-		System.out.println("Nivel: " + nivel);
+		System.out.println(); //salto de línea
+		
+		System.out.println("Vida: " + this.getVidaActual() + "/" + this.getVidaMaxima());
+		System.out.println("Nivel: " + this.getNivel());
 		System.out.println("Modenas: " + monedas);
 		System.out.println("Experiencia: " + experiencia);
 		System.out.println("Renaciemientos: " + renacimientos);
-		System.out.println("Trabajo:" + trabajo.getNombre());
+		System.out.println("Trabajo:\n" + trabajo.getNombre());
 		System.out.println();
 		inventario.mostrarInventario();
 
