@@ -144,11 +144,21 @@ public class Jugador extends Personaje implements Serializable {
 	}
 
 	public void mostrarEstadoJugador() {
-		// Mostrar el nombre del jugador en mayúsculas
+		String pfp1 = "|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|";
+		String pfp2 = "|     -------     |";
+		String pfp3 = "|    |  | |  |    |";
+		String pfp4 = "|    |   -   |    |";
+		String pfp5 = "|      -----      |";
+		String pfp6 = "|     ---|---     |";
+		String pfp7 = "|     |  |  |     |";
+		String pfp8 = "|________|________|";
+		
+		
 		int boxLong = 80;
 		String pName = " Player Name: " + getNombre();
 		String stats = "     --Estadisticas--";
 		String monedas = " Monedas: " + getMonedas();
+		String vida = " Vida: " + getVidaActual() + "/" + getVidaMaxima();
 		String nivel = " Nivel: " + getNivel();
 		String experiencia = " Experiencia: " + getExperiencia() + "/" + getExperienciaLevel();
 		String rebirths = " Rebirths: " + getRebirth();
@@ -172,14 +182,15 @@ public class Jugador extends Personaje implements Serializable {
 		String slots = slotsBuild.toString();
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("\n╔" + "═".repeat(boxLong) + "╗\n");
-		sb.append("║" + " ".repeat(boxLong) + "║\n");
-		sb.append("║" + pName + " ".repeat(boxLong - pName.length()) + "║\n");
-		sb.append("║" + " ".repeat(boxLong) + "║\n");
-		sb.append("║" + stats + " ".repeat(boxLong - stats.length()) + "║\n");
-		sb.append("║" + monedas + " ".repeat(boxLong - monedas.length()) + "║\n");
-		sb.append("║" + nivel + " ".repeat(boxLong - nivel.length()) + "║\n");
-		sb.append("║" + experiencia + " ".repeat(boxLong - experiencia.length()) + "║\n");
+		sb.append("\n╔" + "═".repeat(boxLong)+ "╗\n");
+		sb.append("║" + " ".repeat(boxLong-pfp1.length()) + pfp1 + "║\n");
+		sb.append("║" + pName + " ".repeat(boxLong - pName.length() - pfp2.length()) + pfp2 + "║\n");
+		sb.append("║" + " ".repeat(boxLong - pfp3.length()) + pfp3 + "║\n");
+		sb.append("║" + stats + " ".repeat(boxLong - stats.length()-pfp4.length()) + pfp4 + "║\n");
+		sb.append("║" + monedas + " ".repeat(boxLong - monedas.length() - pfp5.length())  + pfp5 + "║\n");
+		sb.append("║" + vida + " ".repeat(boxLong - vida.length() - pfp6.length()) + pfp6 + "║\n");
+		sb.append("║" + nivel + " ".repeat(boxLong - nivel.length() - pfp7.length()) + pfp7 + "║\n");
+		sb.append("║" + experiencia + " ".repeat(boxLong - experiencia.length() - pfp8.length()) + pfp8 + "║\n");
 		sb.append("║" + rebirths + " ".repeat(boxLong - rebirths.length()) + "║\n");
 		sb.append("║" + suerte + " ".repeat(boxLong - suerte.length()) + "║\n");
 		sb.append("║" + trabajo + " ".repeat(boxLong - trabajo.length()) + "║\n");
