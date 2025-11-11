@@ -15,7 +15,7 @@ public class Arma extends Item {
 	}
 	
 	public void atacarMonstruo(Enemigo monstruo) {
-		monstruo.recibirDanio(danio) ;
+		monstruo.modVida(danio) ;
 	}
 
 }

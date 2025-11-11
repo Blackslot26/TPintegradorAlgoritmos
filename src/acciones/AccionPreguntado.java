@@ -50,7 +50,9 @@ public class AccionPreguntado implements Accion {
 		if (input.equals("/escapar") || input.equals("/esc") || input.equals("/salir") || input.equals("/s")) {
 
 			myUtil.marco("Has salido corriendo como una niñita");
-			jugador.perderMonedas((int) (jugador.getMonedas() * 0.25)); // Pierde 1/4 de sus monedas
+			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
+			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
+			myUtil.marco("Perdiste $" + monedasPerdidas);
 			Thread.sleep(3000);
 			return false; // Termina el juego
 		}
@@ -60,7 +62,7 @@ public class AccionPreguntado implements Accion {
 				victoriaPreguntado(jugador, i);
 				return false;
 			} else if (Integer.parseInt(input) - 1 >= myUtil.preguntas.get(i).getOpciones().length) {
-				myUtil.marco("No ves que no existe la opción " + input);
+				myUtil.marco("No ves que no existe la opción " + input + "?");
 				Thread.sleep(2500);
 			} else {
 				return derrotaPreguntado(jugador);
@@ -85,18 +87,19 @@ public class AccionPreguntado implements Accion {
 
 	private void victoriaPreguntado(Jugador jugador, int indicePregunta) throws InterruptedException {
 		int recompensa = myUtil.preguntas.get(indicePregunta).getRecompensa();
-		int expGanada = ran.nextInt(50) + 10;// Puede ganar hasta 50 de EXP
+		int expGanada = ran.nextInt(20) + 10;// Puede ganar hasta 30 de EXP y minimo 10
 		myUtil.marco("Muy bien, has logrado sobrevir");
 		myUtil.marco("Puedes irte");
 		Thread.sleep(2500);
-		jugador.addMonedas(recompensa);
-		jugador.ganarExperiencia(expGanada);
+		jugador.modMonedas(recompensa);
+		jugador.modExp(expGanada);
+		myUtil.marco("Has ganado $" + recompensa + " y "+ expGanada);
 		Thread.sleep(2500);
 	}
 
 	private boolean derrotaPreguntado(Jugador jugador) throws InterruptedException {
-		int danio = (int) (jugador.getVidaMaxima() / 3);// Pierde un tercio de su vida máxima
-		jugador.recibirDanio(danio);
+		int danio = (int) (jugador.getVidaMaxima() / -3);// Pierde un tercio de su vida máxima
+		jugador.modVida(danio);
 		myUtil.marco("Esa no es la opción correcta. *Recibe un fuerte golpe* -" + danio + "HP");
 		Thread.sleep(2500);
 		if (jugador.getVidaActual() <= 0) {

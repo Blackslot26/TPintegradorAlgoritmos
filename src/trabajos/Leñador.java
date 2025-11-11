@@ -14,10 +14,10 @@ public class Leñador extends Trabajar {
 	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
 		Random r = new Random();
 		int ganancia = (int) (3000 + r.nextInt(2000) * (1 + jugador.getNivel() / 5)); ////////////
-		jugador.agregarDinero(ganancia); // gana entre 3000 y 5000	//////////////
+		jugador.modMonedas(ganancia); // gana entre 3000 y 5000	//////////////
 		int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 		int xp = 10 + r.nextInt(20);
-		jugador.setExperiencia(xp);
+		jugador.modExp(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));			////////////							// de dinero
 	}
 	

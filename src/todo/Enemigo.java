@@ -4,13 +4,14 @@ import java.util.Random;
 public class Enemigo extends Personaje{
 	private static final long serialVersionUID = 1L;
 	
-	private static Random ran ;
+	private static Random ran = new Random();
 	private int recompensa;
 	private int recompensaXP;
 	private final String[] dibujo;
 	//private ArrayList<Item> loot;
 	
 	public Enemigo(TipoEnemigo tipo){
+		
 		//Constructo de personaje
 		super(tipo.getNombre(),tipo.getVidaBase(),tipo.getDanioBase());
 		
@@ -33,5 +34,6 @@ public class Enemigo extends Personaje{
 	public String[] getDibujo() {
 		return dibujo;
 	}
+	
 	
 }

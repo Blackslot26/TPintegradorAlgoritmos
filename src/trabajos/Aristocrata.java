@@ -18,11 +18,11 @@ public class Aristocrata extends Trabajar {
 		double multiplier = jugador.getNivel() * (1.25 + jugador.getNivel() / 10);
 		
 		int ganancia = (int) ((1000 + r.nextInt(500)) * multiplier);
-		jugador.agregarDinero(ganancia);
+		jugador.modMonedas(ganancia);
 		
 		int event = r.nextInt(trabajarTextsBase(ganancia).length);
 		int xp = 10 + r.nextInt(20);
-		jugador.setExperiencia(xp);
+		jugador.modMonedas(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 	}
 

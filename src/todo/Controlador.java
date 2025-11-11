@@ -6,6 +6,7 @@ import java.util.Scanner;
 import acciones.Accion;
 import acciones.AccionExplorar;
 import acciones.AccionTienda;
+import acciones.AccionCazar;
 
 
 public class Controlador {
@@ -21,7 +22,7 @@ public class Controlador {
 		// Lista de acciones.
 		this.accionesMapeadas.put("/explorar", new AccionExplorar());
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
-
+		this.accionesMapeadas.put("/cazar", new AccionCazar());
 	};
 
 	/**

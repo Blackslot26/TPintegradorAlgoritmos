@@ -95,7 +95,7 @@ public class AccionTienda implements Accion {
 	private void realizarVenta(Jugador jugador, Item item) {
 		if (jugador.getMonedas() >= item.getPrecio()) {
 			jugador.addItem(item);
-			jugador.perderMonedas(item.getPrecio());
+			jugador.modMonedas(item.getPrecio());
 
 		}
 	}

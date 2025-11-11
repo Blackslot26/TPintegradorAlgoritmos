@@ -13,12 +13,18 @@ public class AccionAhorcado implements Accion {
 	private String descripcion = "Minijuego de trivia utilizado exclusivamente en la accion de \"explorar\"";
 	private Functions myUtil;
 	private Dibujos misDibujos;
-	private Random ran;
+	private static final Random ran = new Random();
+	
+	//Atributos de recompensa
+	int recompensaBase,recompensaBaseXP;
 
 	public AccionAhorcado() {
 		myUtil = new Functions();
 		misDibujos = new Dibujos();
-		ran = new Random();
+		
+		//Asignar las recompensas base
+		recompensaBase = 3000;
+		recompensaBaseXP = 15;
 	}
 
 	@Override
@@ -64,7 +70,9 @@ public class AccionAhorcado implements Accion {
 
 		if (input.equals("/casino") || input.equals("/salir")) { // Siempre puedes salir
 			myUtil.marco("Has recurrido a ténicas prohibidas para salir de tu grave situación");
-			jugador.perderMonedas((int) (jugador.getMonedas() * 0.25)); // Pierde 1/4 de sus monedas
+			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
+			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
+			myUtil.marco("Has perdido" + monedasPerdidas);
 			Thread.sleep(3000);
 			return false;
 		}
@@ -90,27 +98,28 @@ public class AccionAhorcado implements Accion {
 
 			} else {
 				int danio = (int) (jugador.getVidaMaxima() * 0.1);
-				jugador.recibirDanio(danio);
-				myUtil.marco("Esta letra no se encuentra en la palabra. Perdiste " + danio + "HP");
-				Thread.sleep(2500);
+				jugador.modVida(danio);
+				myUtil.marco("INCORRECTA! PERDISTE " + danio + "HP");
+				Thread.sleep(1500);
 			}
 
 		} else if (input.equals(palabra)) {
-			victoriaAhorcado(jugador, palabra, 30, 5);
+			victoriaAhorcado(jugador, palabra,4000,30); //Gana mas XP y $ si escribe la palabra completa
 			return false;
 		} else if (input.length() == palabra.length()) { // Intentó la palabra y falló
-			jugador.recibirDanio(jugador.getVidaActual());
+			myUtil.marco("Perdiste" + jugador.getVidaActual());
+			Thread.sleep(1000);
+			jugador.modVida(jugador.getVidaActual());
 			animacionMuerteAhorcado(controlador);
 			return false;
 		} else {
-			controlador.limpiarConsola();
-			myUtil.marco("SOLO UNA LETRA TE DIJE, intenta de nuevo");
+			myUtil.marco("SOLO UNA LETRA!!!");
 			Thread.sleep(2000);
 		}
 
 		// Si ya no quedan '_', el jugador gana
 		if (tablero.indexOf("_") == -1) { // Si gana intentando todas las letras
-			victoriaAhorcado(jugador, palabra, 20, 4);
+			victoriaAhorcado(jugador, palabra,3500,25);
 			return false;
 		} else if (jugador.getVidaActual() <= 0) { // Si perdió todas las vidas
 			animacionMuerteAhorcado(controlador);
@@ -155,7 +164,7 @@ public class AccionAhorcado implements Accion {
 
 	private void animacionMuerteAhorcado(Controlador controlador) throws InterruptedException {
 		controlador.limpiarConsola();
-		myUtil.marco("Intentaste adivinar la palabra y fallaste");
+		myUtil.marco("No lograste adivinar la palabra...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
 		misDibujos.dibujarCalavera();
@@ -163,16 +172,19 @@ public class AccionAhorcado implements Accion {
 		Thread.sleep(5000);
 	}
 
-	private void victoriaAhorcado(Jugador jugador, String palabra, int recompensaBase, int multiplicadorEXP)
+	private void victoriaAhorcado(Jugador jugador, String palabra,int recMaxima,int xpMaxima)
 			throws InterruptedException {
-		int recompensa = ran.nextInt(41) + recompensaBase; // Si se intentó la palabra completa se gana más recompensa
-		int expGanada = ran.nextInt(palabra.length() * multiplicadorEXP); // Gana experiencia según el largo de la
-																			// palabra
+		//Calcular las recompensas
+		int recompensa = ran.nextInt(recMaxima-recompensaBase+1) + recompensaBase;
+		int expGanada = ran.nextInt(xpMaxima-recompensaBaseXP)+ recompensaBaseXP;
+		
+		//Textos y añadirle la recompensa
 		myUtil.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
 		myUtil.marco("Y Has sobrevido a un ataque de depresión");
 		Thread.sleep(2500);
-		jugador.addMonedas(recompensa);
-		jugador.ganarExperiencia(expGanada);
-		Thread.sleep(5000);
+		jugador.modMonedas(recompensa);
+		jugador.modExp(expGanada);
+		myUtil.marco("Has ganado $"+ recompensa + " y " + expGanada + "XP");
+		Thread.sleep(4000);
 	}
 }

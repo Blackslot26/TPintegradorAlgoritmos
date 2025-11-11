@@ -46,7 +46,7 @@ public class Tutorial {
 		System.out.println();
 		System.out.println("Empecemos por los comandos mas basicos. Escribe /trabajar\npara trabajar y ganar dinero.");
 		while (true) {
-			String trabajar = sc.nextLine().toLowerCase();
+			String trabajar = sc.nextLine().toLowerCase().trim();
 			if (trabajar.equals("/trabajar") || trabajar.equals("/t") || trabajar.equals("/work")) {
 				jugador.getTrabajo().realizar(jugador, tutorial, sc);
 				break;
@@ -143,7 +143,7 @@ public class Tutorial {
 			System.out.println("Comando incorrecto. Por favor escriba /estado");
 		}
 		
-		jugador.setExperiencia(10);
+		jugador.modExp(10);
 		System.out.println("TUTORIAL FINALIZADO");
 		
 		
@@ -205,8 +205,8 @@ public class Tutorial {
 			switch (choise) {
 
 			case "1":
-				System.out.println("As seleccionado el trabajo:\n" + leñador.getNombre());
-				System.out.println("Descripcion:\n" + leñador.getDescripcion());
+				System.out.println("Has seleccionado el trabajo:\n" + leñador.getNombre());
+				System.out.println("Descripcion:\n" + leñador.getDescriptionT());
 				System.out.println();
 				System.out.println(
 						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
@@ -226,7 +226,7 @@ public class Tutorial {
 				
 			case "2":
 				System.out.println("As seleccionado el trabajo:\n" + minero.getNombre());
-				System.out.println("Descripcion:\n" + minero.getDescripcion());
+				System.out.println("Descripcion:\n" + minero.getDescriptionT());
 				System.out.println();
 				System.out.println(
 						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
@@ -245,7 +245,7 @@ public class Tutorial {
 				break;
 			case "3":
 				System.out.println("As seleccionado el trabajo:\n" + mercader.getNombre());
-				System.out.println("Descripcion:\n" + mercader.getDescripcion());
+				System.out.println("Descripcion:\n" + mercader.getDescriptionT());
 				System.out.println();
 				System.out.println(
 						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
@@ -264,7 +264,7 @@ public class Tutorial {
 				break;
 			case "4":
 				System.out.println("As seleccionado el trabajo:\n" + mercenario.getNombre());
-				System.out.println("Descripcion:\n" + mercenario.getDescripcion());
+				System.out.println("Descripcion:\n" + mercenario.getDescriptionT());
 				System.out.println();
 				System.out.println(
 						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
@@ -283,7 +283,7 @@ public class Tutorial {
 				break;
 			case "5":
 				System.out.println("As seleccionado el trabajo:\n" + aristocrata.getNombre());
-				System.out.println("Descripcion:\n" + aristocrata.getDescripcion());
+				System.out.println("Descripcion:\n" + aristocrata.getDescriptionT());
 				System.out.println();
 				System.out.println(
 						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
@@ -302,7 +302,7 @@ public class Tutorial {
 				break;
 			case "6":
 				System.out.println("As seleccionado el \"trabajo\":\n" + ladron.getNombre());
-				System.out.println("Descripcion:\n" + ladron.getDescripcion());
+				System.out.println("Descripcion:\n" + ladron.getDescriptionT());
 				System.out.println();
 				System.out.println(
 						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
@@ -321,7 +321,7 @@ public class Tutorial {
 				break;
 			case "7":
 				System.out.println("A seleccionado el trabajo:\n" + tahur.getNombre());
-				System.out.println("Descripcion:\n" + tahur.getDescripcion());
+				System.out.println("Descripcion:\n" + tahur.getDescriptionT());
 				System.out.println();
 				System.out.println(
 						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");

@@ -16,10 +16,10 @@ public class Mercenario extends Trabajar {
 		Random r = new Random();
 		if (jugador.getNivel() < 15) {
 			int ganancia = (10000 + r.nextInt(5000)) - (jugador.getNivel() / 3) * 1500;
-			jugador.agregarDinero(ganancia);
+			jugador.modMonedas(ganancia);
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 		}
 		// gana mucho y sin
@@ -28,10 +28,10 @@ public class Mercenario extends Trabajar {
 		// menos.
 		if (jugador.getNivel() > 15) {
 			int ganancia = 1000 + r.nextInt(1000);
-			jugador.agregarDinero(ganancia); // a partir del nivel 15 se alcanzan los menores ingresos.
+			jugador.modMonedas(ganancia); // a partir del nivel 15 se alcanzan los menores ingresos.
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 		}
 
