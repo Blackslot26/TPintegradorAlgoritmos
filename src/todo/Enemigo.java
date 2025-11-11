@@ -27,7 +27,7 @@ public class Enemigo extends Personaje{
 		return recompensa;
 	}
 	
-	public int getRecompensaXS() {
+	public int getRecompensaXp() {
 		return recompensaXP;
 	}
 	

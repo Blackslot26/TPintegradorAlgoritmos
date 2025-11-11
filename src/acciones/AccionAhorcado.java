@@ -14,15 +14,15 @@ public class AccionAhorcado implements Accion {
 	private Functions myUtil;
 	private Dibujos misDibujos;
 	private static final Random ran = new Random();
-	
-	//Atributos de recompensa
-	int recompensaBase,recompensaBaseXP;
+
+	// Atributos de recompensa
+	int recompensaBase, recompensaBaseXP;
 
 	public AccionAhorcado() {
 		myUtil = new Functions();
 		misDibujos = new Dibujos();
-		
-		//Asignar las recompensas base
+
+		// Asignar las recompensas base
 		recompensaBase = 3000;
 		recompensaBaseXP = 15;
 	}
@@ -41,16 +41,17 @@ public class AccionAhorcado implements Accion {
 		StringBuilder tablero = new StringBuilder(); // crea el tablero
 		tablero.append("_ ".repeat(palabra.length()));// Inicializar el tablero
 		ArrayList<Character> letrasIntentadas = new ArrayList<>(); // Registro de las letras que se intentó
-		
-		
+
 		try {
-			introAhorcado(controlador);// Primero se realiza la introducción
+			// Pasamos el Scanner a la intro
+			introAhorcado(controlador, scAhorcado);
 			while (enAhorcado) {
-				mostrarTablero(jugador, controlador, tablero, letrasIntentadas);//Muestra la pregunta
-				
+				mostrarTablero(jugador, controlador, tablero, letrasIntentadas);// Muestra la pregunta
+
 				input = scAhorcado.nextLine().toLowerCase().trim(); // Input normalizado
-				
-				enAhorcado = flujoAhorcado(jugador, controlador, palabra, input, tablero, letrasIntentadas);
+
+				// Pasamos el Scanner al flujo
+				enAhorcado = flujoAhorcado(jugador, controlador, palabra, input, tablero, letrasIntentadas, scAhorcado);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -59,13 +60,14 @@ public class AccionAhorcado implements Accion {
 	}
 
 	/**
-	 * Función para realizar el minijuego del ahorcado
+	 * Función para realizar el minijuego del ahorcado * @return Un flujo de acción
+	 * para resolver un ahorcado.
 	 * 
-	 * @return Un flujo de acción para resolver un ahorcado.
 	 * @throws InterruptedException
 	 */
+	// Añadimos Scanner scAhorcado como parámetro
 	private boolean flujoAhorcado(Jugador jugador, Controlador controlador, String palabra, String input,
-			StringBuilder tablero, ArrayList<Character> letrasIntentadas)
+			StringBuilder tablero, ArrayList<Character> letrasIntentadas, Scanner scAhorcado)
 			throws InterruptedException {
 
 		if (input.equals("/casino") || input.equals("/salir")) { // Siempre puedes salir
@@ -81,8 +83,8 @@ public class AccionAhorcado implements Accion {
 			char letraInput = input.charAt(0);
 
 			if (letrasIntentadas.contains(letraInput)) { // Si ya intentó esta letra
-				myUtil.marco("Esa letra ya la intentaste. Prueba otra.");
-				Thread.sleep(1500);
+//				myUtil.marco("Esa letra ya la intentaste. Prueba otra.");
+//				Thread.sleep(1500);
 				return true;
 			} else {
 				letrasIntentadas.add(letraInput);
@@ -97,32 +99,35 @@ public class AccionAhorcado implements Accion {
 				}
 
 			} else {
-				int danio = (int) (jugador.getVidaMaxima() * 0.1);
+				int danio = (int) (jugador.getVidaMaxima() * -0.1);
 				jugador.modVida(danio);
-				myUtil.marco("INCORRECTA! PERDISTE " + danio + "HP");
-				Thread.sleep(1500);
+//				myUtil.marco("INCORRECTA! PERDISTE " + danio + "HP");
+//				Thread.sleep(1500);
 			}
 
 		} else if (input.equals(palabra)) {
-			victoriaAhorcado(jugador, palabra,4000,30); //Gana mas XP y $ si escribe la palabra completa
+			// Pasamos el Scanner
+			victoriaAhorcado(jugador, palabra, 4000, 30, scAhorcado);
 			return false;
 		} else if (input.length() == palabra.length()) { // Intentó la palabra y falló
-			myUtil.marco("Perdiste" + jugador.getVidaActual());
 			Thread.sleep(1000);
-			jugador.modVida(jugador.getVidaActual());
-			animacionMuerteAhorcado(controlador);
+			jugador.modVida(-jugador.getVidaActual());
+
+			animacionMuerteAhorcado(controlador, scAhorcado);
 			return false;
 		} else {
-			myUtil.marco("SOLO UNA LETRA!!!");
-			Thread.sleep(2000);
+			// myUtil.marco("SOLO UNA LETRA!!!");
+			// Thread.sleep(2000);
 		}
 
 		// Si ya no quedan '_', el jugador gana
 		if (tablero.indexOf("_") == -1) { // Si gana intentando todas las letras
-			victoriaAhorcado(jugador, palabra,3500,25);
+			// Pasamos el Scanner
+			victoriaAhorcado(jugador, palabra, 3500, 25, scAhorcado);
 			return false;
 		} else if (jugador.getVidaActual() <= 0) { // Si perdió todas las vidas
-			animacionMuerteAhorcado(controlador);
+			// Pasamos el Scanner
+			animacionMuerteAhorcado(controlador, scAhorcado);
 			return false;
 		}
 		return true;
@@ -135,20 +140,21 @@ public class AccionAhorcado implements Accion {
 		misDibujos.dibujarCalavera();
 
 		StringBuilder sbIntentadas = new StringBuilder("Probaste: ");
-	    for (Character letra : letrasIntentadas) {
-	    	if(!tablero.toString().contains(String.valueOf(letra))) {
-	        sbIntentadas.append(letra).append(" ");	
-	    	}
+		for (Character letra : letrasIntentadas) {
+			if (!tablero.toString().contains(String.valueOf(letra))) {
+				sbIntentadas.append(letra).append(" ");
+			}
 
-	    }
-	    myUtil.marco(sbIntentadas.toString());
+		}
+		myUtil.marco(sbIntentadas.toString());
 
 		myUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima());
 		myUtil.marco(tablero.toString());
 		System.out.print("Ingrese una letra o intente adivinar la palabra: ");
 	}
 
-	private void introAhorcado(Controlador controlador) throws InterruptedException {
+	// Añadimos Scanner scAhorcado como parámetro
+	private void introAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
 		myUtil.marco("Has pasado por muchas dificultades en tu vida un transtorno depresivo te ha invadido...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
@@ -160,31 +166,46 @@ public class AccionAhorcado implements Accion {
 		controlador.limpiarConsola();
 		myUtil.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
 		Thread.sleep(2500);
+
+		// Para evitar que el usuario spamee letras
+		// Consume el buffer de spam y espera al usuario
+		System.out.print("\n[Presiona Enter para comenzar]");
+		scAhorcado.nextLine();
 	}
 
-	private void animacionMuerteAhorcado(Controlador controlador) throws InterruptedException {
+	// Añadimos Scanner scAhorcado como parámetro
+	private void animacionMuerteAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
 		controlador.limpiarConsola();
 		myUtil.marco("No lograste adivinar la palabra...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
 		misDibujos.dibujarCalavera();
 		myUtil.marco("La muerte te ha alcanzado...");
-		Thread.sleep(5000);
+		Thread.sleep(2000); // Reducido para no esperar tanto
+
+		// Para evitar que el usuario spamee letras
+		System.out.print("\n[Presiona Enter para continuar]");
+		scAhorcado.nextLine();
 	}
 
-	private void victoriaAhorcado(Jugador jugador, String palabra,int recMaxima,int xpMaxima)
+	// Añadimos Scanner scAhorcado como parámetro
+	private void victoriaAhorcado(Jugador jugador, String palabra, int recMaxima, int xpMaxima, Scanner scAhorcado)
 			throws InterruptedException {
-		//Calcular las recompensas
-		int recompensa = ran.nextInt(recMaxima-recompensaBase+1) + recompensaBase;
-		int expGanada = ran.nextInt(xpMaxima-recompensaBaseXP)+ recompensaBaseXP;
-		
-		//Textos y añadirle la recompensa
+		// Calcular las recompensas
+		int recompensa = ran.nextInt(recMaxima - recompensaBase + 1) + recompensaBase;
+		int expGanada = ran.nextInt(xpMaxima - recompensaBaseXP) + recompensaBaseXP;
+
+		// Textos y añadirle la recompensa
 		myUtil.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
 		myUtil.marco("Y Has sobrevido a un ataque de depresión");
 		Thread.sleep(2500);
 		jugador.modMonedas(recompensa);
 		jugador.modExp(expGanada);
-		myUtil.marco("Has ganado $"+ recompensa + " y " + expGanada + "XP");
-		Thread.sleep(4000);
+		myUtil.marco("Has ganado $" + recompensa + " y " + expGanada + "XP");
+		Thread.sleep(2000); // Reducido
+
+		// Para evitar que el usuario spamee letras
+		System.out.print("\n[Presiona Enter para continuar]");
+		scAhorcado.nextLine();
 	}
 }

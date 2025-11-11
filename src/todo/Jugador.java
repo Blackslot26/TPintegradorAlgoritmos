@@ -12,6 +12,8 @@ public class Jugador extends Personaje implements Serializable {
 	private int experiencia;
 	private int experienciaLevel;
 	private Inventario inventario;
+	private boolean murio;
+	private int ultimasMonedasPerdidas;
 //	private int bonificadorRenacimiento;
 	private int renacimientos;
 
@@ -81,23 +83,37 @@ public class Jugador extends Personaje implements Serializable {
 	}
 
 	public void modSuerte(double valor) {
-		suerte = +valor;
+		suerte += valor;
 	}
+
 	// Otras funciones necesarias
 	@Override
 	public void morir() {
-		modMonedas(-((int) (monedas * 0.5))); // Pierde la mitad de sus monedas actuales
+		ultimasMonedasPerdidas = (int) (monedas * -0.5);
+		modMonedas((ultimasMonedasPerdidas)); // Pierde la mitad de sus monedas actuales
 		vidaActual = vidaMaxima; // Se resetea la vida
 	}
 
 	@Override
 	public void actualizar() {
+		if(vidaActual >100) {
+			vidaActual = 100;
+		}
+		if(vidaActual < 0) {
+			vidaActual = 0;
+		}
 		if (vidaActual <= 0) {
+			murio = true;
 			morir();
 		}
-
 	}
 
+	public void feedbackMuerte() {
+		if (murio) {
+			System.out.println("Has muerto y perdiste la mitad de tus monedas [" + ultimasMonedasPerdidas + "]");
+		}
+		murio = false;
+	}
 
 	public void mostrarEstadoJugador() {
 		// Mostrar el nombre del jugador en mayúsculas

@@ -33,11 +33,13 @@ public class AccionPreguntado implements Accion {
 		String input = "";// Para registrar el input local
 
 		try {
-			introPreguntado(controlador);// Primero se realiza la introducción
+			// Pasamos el Scanner a la intro
+			introPreguntado(controlador, scPreguntado);
 			while (enPreguntado) {
 				mostrarPregunta(jugador, controlador, indicePregunta);// Dibujar lo necesario
 				input = scPreguntado.nextLine().toLowerCase().trim(); // Input normalizado
-				enPreguntado = flujoPreguntado(jugador, controlador, input, indicePregunta);
+				// Pasamos el Scanner al flujo
+				enPreguntado = flujoPreguntado(jugador, controlador, input, indicePregunta, scPreguntado);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -45,32 +47,39 @@ public class AccionPreguntado implements Accion {
 
 	}
 
-	private boolean flujoPreguntado(Jugador jugador, Controlador controlador, String input, int i)
+	// Añadimos Scanner scPreguntado
+	private boolean flujoPreguntado(Jugador jugador, Controlador controlador, String input, int i, Scanner scPreguntado)
 			throws InterruptedException {
 		if (input.equals("/escapar") || input.equals("/esc") || input.equals("/salir") || input.equals("/s")) {
 
 			myUtil.marco("Has salido corriendo como una niñita");
 			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
 			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
-			myUtil.marco("Perdiste $" + monedasPerdidas);
+			myUtil.marco("Se te caen -$" + -monedasPerdidas);
 			Thread.sleep(3000);
+			
+			//Para evitar que el usuario spamee letras
+			System.out.print("\n[Presiona Enter para continuar]...");
+			scPreguntado.nextLine();
 			return false; // Termina el juego
 		}
 
 		try {
 			if (Integer.parseInt(input) - 1 == myUtil.preguntas.get(i).getRespuesta()) {
-				victoriaPreguntado(jugador, i);
+				// Pasamos el Scanner
+				victoriaPreguntado(jugador, i, scPreguntado);
 				return false;
 			} else if (Integer.parseInt(input) - 1 >= myUtil.preguntas.get(i).getOpciones().length) {
-				myUtil.marco("No ves que no existe la opción " + input + "?");
-				Thread.sleep(2500);
+//				myUtil.marco("No ves que no existe la opción " + input + "?");
+//				Thread.sleep(2500);
 			} else {
-				return derrotaPreguntado(jugador);
+				// Pasamos el Scanner
+				return derrotaPreguntado(jugador, scPreguntado);
 			}
 
 		} catch (NumberFormatException e) {
-			myUtil.marco("ELIGE UN NÚMERO!!!");
-			Thread.sleep(2000);
+//			myUtil.marco("ELIGE UN NÚMERO!!!");
+//			Thread.sleep(2000);
 		}
 
 		return true;
@@ -85,7 +94,8 @@ public class AccionPreguntado implements Accion {
 		System.out.print("\nElige con cuidado (1,2,3 o 4): "); // Para ingresar el input
 	}
 
-	private void victoriaPreguntado(Jugador jugador, int indicePregunta) throws InterruptedException {
+	// Añadimos Scanner scPreguntado
+	private void victoriaPreguntado(Jugador jugador, int indicePregunta, Scanner scPreguntado) throws InterruptedException {
 		int recompensa = myUtil.preguntas.get(indicePregunta).getRecompensa();
 		int expGanada = ran.nextInt(20) + 10;// Puede ganar hasta 30 de EXP y minimo 10
 		myUtil.marco("Muy bien, has logrado sobrevir");
@@ -93,24 +103,35 @@ public class AccionPreguntado implements Accion {
 		Thread.sleep(2500);
 		jugador.modMonedas(recompensa);
 		jugador.modExp(expGanada);
-		myUtil.marco("Has ganado $" + recompensa + " y "+ expGanada);
+		myUtil.marco("Has ganado $" + recompensa + " y "+ expGanada + "XP");
 		Thread.sleep(2500);
+		
+		//Para evitar que el usuario spamee letras
+		System.out.print("\n[Presiona Enter para continuar]...");
+		scPreguntado.nextLine();
 	}
 
-	private boolean derrotaPreguntado(Jugador jugador) throws InterruptedException {
+	// Añadimos Scanner scPreguntado
+	private boolean derrotaPreguntado(Jugador jugador, Scanner scPreguntado) throws InterruptedException {
 		int danio = (int) (jugador.getVidaMaxima() / -3);// Pierde un tercio de su vida máxima
 		jugador.modVida(danio);
-		myUtil.marco("Esa no es la opción correcta. *Recibe un fuerte golpe* -" + danio + "HP");
-		Thread.sleep(2500);
+		myUtil.marco("Esa no es la opción correcta. *Recibe un fuerte golpe* " + danio + "HP");
+		Thread.sleep(2500); // Esto es feedback, no una cinemática final, no requiere sc.nextLine()
+		
 		if (jugador.getVidaActual() <= 0) {
 			myUtil.marco("Has muerto en el intento");
 			Thread.sleep(2500);
+			
+			//Para evitar que el usuario spamee letras
+			System.out.print("\n[Presiona Enter para continuar]...");
+			scPreguntado.nextLine();
 			return false;
 		}
 		return true;
 	}
 
-	private void introPreguntado(Controlador controlador) throws InterruptedException {
+	// Añadimos Scanner scPreguntado
+	private void introPreguntado(Controlador controlador, Scanner scPreguntado) throws InterruptedException {
 		myUtil.marco("Te has aventurado a tierras inexploradas");
 		misDibujos.dibujarCamello();
 		Thread.sleep(3000);
@@ -128,6 +149,10 @@ public class AccionPreguntado implements Accion {
 		misDibujos.dibujarEsfinge();
 		myUtil.marco("RESPONDE O MUERE AQUÍ MISMO!!!");
 		Thread.sleep(2500);
+		
+		//Para evitar que el usuario spamee letras
+		System.out.print("\n[Presiona Enter para comenzar]...");
+		scPreguntado.nextLine();
 	}
 
 }

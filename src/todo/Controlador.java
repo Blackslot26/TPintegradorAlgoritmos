@@ -48,11 +48,13 @@ public class Controlador {
 			return false;
 
 		case "/comandos":
-			listarComandos();
+			listarComandos(sc);
 			break;
 
 		case "/estado":
 			jugadorActual.mostrarEstadoJugador();
+			System.out.println("[Enter para continuar]");		
+			sc.nextLine();
 			break;
 
 		default:
@@ -100,7 +102,7 @@ public class Controlador {
 	 * 
 	 * @return Imprime todos los comandos disponibles.
 	 */
-	private void listarComandos() {
+	private void listarComandos(Scanner sc) {
 		System.out.println("Comandos disponibles: ");
 
 		// Imprimir comandos especiales
@@ -112,6 +114,9 @@ public class Controlador {
 		for (String c : accionesMapeadas.keySet()) {
 			System.out.printf("%s -> %s \n", c, accionesMapeadas.get(c).getDescripcion());
 		}
+		System.out.println("[Enter para continuar]");		
+		sc.nextLine();
+
 	}
 
 	/**
