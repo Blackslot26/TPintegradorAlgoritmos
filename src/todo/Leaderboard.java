@@ -28,8 +28,8 @@ public class Leaderboard {
 		String nuevoPuntaje = nombre + "," + nivel + "," + rebirths + "," + monedas;
 		puntajes.put(nombre, nuevoPuntaje);
 		
-		try (FileWriter fw = new FileWriter(ARCHIVO, false);
-				BufferedWriter bw = new BufferedWriter(fw);
+		try (FileWriter fw = new FileWriter(ARCHIVO, false);		//IMPORTANTE: el false determina si la leaderboard va a sobreescribir o agregar (append) los nuevos datos al final
+				BufferedWriter bw = new BufferedWriter(fw);			//al estar en false sobre escribe los datos del jugador para que no se repitan los jugadores
 				PrintWriter out = new PrintWriter(bw)) {
 			
 			for (String lineaActualizada : puntajes.values()) {

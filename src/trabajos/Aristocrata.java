@@ -1,5 +1,6 @@
 package trabajos;
 
+import todo.Accion;
 import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
@@ -7,7 +8,7 @@ import todo.Trabajar;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Aristocrata extends Trabajar {
+public class Aristocrata extends Trabajar implements Accion{
 
 	private static final long serialVersionUID = 1L;
 

@@ -17,6 +17,7 @@ public class Controlador {
 		// Lista de acciones.
 		this.accionesMapeadas.put("/explorar", new AccionExplorar());
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
+		this.accionesMapeadas.put("/trabajar", jugadorActual.getTrabajo());
 
 	};
 

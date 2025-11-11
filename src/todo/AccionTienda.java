@@ -3,6 +3,8 @@ package todo;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import items.Item;
+import items.ItemEquipable;
 import utiles.Titulos;
 
 public class AccionTienda implements Accion {
@@ -26,10 +28,10 @@ public class AccionTienda implements Accion {
 		titulos = new Titulos();
 
 		// Inventario inicial de la tienda, 10 de cda arma
-		stock.put("daga", new Arma(TipoArma.DAGA,10));
-		stock.put("espada", new Arma(TipoArma.ESPADA,10));
-		stock.put("hacha", new Arma(TipoArma.HACHA,10));
-		stock.put("arco", new Arma(TipoArma.ARCO,10));
+		stock.put("daga", new ItemEquipable(ItemEquipable.DAGA,10));
+		stock.put("espada", new ItemEquipable(ItemEquipable.ESPADA,10));
+		stock.put("hacha", new ItemEquipable(ItemEquipable.HACHA,10));
+		stock.put("arco", new ItemEquipable(ItemEquipable.ARCO,10));
 
 	}
 

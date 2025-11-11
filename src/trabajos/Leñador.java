@@ -3,11 +3,12 @@ package trabajos;
 import java.util.Random;
 import java.util.Scanner;
 
+import todo.Accion;
 import todo.Controlador;
 import todo.Jugador;
 import todo.Trabajar;
 
-public class Leñador extends Trabajar {
+public class Leñador extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	@Override
