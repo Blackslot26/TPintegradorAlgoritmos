@@ -17,7 +17,7 @@ public class AccionCazar implements Accion {
 
 	@Override
 	public void realizar(Jugador jugador, Controlador controlador, Scanner sc) {
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		// Elegir el enemigo
 		TipoEnemigo tipoEnemigo = elegirEnemigoAleatorio();
 		Enemigo enemigo = new Enemigo(tipoEnemigo);
@@ -29,7 +29,7 @@ public class AccionCazar implements Accion {
 		try {
 			animacionEntrada(controlador, enemigo);
 			while (cazando) {
-				controlador.limpiarConsola();
+				MyUtil.limpiarConsola();
 				dibujarEnemigo(enemigo);
 
 				if (turnoJugador) {
@@ -170,33 +170,33 @@ public class AccionCazar implements Accion {
 		int tiempoEntreTexto = 1500;
 		MyUtil.marco("Te adentras en un oscuro bosque");
 		Thread.sleep(tiempoEntreTexto);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 
 		MyUtil.marco("En una noche de luna llena te aventuras a encontrar algo interesante");
 		Thread.sleep(tiempoEntreTexto + 500);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 
 		MyUtil.marco("Cuando de pronto...");
 		Thread.sleep(tiempoEntreTexto);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 
 		MyUtil.marco("Ha aparecido un " + enemigo.getNombre() + "!!!");
 		Thread.sleep(tiempoEntreTexto - 500);
 	}
 
 	private double tirarDado(Controlador controlador) throws InterruptedException {
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		int numero = 0;
 		double multiplicador = 0;
 		int rebotesDado = 25;
 		for (int i = 0; i < rebotesDado; i++) {
-			controlador.limpiarConsola();
+			MyUtil.limpiarConsola();
 			numero = ran.nextInt(21); // Tira un dado de 20, cada iteración es un rebote
 			MyUtil.marco(Integer.toString(numero));
 			Thread.sleep(100);
 		}
 		multiplicador = numero / 10.0;
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("Un " + numero + "!");
 		Thread.sleep(1000);
 		MyUtil.marco("Obtienes un multiplicador de x" + multiplicador);

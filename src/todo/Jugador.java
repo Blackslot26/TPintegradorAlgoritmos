@@ -3,6 +3,7 @@ package todo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import acciones.Trabajar;
 import items.Item;
 
 public class Jugador extends Personaje implements Serializable {

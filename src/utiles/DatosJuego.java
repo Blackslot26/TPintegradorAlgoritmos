@@ -18,6 +18,7 @@ public class DatosJuego {
 	// Bloque estático para inicializar listas
 	static {
 		aliasComandos.put("/trabajar", new String[] { "/t", "/work" });
+		aliasComandos.put("/tienda", new String[] {"/shop"});
 		// (Puedes añadir más alias aquí)
 
 		preguntas.add(new Pregunta(

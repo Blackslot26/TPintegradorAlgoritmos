@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import todo.Controlador;
 import todo.Jugador;
+import utiles.MyUtil;
 
 public class AccionExplorar implements Accion {
 	private Random ran; // Para las recompensas
@@ -20,7 +21,7 @@ public class AccionExplorar implements Accion {
 
 	@Override
 	public void realizar(Jugador jugadorActual, Controlador controlador, Scanner scExplorar) {
-		controlador.limpiarConsola(); // Primero limpia la consola
+		MyUtil.limpiarConsola(); // Primero limpia la consola
 		int indiceMinijuego = ran.nextInt(minijuegos.size()); //Elige un minijuego al azar
 		minijuegos.get(indiceMinijuego).realizar(jugadorActual,controlador,scExplorar);
 	}

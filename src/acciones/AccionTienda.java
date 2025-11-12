@@ -3,11 +3,10 @@ package acciones;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import todo.Arma;
 import todo.Controlador;
-import todo.Item;
+import items.Item;
 import todo.Jugador;
-import todo.TipoArma;
+import utiles.MyUtil;
 import utiles.Titulos;
 
 public class AccionTienda implements Accion {
@@ -16,10 +15,7 @@ public class AccionTienda implements Accion {
     private HashMap<String, Item> stock = new HashMap<>();
 
     public AccionTienda() {
-        stock.put("daga", new Arma(TipoArma.DAGA,10));
-        stock.put("espada", new Arma(TipoArma.ESPADA,10));
-        stock.put("hacha", new Arma(TipoArma.HACHA,10));
-        stock.put("arco", new Arma(TipoArma.ARCO,10));
+    	
     }
 
     @Override
@@ -28,7 +24,7 @@ public class AccionTienda implements Accion {
         boolean enTienda = true;
         String inputTienda;
 
-        controlador.limpiarConsola();
+        MyUtil.limpiarConsola();
         Titulos.mostrarTituloTienda();
         mostrarItems();
 
@@ -39,7 +35,7 @@ public class AccionTienda implements Accion {
 
             if (inputTienda.equals("/salir") || inputTienda.equals("/s")) {
                 enTienda = false;
-                controlador.limpiarConsola();
+                MyUtil.limpiarConsola();
 
             } else if (inputTienda.equals("/comandos")) {
                 mostrarComandosTienda();

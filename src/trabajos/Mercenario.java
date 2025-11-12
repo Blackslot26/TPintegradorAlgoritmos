@@ -1,6 +1,7 @@
 package trabajos;
 
-import todo.Accion;
+import acciones.Accion;
+import acciones.Trabajar;
 import todo.Controlador;
 import todo.Jugador;
 

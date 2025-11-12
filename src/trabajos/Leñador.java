@@ -3,7 +3,8 @@ package trabajos;
 import java.util.Random;
 import java.util.Scanner;
 
-import todo.Accion;
+import acciones.Accion;
+import acciones.Trabajar;
 import todo.Controlador;
 import todo.Jugador;
 
@@ -61,9 +62,4 @@ public class Leñador extends Trabajar implements Accion{
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
-
-
-
-
-
 }

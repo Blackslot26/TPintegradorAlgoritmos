@@ -1,18 +1,11 @@
-package apuestas;
+package acciones;
 
 import java.util.Scanner;
 
-import todo.Accion;
 import todo.Controlador;
 import todo.Jugador;
 
-public class Blackjack implements Accion{
-
-	@Override
-	public String getDescripcion() {
-		return "Apuestas parte de tu dinero en una apuesta clasica de blackjack. Sintax: /blackjack [amount]";
-	}
-
+public class AccionBlackjack implements Accion{
 	@Override
 	public void realizar(Jugador jugadorActual, Controlador controlador, Scanner sc) {
 		System.out.println("Introduzca cuantas monedas desea apostar: ");

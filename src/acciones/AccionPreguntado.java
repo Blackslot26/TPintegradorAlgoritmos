@@ -77,7 +77,7 @@ public class AccionPreguntado implements Accion {
 	}
 
 	private void mostrarPregunta(Jugador jugador, Controlador controlador, int i) {
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_ESFINGE);
 		MyUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima()); // Muestra la vida
 		MyUtil.marco(DatosJuego.preguntas.get(i).getPregunta());// Muestra la pregunta
@@ -127,17 +127,17 @@ public class AccionPreguntado implements Accion {
 		MyUtil.marco("Te has aventurado a tierras inexploradas");
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CAMELLO);
 		Thread.sleep(3000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("En medio de una gran tormenta de arena caes en un lugar extraño");
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_VENTISCA);
 		Thread.sleep(2500);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("Te encuentras en completa oscuridad....");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("Hasta que...");
 		Thread.sleep(3000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_ESFINGE);
 		MyUtil.marco("RESPONDE O MUERE AQUÍ MISMO!!!");
 		Thread.sleep(2500);

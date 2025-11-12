@@ -28,7 +28,7 @@ public class Main {
 		/**/
 		// Bucle Principal
 		while (enJuego) {
-			controlador.limpiarConsola();//Se limpia cualquier cosa anterior
+			MyUtil.limpiarConsola();//Se limpia cualquier cosa anterior
 			Titulos.mostrarTituloLobby();
 			
 			System.out.println(); //Separador
@@ -43,7 +43,7 @@ public class Main {
 		GestorPartidas.guardarPartida(jugadorActual);// GUARDAR LA PARTIDA AL ROMPER EL BUCLE WHILE CUANDO enJuego SE
 														// VUELVE FALSE
 
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		// Fin del Juego.
 	}
 
@@ -61,5 +61,4 @@ public class Main {
 			}
 		}
 	}
-
 }

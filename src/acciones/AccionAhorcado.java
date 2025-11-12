@@ -128,7 +128,7 @@ public class AccionAhorcado implements Accion {
 
 	private void mostrarTablero(Jugador jugador, Controlador controlador, StringBuilder tablero,
 			ArrayList<Character> letrasIntentadas) {
-		controlador.limpiarConsola();// Borrar lo anterior
+		MyUtil.limpiarConsola();// Borrar lo anterior
 		// Mostrar las letras que ya intentó
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CALAVERA);
 
@@ -150,13 +150,13 @@ public class AccionAhorcado implements Accion {
 	private void introAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
 		MyUtil.marco("Has pasado por muchas dificultades en tu vida un transtorno depresivo te ha invadido...");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("La muerte te busca, está a punto de tomar una decisión muy drástica..");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("Pero hay otra alternativa...");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
 		Thread.sleep(2500);
 
@@ -168,10 +168,10 @@ public class AccionAhorcado implements Accion {
 
 	// Añadimos Scanner scAhorcado como parámetro
 	private void animacionMuerteAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.marco("No lograste adivinar la palabra...");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CALAVERA);
 		MyUtil.marco("La muerte te ha alcanzado...");
 		Thread.sleep(2000); // Reducido para no esperar tanto

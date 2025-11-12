@@ -91,5 +91,37 @@ public class MyUtil {
 			System.out.print(linea + "\n");
 		}
 	}
+	
+	/**
+	 * Simula la limpieza de la consola imprimiendo muchas líneas nuevas.
+	 * o hace 50 prints.
+	 */
+	public static void limpiarConsola() {
+		 for (int i = 0; i < 50; i++) { System.out.println(); }/**/
+
+		// Para cuando se exporte como archivo jar
+		
+		try {
+			// Obtenemos el nombre del sistema operativo
+			String os = System.getProperty("os.name");
+
+			// Creamos una lista de comandos
+			ProcessBuilder pb;
+			if (os.contains("Windows")) {
+				// Si es Windows, usamos "cls"
+				pb = new ProcessBuilder("cmd", "/c", "cls");
+			} else {
+				// Si no es Windows, usamos "clear"
+				pb = new ProcessBuilder("clear");
+			}
+
+			// Ejecutamos el comando
+			pb.inheritIO().start().waitFor();
+
+		} catch (final Exception e) {
+			System.out.print("Error al limpiar la pantalla: " + e.getMessage());
+		} /**/
+	}
+
 
 }
