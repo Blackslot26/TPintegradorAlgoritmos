@@ -1,11 +1,14 @@
 package todo;
 
 import java.util.Scanner;
+
+import utiles.Functions;
 import utiles.Titulos;
 
 public class Main {
 	static Scanner sc;
 	static Titulos titulos = new Titulos();
+	static Functions myUtil = new Functions();
 	public static void main(String[] args) {
 		// Intancia de clases y variables necesarias.
 		sc = new Scanner(System.in);
@@ -33,7 +36,7 @@ public class Main {
 			
 			jugadorActual.actualizar();
 			jugadorActual.feedbackMuerte();
-			System.out.print("\nIngrese un comando (/comandos para ayuda) >");
+			System.out.print("\nIngrese un comando (/comandos para ayuda) > ");
 			input = sc.nextLine(); // Ingresa Imput.
 			enJuego = controlador.procesarInput(input, sc); // Verifica si sigue en juego o no.
 		}
@@ -46,13 +49,7 @@ public class Main {
 	}
 
 	public static Jugador logIn() {
-		System.out.println("			╔════════════════════════════════════════════════════════════════════════╗");
-		System.out.println("			║                                                                        ║");
-		System.out.println("			║                                                                        ║");
-		System.out.println("			║   Bienvenid@!, por favor escribe tu nombre de jugador para loguearte   ║");
-		System.out.println("			║                                                                        ║");
-		System.out.println("			║                                                                        ║");
-		System.out.println("			╚════════════════════════════════════════════════════════════════════════╝");
+		myUtil.dibujarArrayString(titulos.marcoBienvenida,10); //Centrado 10 characters a la derecha
 		while (true) {
 			String player = sc.nextLine().toLowerCase().trim();
 			System.out.println("Esta seguro de que su nombre es: " + player + "?   yes/no");

@@ -1,5 +1,6 @@
 package todo;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 import acciones.Trabajar;
@@ -14,16 +15,16 @@ import trabajos.Tahur;
 public class Tutorial {
 	Jugador jugador;
 	Scanner sc;
-	Controlador tutorial;
+	Controlador controladorTutorial;
 	
-	Tutorial(Jugador jugador,Scanner sc) {
+	Tutorial(Jugador jugador, Scanner sc) {
 		this.jugador = jugador;
 		this.sc = sc;
 	}
 
 	void iniciarTutorial() throws InterruptedException {
 		System.out.println(
-				"Bienvenido " + jugador.getNombre() + " a ------." + " \n Aqui es donde comienza tu aventura.");
+				"Bienvenido " + jugador.getNombre() + "." + " \n Aqui es donde comienza tu aventura.");
 		Thread.sleep(2000);
 		System.out.println("Para comenzar deberas unirte a un gremio");
 		System.out.println();
@@ -48,7 +49,7 @@ public class Tutorial {
 		while (true) {
 			String trabajar = sc.nextLine().toLowerCase().trim();
 			if (trabajar.equals("/trabajar") || trabajar.equals("/t") || trabajar.equals("/work")) {
-				jugador.getTrabajo().realizar(jugador, tutorial, sc);
+				jugador.getTrabajo().realizar(jugador, controladorTutorial, sc);
 				break;
 			}
 			System.out.println("Comando incorrecto. Escriba /trabajar para realizar un trabajo.");
@@ -150,222 +151,89 @@ public class Tutorial {
 	}
 
 	
-	
-	
 	void elegirTrabajo() throws InterruptedException {
-		Trabajar leñador = new Leñador();
-		Trabajar minero = new Minero();
-		Trabajar mercader = new Mercader();
-		Trabajar mercenario = new Mercenario();
-		Trabajar aristocrata = new Aristocrata();
-		Trabajar ladron = new Ladron();
-		Trabajar tahur = new Tahur();
-		
-		int longTrabajos = 1000;
-		limpiarConsola();
-		System.out.println("Los trabajos disponibles son: ");
-
-		Thread.sleep(longTrabajos);
-		System.out.println("---------1---------\n" + leñador.getNombre());
-		System.out.println();
-		
-		Thread.sleep(longTrabajos);
-		System.out.println("---------2---------\n" + minero.getNombre());
-		System.out.println();
-		
-		Thread.sleep(longTrabajos);
-		System.out.println("---------3---------\n" + mercader.getNombre());
-		System.out.println();
-		
-		Thread.sleep(longTrabajos);
-		System.out.println("---------4---------\n" + mercenario.getNombre());
-		System.out.println();
-		
-		Thread.sleep(longTrabajos);
-		System.out.println("---------5---------\n" + aristocrata.getNombre());
-		System.out.println();
-		
-		Thread.sleep(longTrabajos);
-		System.out.println("---------6---------\n" + ladron.getNombre());
-		System.out.println();
-		
-		Thread.sleep(longTrabajos);
-		System.out.println("---------7---------\n" + tahur.getNombre());
-		System.out.println();
-		
-		Thread.sleep(longTrabajos);
-		
-		
-		
-		while (true) {
-			System.out.println("Por favor elija el trabajo que desea realizar escribiendo su prefix (1, 2, 3...)");
-			
-			String choise = sc.nextLine();
-
-			switch (choise) {
-
-			case "1":
-				System.out.println("Has seleccionado el trabajo:\n" + leñador.getNombre());
-				System.out.println("Descripcion:\n" + leñador.getDescriptionT());
-				System.out.println();
-				System.out.println(
-						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
-				System.out.println();
-				while (true) {
-					System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
-					String conf = sc.nextLine().toLowerCase().replace(" ", "");
-					if (conf.equals("yes")) {
-						jugador.setTrabajo(leñador);
-						return;
-					}
-					if (conf.equals("no")) {
-						break;
-					}
-				}
-				break;
-				
-			case "2":
-				System.out.println("As seleccionado el trabajo:\n" + minero.getNombre());
-				System.out.println("Descripcion:\n" + minero.getDescriptionT());
-				System.out.println();
-				System.out.println(
-						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
-				System.out.println();
-				while (true) {
-					System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
-					String conf = sc.nextLine().toLowerCase().replace(" ", "");
-					if (conf.equals("yes")) {
-						jugador.setTrabajo(minero);
-						return;
-					}
-					if (conf.equals("no")) {
-						break;
-					}
-				}
-				break;
-			case "3":
-				System.out.println("As seleccionado el trabajo:\n" + mercader.getNombre());
-				System.out.println("Descripcion:\n" + mercader.getDescriptionT());
-				System.out.println();
-				System.out.println(
-						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
-				System.out.println();
-				while (true) {
-					System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
-					String conf = sc.nextLine().toLowerCase().replace(" ", "");
-					if (conf.equals("yes")) {
-						jugador.setTrabajo(mercader);
-						return;
-					}
-					if (conf.equals("no")) {
-						break;
-					}
-				}
-				break;
-			case "4":
-				System.out.println("As seleccionado el trabajo:\n" + mercenario.getNombre());
-				System.out.println("Descripcion:\n" + mercenario.getDescriptionT());
-				System.out.println();
-				System.out.println(
-						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
-				System.out.println();
-				while (true) {
-					System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
-					String conf = sc.nextLine().toLowerCase().replace(" ", "");
-					if (conf.equals("yes")) {
-						jugador.setTrabajo(mercenario);
-						return;
-					}
-					if (conf.equals("no")) {
-						break;
-					}
-				}
-				break;
-			case "5":
-				System.out.println("As seleccionado el trabajo:\n" + aristocrata.getNombre());
-				System.out.println("Descripcion:\n" + aristocrata.getDescriptionT());
-				System.out.println();
-				System.out.println(
-						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
-				System.out.println();
-				while (true) {
-					System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
-					String conf = sc.nextLine().toLowerCase().replace(" ", "");
-					if (conf.equals("yes")) {
-						jugador.setTrabajo(aristocrata);
-						return;
-					}
-					if (conf.equals("no")) {
-						break;
-					}
-				}
-				break;
-			case "6":
-				System.out.println("As seleccionado el \"trabajo\":\n" + ladron.getNombre());
-				System.out.println("Descripcion:\n" + ladron.getDescriptionT());
-				System.out.println();
-				System.out.println(
-						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
-				System.out.println();
-				while (true) {
-					System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
-					String conf = sc.nextLine().toLowerCase().replace(" ", "");
-					if (conf.equals("yes")) {
-						jugador.setTrabajo(ladron);
-						return;
-					}
-					if (conf.equals("no")) {
-						break;
-					}
-				}
-				break;
-			case "7":
-				System.out.println("A seleccionado el trabajo:\n" + tahur.getNombre());
-				System.out.println("Descripcion:\n" + tahur.getDescriptionT());
-				System.out.println();
-				System.out.println(
-						"¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
-				System.out.println();
-				while (true) {
-					System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
-					String conf = sc.nextLine().toLowerCase().replace(" ", "");
-					if (conf.equals("yes")) {
-						jugador.setTrabajo(tahur);
-						return;
-					}
-					if (conf.equals("no")) {
-						break;
-					}
-				}
-				break;
-
-			case "67": // easter egg.....
-				System.out.println("67…mustard BOIII TS SO TUFF diddy mango 67 phonk lord mustard blud: SIX SEVENNN!!\n"
-						+ " BOIII DONT MESS WITH THE 67 MANGO MUSTARD GANG OR WE’LL STEAL YOUR MANGOS😂😂😂😂\n"
-						+ " mustard is 7 letters… mangos is 6…. 67? TS SO TUFF😂😂😂😂 MANGO MANGO MUSTAAAAAAAARD🥭🥭🥭🥭");
-				System.out.println();
-				Thread.sleep(2000);
-				break;
-			default:
-				System.out.println("Opcion invalida. Por favor ingrese un numero valido.");
-				Thread.sleep(1000);
-			}
-			limpiarConsola();
-			System.out.println("Los trabajos disponibles son: ");
-
-			System.out.println("---------1---------\n" + leñador.getNombre() + "\n---------2---------\n" + minero.getNombre() + "\n---------3---------\n" + mercader.getNombre()
-			+ "\n---------4---------\n" + mercenario.getNombre() + "\n---------5---------\n" + aristocrata.getNombre() + "\n---------6---------\n" + ladron.getNombre() + "\n---------7---------\n" + tahur.getNombre());
-			System.out.println();
-
-			
-			
-			
-		}
-	}
-	void limpiarConsola() {
-	    for (int i = 0; i < 50; i++) {
+	    
+	    // 1. Instanciar los trabajos
+	    Trabajar leñador = new Leñador();
+	    Trabajar minero = new Minero();
+	    Trabajar mercader = new Mercader();
+	    Trabajar mercenario = new Mercenario();
+	    Trabajar aristocrata = new Aristocrata();
+	    Trabajar ladron = new Ladron();
+	    Trabajar tahur = new Tahur();
+	    
+	    // 2. Usar un HashMap para mapear la entrada ("1") al objeto (leñador)
+	    HashMap<String, Trabajar> trabajosDisponibles = new HashMap<>();
+	    trabajosDisponibles.put("1", leñador);
+	    trabajosDisponibles.put("2", minero);
+	    trabajosDisponibles.put("3", mercader);
+	    trabajosDisponibles.put("4", mercenario);
+	    trabajosDisponibles.put("5", aristocrata);
+	    trabajosDisponibles.put("6", ladron);
+	    trabajosDisponibles.put("7", tahur);
+	    
+	    // 3. Mostrar la lista de trabajos una vez antes del bucle
+	    controladorTutorial.limpiarConsola();
+	    System.out.println("Los trabajos disponibles son: ");
+	    for (String key : trabajosDisponibles.keySet()) {
+	        System.out.println("---------"+key+"---------\n" + trabajosDisponibles.get(key).getNombre());
 	        System.out.println();
+	        Thread.sleep(1000); // Pausa entre cada trabajo
+	    }
+
+	    while (true) {
+	        System.out.println("Por favor elija el trabajo que desea realizar escribiendo su prefix (1, 2, 3...) > ");
+	        String choise = sc.nextLine().trim();
+
+	        if (choise.equals("67")) { // Easter egg
+	            System.out.println("67…mustard BOIII..."); // (Texto del easter egg)
+	            System.out.println();
+	            Thread.sleep(2000);
+	            
+	        } else if (trabajosDisponibles.containsKey(choise)) {
+	            // 4. Si la opción es válida (ej. "1"), obtenemos el trabajo
+	            Trabajar trabajoSeleccionado = trabajosDisponibles.get(choise);
+	            
+	            // 5. Llamamos a la función de confirmación
+	            if (confirmarTrabajo(trabajoSeleccionado, jugador, sc)) {
+	                return; // ¡Éxito! El jugador confirmó, salimos de elegirTrabajo()
+	            }
+	            // Si devuelve false, el jugador dijo "no" y el bucle se repetirá
+	            
+	        } else {
+	            System.out.println("Opcion invalida. Por favor ingrese un numero valido.");
+	            Thread.sleep(1000);
+	        }
+
+	        // 6. Volver a mostrar la lista (solo si el jugador dijo "no" o se equivocó)
+	        controladorTutorial.limpiarConsola();
+	        System.out.println("Los trabajos disponibles son: ");
+	        for (String key : trabajosDisponibles.keySet()) {
+	            System.out.println("---------"+key+"---------\n" + trabajosDisponibles.get(key).getNombre());
+	            System.out.println();
+	        }
 	    }
 	}
+	private boolean confirmarTrabajo(Trabajar trabajo, Jugador jugador, Scanner sc) {
+	    System.out.println("Has seleccionado el trabajo:\n" + trabajo.getNombre());
+	    System.out.println("Descripcion:\n" + trabajo.getDescriptionT());
+	    System.out.println();
+	    System.out.println(
+	            "¿Esta seguro de elegir este oficio?\n Recuerde que esta accion es unica y no se podra cambiar en el futuro!");
+	    System.out.println();
+
+	    while (true) {
+	        System.out.println("Escriba YES para confirmar o NO para modificar su eleccion");
+	        String conf = sc.nextLine().toLowerCase().trim(); // Usar trim()
+	        if (conf.equals("yes")) {
+	            jugador.setTrabajo(trabajo);
+	            return true; // Confirnado, salir
+	        }
+	        if (conf.equals("no")) {
+	            return false; // No confirmado, volver a la selección
+	        }
+	    }
+	}
+
 
 }

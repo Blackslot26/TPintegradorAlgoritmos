@@ -12,16 +12,9 @@ import utiles.Functions;
 import utiles.Dibujos;
 
 public class AccionCazar implements Accion {
-	String descripcion = "Te encuentras con un enemigo aleatorio, deberás derrotarlo para obtener recompensas";
 	private static final Random ran = new Random();
 	private static final Functions myUtil = new Functions();
-	private static final Dibujos misDibujos = new Dibujos();
-	private static boolean entradaValida = false;
 
-	@Override
-	public String getDescripcion() {
-		return descripcion;
-	}
 
 	@Override
 	public void realizar(Jugador jugador, Controlador controlador, Scanner sc) {
@@ -41,15 +34,29 @@ public class AccionCazar implements Accion {
 				dibujarEnemigo(enemigo);
 
 				if (turnoJugador) {
-					myUtil.marco("Turno de: " + jugador.getNombre() + jugador.getVidaActual() + "/" + jugador.getVidaMaxima());
+					myUtil.marco("Turno de: " + jugador.getNombre() + " " + jugador.getVidaActual() + "/"
+							+ jugador.getVidaMaxima());
 					System.out.print("\nQué deseas hacer? : /atacar, /escapar, /proteger> ");
 
 					input = sc.nextLine().toLowerCase().trim();
-					cazando = flujoJugador(input, jugador, controlador, enemigo, sc);
 
-					// Validar que la entrada sea valida
-					if (!entradaValida) {
-						continue;
+					boolean cambiarTurno = flujoJugador(input, jugador, controlador, enemigo, sc);
+
+					// Si la acción fue escapar, 'cazando' será false y saldrá
+					if (input.equals("/escapar")) {
+						int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
+						myUtil.marco("Parece que era mucho para ti..");
+						Thread.sleep(2000);
+						jugador.modMonedas(monedasPerdidas);
+						myUtil.marco("Mientras escapas se te caen $" + (-monedasPerdidas));
+						Thread.sleep(2000);
+						cazando = false;
+						continue; // Salir del bucle
+					}
+
+					// Si el input NO fue válido, no se cambia el turno
+					if (!cambiarTurno) {
+						continue; // Repite el turno del jugador
 					}
 
 				} else {
@@ -73,10 +80,10 @@ public class AccionCazar implements Accion {
 					// Perdió el jugador
 					myUtil.marco("Has sido derrotado...");
 					myUtil.marco("[Enter para continuar]");
+					sc.nextLine();
 					cazando = false; // Termina la batalla
 				}
 
-				// --- CAMBIO DE TURNO ---
 				// Si la batalla no terminó, pasa el turno
 				if (cazando) {
 					turnoJugador = !turnoJugador; // Invierte el booleano
@@ -93,44 +100,54 @@ public class AccionCazar implements Accion {
 			throws InterruptedException {
 
 		switch (input) {
-		case "/escapar":
-			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
-			myUtil.marco("Parece que era mucho para ti..");
-			Thread.sleep(2000);
-			jugador.modMonedas(monedasPerdidas);
-			myUtil.marco("Mientras escapas se te caen $" + (-monedasPerdidas));
-			Thread.sleep(2000);
-			return false;
-
 		case "/atacar":
-			myUtil.marco("[Presiona enter para tirar un dado]");
-
+			myUtil.marco("debes lanzar un dado [enter]");
 			sc.nextLine();
+			
 			double multiplicadorDanio = tirarDado(controlador);
 			int danio = (int) (jugador.getDanio() * multiplicadorDanio);
-			int danioTotal = (int) (danio * -multiplicadorDanio);
-			enemigo.modVidaActual(danioTotal);
-			myUtil.marco("Le inflijes " + danioTotal + " de daño a " + enemigo.getNombre());
+			if(!enemigo.estaDefendiento()) { //Si el enemigo no se está defendiendo se aplica todo el daño
+				enemigo.modVidaActual(danio *-1);
+				myUtil.marco("Le inflijes " + danio + " de daño a " + enemigo.getNombre());
+			}
+			else {
+				int danioTotal = (int) (danio*0.75);
+				enemigo.modVidaActual(danioTotal *-1);
+				myUtil.marco(enemigo.getNombre() + " Se protege, le inflijes " + danioTotal + " de daño");
+				enemigo.setEstadoDefensa(false);
+			}
+
 			Thread.sleep(2000);
 			return true;
+
 		case "/proteger":
+			jugador.setEstadoDefensa(true);
 			myUtil.marco("Recibirás un 25% menos de daño en el siguiente golpe");
 			myUtil.marco("[Enter para continuar]");
 			sc.nextLine();
 			return true;
-
-		default:
-			entradaValida = false;
-			return true;
+			default:return false;
 		}
 	}
 
 	private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Controlador controlador, Scanner sc)
 			throws InterruptedException {
 		int danioTotal = enemigo.getDanio() + ran.nextInt(10);
+		if (ran.nextInt(4) < 3) { // 0, 1, 2 (75% de probabilidad de atacar)
+		if (jugador.estaDefendiento()) {
+			int danioReducido = (int) (danioTotal * 0.75); // Reduce el daño en 25%
+			myUtil.marco("Te proteges! El golpe se reduce a -" + danioReducido + "HP");
+			jugador.modVida(danioReducido * -1); // Aplica daño negativo
+			jugador.setEstadoDefensa(false);
+		} else {
+			jugador.modVida(-danioTotal);
+			myUtil.marco("Te ataca e inflige -" + danioTotal);
 
-		myUtil.marco("Te ataca e inflige -" + danioTotal);
-		jugador.modVida(-danioTotal);
+		}
+		}else {
+			enemigo.setEstadoDefensa(true);
+			myUtil.marco(enemigo.getNombre()+" se prepara para defenderse");
+		}
 		Thread.sleep(1000);
 
 	}
@@ -172,7 +189,8 @@ public class AccionCazar implements Accion {
 		controlador.limpiarConsola();
 		int numero = 0;
 		double multiplicador = 0;
-		for (int i = 0; i < 25; i++) {
+		int rebotesDado = 25;
+		for (int i = 0; i < rebotesDado; i++) {
 			controlador.limpiarConsola();
 			numero = ran.nextInt(21); // Tira un dado de 20, cada iteración es un rebote
 			myUtil.marco(Integer.toString(numero));
@@ -186,7 +204,7 @@ public class AccionCazar implements Accion {
 
 		if (numero == 20) {
 			myUtil.marco("Golpe Crítico!!!!!!!!");
-			myUtil.dibujarArrayString(misDibujos.musculos);
+			myUtil.dibujarArrayString(Dibujos.musculos);
 		}
 		Thread.sleep(2000);
 		return multiplicador; // devuelve un multiplicador entre 0.01 y 2

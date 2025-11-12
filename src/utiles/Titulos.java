@@ -1,6 +1,16 @@
 package utiles;
 
 public class Titulos {
+	
+	public String[] marcoBienvenida = {
+		    "╔════════════════════════════════════════════════════════════════════════╗",
+		    "║                                                                        ║",
+		    "║                                                                        ║",
+		    "║   Bienvenid@!, por favor escribe tu nombre de jugador para loguearte   ║",
+		    "║                                                                        ║",
+		    "║                                                                        ║",
+		    "╚════════════════════════════════════════════════════════════════════════╝"
+		};
 
 	public void mostrarTituloLobby() {
 		System.out.println(

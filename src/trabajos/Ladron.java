@@ -106,11 +106,6 @@ public class Ladron extends Trabajar {
 		return gananciaBase;
 	}
 
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

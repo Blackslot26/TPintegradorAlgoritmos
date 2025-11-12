@@ -8,9 +8,10 @@ import acciones.AccionExplorar;
 import acciones.AccionTienda;
 import acciones.AccionCazar;
 
+import utiles.Functions;
 
 public class Controlador {
-
+	private static Functions myUtil = new Functions();
 
 	Jugador jugadorActual; // Para conocer el jugador que estará jugando.
 	private HashMap<String, Accion> accionesMapeadas; // Lista de acciones.
@@ -23,6 +24,7 @@ public class Controlador {
 		this.accionesMapeadas.put("/explorar", new AccionExplorar());
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
 		this.accionesMapeadas.put("/cazar", new AccionCazar());
+		this.accionesMapeadas.put("/trabajar", jugadorActual.getTrabajo());
 	};
 
 	/**
@@ -92,6 +94,9 @@ public class Controlador {
 		case "/e":
 			input = "/explorar";
 			break;
+		case "/cz":
+			input = "/cazar";
+			break;
 
 		}
 		return input;
@@ -103,20 +108,9 @@ public class Controlador {
 	 * @return Imprime todos los comandos disponibles.
 	 */
 	private void listarComandos(Scanner sc) {
-		System.out.println("Comandos disponibles: ");
-
-		// Imprimir comandos especiales
-		System.out.println("/salir -> Termina el juego.");
-		System.out.println("/comandos -> Muestra la lista de comandos disponibles");
-		System.out.println("/leaderboard -> muestra el top global de jugadores de esta computadora");
-		System.out.println("/estado -> Muestra las características actuales del jugador");
-
-		for (String c : accionesMapeadas.keySet()) {
-			System.out.printf("%s -> %s \n", c, accionesMapeadas.get(c).getDescripcion());
-		}
-		System.out.println("[Enter para continuar]");		
+		myUtil.marco(myUtil.comandos);
+		System.out.print("[Enter para salir]");
 		sc.nextLine();
-
 	}
 
 	/**
@@ -146,7 +140,7 @@ public class Controlador {
 	        pb.inheritIO().start().waitFor();
 
 	    } catch (final Exception e) {
-	        System.out.println("Error al limpiar la pantalla: " + e.getMessage());
+	        System.out.print("Error al limpiar la pantalla: " + e.getMessage());
 	    }/**/
 	}
 

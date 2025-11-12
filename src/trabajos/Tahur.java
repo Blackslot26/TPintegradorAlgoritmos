@@ -63,14 +63,4 @@ public class Tahur extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase * (1.10 + (int) jugador.getNivel() / 100);
 	}
-
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
 }

@@ -10,7 +10,6 @@ import utiles.Dibujos;
 
 public class AccionPreguntado implements Accion {
 
-	private String descripcion = "Minijuego de trivia utilizado exclusivamente en la accion de \"explorar\"";
 	private Functions myUtil;
 	private Dibujos misDibujos;
 	private Random ran;
@@ -21,10 +20,6 @@ public class AccionPreguntado implements Accion {
 		ran = new Random();
 	}
 
-	@Override
-	public String getDescripcion() {
-		return descripcion;
-	}
 
 	@Override
 	public void realizar(Jugador jugador, Controlador controlador, Scanner scPreguntado) {
@@ -57,8 +52,8 @@ public class AccionPreguntado implements Accion {
 			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
 			myUtil.marco("Se te caen -$" + -monedasPerdidas);
 			Thread.sleep(3000);
-			
-			//Para evitar que el usuario spamee letras
+
+			// Para evitar que el usuario spamee letras
 			System.out.print("\n[Presiona Enter para continuar]...");
 			scPreguntado.nextLine();
 			return false; // Termina el juego
@@ -85,7 +80,7 @@ public class AccionPreguntado implements Accion {
 		return true;
 	}
 
-	private void mostrarPregunta(Jugador jugador,Controlador controlador,int i) {
+	private void mostrarPregunta(Jugador jugador, Controlador controlador, int i) {
 		controlador.limpiarConsola();
 		misDibujos.dibujarEsfinge();
 		myUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima()); // Muestra la vida
@@ -95,7 +90,8 @@ public class AccionPreguntado implements Accion {
 	}
 
 	// Añadimos Scanner scPreguntado
-	private void victoriaPreguntado(Jugador jugador, int indicePregunta, Scanner scPreguntado) throws InterruptedException {
+	private void victoriaPreguntado(Jugador jugador, int indicePregunta, Scanner scPreguntado)
+			throws InterruptedException {
 		int recompensa = myUtil.preguntas.get(indicePregunta).getRecompensa();
 		int expGanada = ran.nextInt(20) + 10;// Puede ganar hasta 30 de EXP y minimo 10
 		myUtil.marco("Muy bien, has logrado sobrevir");
@@ -103,10 +99,10 @@ public class AccionPreguntado implements Accion {
 		Thread.sleep(2500);
 		jugador.modMonedas(recompensa);
 		jugador.modExp(expGanada);
-		myUtil.marco("Has ganado $" + recompensa + " y "+ expGanada + "XP");
+		myUtil.marco("Has ganado $" + recompensa + " y " + expGanada + "XP");
 		Thread.sleep(2500);
-		
-		//Para evitar que el usuario spamee letras
+
+		// Para evitar que el usuario spamee letras
 		System.out.print("\n[Presiona Enter para continuar]...");
 		scPreguntado.nextLine();
 	}
@@ -117,12 +113,12 @@ public class AccionPreguntado implements Accion {
 		jugador.modVida(danio);
 		myUtil.marco("Esa no es la opción correcta. *Recibe un fuerte golpe* " + danio + "HP");
 		Thread.sleep(2500); // Esto es feedback, no una cinemática final, no requiere sc.nextLine()
-		
+
 		if (jugador.getVidaActual() <= 0) {
 			myUtil.marco("Has muerto en el intento");
 			Thread.sleep(2500);
-			
-			//Para evitar que el usuario spamee letras
+
+			// Para evitar que el usuario spamee letras
 			System.out.print("\n[Presiona Enter para continuar]...");
 			scPreguntado.nextLine();
 			return false;
@@ -149,8 +145,7 @@ public class AccionPreguntado implements Accion {
 		misDibujos.dibujarEsfinge();
 		myUtil.marco("RESPONDE O MUERE AQUÍ MISMO!!!");
 		Thread.sleep(2500);
-		
-		//Para evitar que el usuario spamee letras
+		// Para evitar que el usuario spamee letras
 		System.out.print("\n[Presiona Enter para comenzar]...");
 		scPreguntado.nextLine();
 	}

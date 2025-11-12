@@ -6,18 +6,20 @@ import acciones.Trabajar;
 
 public class Jugador extends Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
+	// Atributos base del jugador
 	private Trabajar trabajo;
-
 	private int monedas;
 	private int experiencia;
-	private int experienciaLevel;
-	private Inventario inventario;
-	private boolean murio;
-	private int ultimasMonedasPerdidas;
-//	private int bonificadorRenacimiento;
+	private int experienciaLevel; // Cantidad de xp necesaria para subir de nivel
 	private int renacimientos;
+	private Inventario inventario;
 
-	// estadisticas EXTRA (principalmente afectan trabajos o eventos)
+	// Variables auxiliares para actualizar el jugador
+	private int ultimasMonedasPerdidas;
+	private boolean murio;
+	//private int bonificadorRenacimiento;
+
+	/* estadisticas EXTRA (principalmente afectan trabajos o eventos)*/
 	private double suerte;
 //	private double multiplicadorVenta;
 //	private double multiplicadorGanancia;
@@ -64,6 +66,7 @@ public class Jugador extends Personaje implements Serializable {
 	}
 
 	// Funciones para modificar Atributos
+	
 	public void modMonedas(int cantidad) {
 		monedas += cantidad;
 	}
@@ -96,16 +99,19 @@ public class Jugador extends Personaje implements Serializable {
 
 	@Override
 	public void actualizar() {
-		if(vidaActual >100) {
+		if (vidaActual > 100) {
 			vidaActual = 100;
 		}
-		if(vidaActual < 0) {
+		if (vidaActual < 0) {
 			vidaActual = 0;
 		}
 		if (vidaActual <= 0) {
 			murio = true;
 			morir();
 		}
+		
+		//Resetear auxiliares
+		setEstadoDefensa(false);
 	}
 
 	public void feedbackMuerte() {

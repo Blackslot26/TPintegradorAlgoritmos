@@ -65,11 +65,6 @@ public class Mercader extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

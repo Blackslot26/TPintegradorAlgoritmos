@@ -10,7 +10,6 @@ import utiles.Dibujos;
 import utiles.Functions;
 
 public class AccionAhorcado implements Accion {
-	private String descripcion = "Minijuego de trivia utilizado exclusivamente en la accion de \"explorar\"";
 	private Functions myUtil;
 	private Dibujos misDibujos;
 	private static final Random ran = new Random();
@@ -27,10 +26,7 @@ public class AccionAhorcado implements Accion {
 		recompensaBaseXP = 15;
 	}
 
-	@Override
-	public String getDescripcion() {
-		return descripcion;
-	}
+
 
 	@Override
 	public void realizar(Jugador jugador, Controlador controlador, Scanner scAhorcado) {

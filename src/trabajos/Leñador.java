@@ -62,11 +62,6 @@ public class Leñador extends Trabajar {
 		return gananciaBase;
 	}
 
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

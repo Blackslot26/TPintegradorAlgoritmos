@@ -16,15 +16,7 @@ public class AccionTienda implements Accion {
 	// Crear el inventario de la tienda
 	private HashMap<String, Item> stock = new HashMap<>();
 
-	private String descripcion = "Accedes a la tienda, para realizar compra y venta de elementos, también puedes usar /t";
 
-	/**
-	 * Función para poder obtener la descripción fuera de la clase
-	 */
-	@Override
-	public String getDescripcion() {
-		return descripcion;
-	}
 
 	public AccionTienda() {
 		// Instancia de clase para los graficos.

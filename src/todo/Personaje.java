@@ -9,6 +9,7 @@ public abstract class Personaje implements Serializable {
 	protected int nivel;
 	protected String nombre;
 	protected int danio;
+	protected boolean defendiendo; // Para la batalla
 
 	public Personaje(String nombre, int vidaMaxima, int danio) {
 		this.nombre = nombre;
@@ -42,10 +43,18 @@ public abstract class Personaje implements Serializable {
 		return danio;
 	}
 
-	public void modVidaActual(int modificador) {
-		vidaActual +=modificador;
+	public boolean estaDefendiento() {
+		return defendiendo;
 	}
-	
+
+	public void setEstadoDefensa(boolean estadoDefensa) {
+		defendiendo = estadoDefensa;
+	}
+
+	public void modVidaActual(int modificador) {
+		vidaActual += modificador;
+	}
+
 	public void modVidaMaxima(int modificador) {
 		vidaMaxima += modificador;
 	}

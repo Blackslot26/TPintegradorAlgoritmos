@@ -4,6 +4,15 @@ import java.util.ArrayList;
 
 public class Functions {
 
+	public final String[] comandos = {
+			"/trabajar -> Realizas el trabajo de tu profesión para obtener algo de dinero",
+			"/explorar -> Te encuentras con un evento aleatorio para obtener recompensas",
+			"/cazar -> Te envuelves en un combate con una criatura a cambio de recompensas",
+			"/comandos -> Muestra la lista de comandos disponibles",
+			"/leaderboard -> muestra el top global de jugadores de esta computadora",
+			"/estado -> Muestra las características actuales del jugador",
+			"/salir -> Termina el juego."
+	};
 	public final String[] palabrasAhorcado = {
 			// Conceptos Positivos y de Bienestar
 			"esperanza", "resiliencia", "calma", "serenidad", "alegria", "aceptacion", "gratitud", "animo", "valor",
@@ -16,7 +25,7 @@ public class Functions {
 			"isrs", "fluoxetina", "sertralina", "escitalopram", "citalopram", "paroxetina", "venlafaxina", "duloxetina",
 			"mirtazapina", "bupropion", "trazodona", "amitriptilina", "nortriptilina", "ansiolitico", "antidepresivo",
 			// Otras opciones
-			"gambling", "apuestas", "alcohol", "methyl","problemas"};
+			"gambling", "apuestas", "alcohol", "methyl", "problemas" };
 
 	public ArrayList<Pregunta> preguntas = new ArrayList<>();
 
@@ -59,7 +68,8 @@ public class Functions {
 		preguntas.add(new Pregunta("¿En qué videojuego puedes encontrar un 'Creeper'?",
 				new String[] { "Roblox", "Minecraft", "Fortnite", "Terraria" }, 1, 1500));
 		preguntas.add(new Pregunta("¿Qué es un 'Stradivarius'?",
-				new String[] { "Un tipo de queso", "Una pintura renacentista", "Un violín", "Un telescopio" }, 2, 4500));
+				new String[] { "Un tipo de queso", "Una pintura renacentista", "Un violín", "Un telescopio" }, 2,
+				4500));
 		preguntas.add(new Pregunta("¿Cuál es la capital de Perú?",
 				new String[] { "Lima", "Quito", "Bogotá", "Santiago" }, 0, 1500));
 		preguntas.add(new Pregunta("¿Qué partícula de un átomo no tiene carga eléctrica?",
@@ -71,7 +81,8 @@ public class Functions {
 		preguntas.add(new Pregunta("¿En qué país se encuentra el Monte Fuji?",
 				new String[] { "China", "Corea", "Japón", "Vietnam" }, 2, 1500));
 		preguntas.add(new Pregunta("¿Cómo se llamaba la antigua ruta comercial entre China y Occidente?",
-				new String[] { "Ruta de las Especias", "Ruta de la Seda", "Camino del Rey", "Ruta de Ámbar" }, 1, 2500));
+				new String[] { "Ruta de las Especias", "Ruta de la Seda", "Camino del Rey", "Ruta de Ámbar" }, 1,
+				2500));
 		preguntas.add(new Pregunta("¿Cuál de los siguientes azúcares se encuentra en la leche?",
 				new String[] { "Fructosa", "Glucosa", "Sacarosa", "Lactosa" }, 3, 1500));
 		preguntas.add(new Pregunta("¿Qué personaje vive en una piña debajo del mar?",
@@ -80,7 +91,8 @@ public class Functions {
 				new String[] { "Los Simpson", "Padre de Familia", "South Park", "Rick y Morty" }, 2, 2000));
 		preguntas.add(new Pregunta("¿Qué continente tiene la mayor población?",
 				new String[] { "África", "Asia", "Europa", "América" }, 1, 1500));
-		preguntas.add(new Pregunta("¿Cuántos años dura un siglo?", new String[] { "10", "100", "1000", "50" }, 1, 1500));
+		preguntas
+				.add(new Pregunta("¿Cuántos años dura un siglo?", new String[] { "10", "100", "1000", "50" }, 1, 1500));
 		preguntas.add(new Pregunta("¿De qué banda de rock es el cantante Bono?",
 				new String[] { "The Police", "R.E.M.", "U2", "Coldplay" }, 2, 3000));
 		preguntas.add(new Pregunta("¿Qué color se debe agregar al azul para obtener el violeta?",
@@ -139,8 +151,8 @@ public class Functions {
 				new String[] { "Ardilla voladora", "Murciélago", "Colugo", "Petauro" }, 1, 2500));
 		preguntas.add(new Pregunta("¿En qué ciudad se encuentra la 'Sagrada Familia' de Gaudí?",
 				new String[] { "Madrid", "Roma", "París", "Barcelona" }, 3, 2000));
-		preguntas.add(
-				new Pregunta("¿Cuántos huesos tiene un tiburón?", new String[] { "206", "Cero", "150", "300" }, 1, 6000));
+		preguntas.add(new Pregunta("¿Cuántos huesos tiene un tiburón?", new String[] { "206", "Cero", "150", "300" }, 1,
+				6000));
 		preguntas.add(new Pregunta("¿Qué significa la 'c' en E=mc²?",
 				new String[] { "Carbono", "Velocidad de la luz", "Masa", "Energía" }, 1, 3000));
 		preguntas.add(new Pregunta("¿Cuál es el nombre del perro en 'Padre de Familia' (Family Guy)?",
@@ -176,8 +188,8 @@ public class Functions {
 				new String[] { "The Beatles", "Led Zeppelin", "Queen", "Pink Floyd" }, 2, 1500));
 		preguntas.add(new Pregunta("¿Cuál es la moneda oficial de Japón?",
 				new String[] { "Yuan", "Won", "Yen", "Dólar" }, 2, 1500));
-		preguntas.add(
-				new Pregunta("¿Cuántos lados tiene un 'dodecágono'?", new String[] { "10", "12", "14", "20" }, 1, 4500));
+		preguntas.add(new Pregunta("¿Cuántos lados tiene un 'dodecágono'?", new String[] { "10", "12", "14", "20" }, 1,
+				4500));
 		preguntas.add(new Pregunta("¿Qué es un 'sommelier'?", new String[] { "Un chef de postres",
 				"Un experto en vinos", "Un tipo de hongo", "Un estilo de sombrero" }, 1, 3500));
 		preguntas.add(new Pregunta("¿Qué animal es 'Speedy Gonzales'?",
@@ -193,7 +205,7 @@ public class Functions {
 				1, 3000));
 		preguntas.add(new Pregunta("¿Qué pintor es conocido por sus relojes 'derretidos'?",
 				new String[] { "Picasso", "Monet", "Frida Kahlo", "Salvador Dalí" }, 3, 2500));
-		
+
 	}
 
 	public void marco(String texto) {
@@ -228,10 +240,56 @@ public class Functions {
 		// Imprimimos el marco final
 		System.out.println(sb.toString());
 	}
-	
+	public void marco(String[] textos) {
+	    final int paddingCostados = 2; // espacios de los costados
+
+	    if (textos == null || textos.length == 0) {
+	        textos = new String[] { " " };
+	    }
+
+	    // Determinar el largo máximo de los textos
+	    int largoMaximo = 0;
+	    for (String texto : textos) {
+	        if (texto != null && texto.length() > largoMaximo) {
+	            largoMaximo = texto.length();
+	        }
+	    }
+
+	    final int largoMarco = largoMaximo + (2 * paddingCostados);
+	    StringBuilder sb = new StringBuilder();
+
+	    // 1. Línea superior
+	    sb.append("╔").append("═".repeat(largoMarco)).append("╗\n");
+
+	    // 2. Líneas centrales
+	    for (String texto : textos) {
+	        if (texto == null) texto = "";
+	        int espaciosRestantes = largoMaximo - texto.length();
+	        sb.append("║")
+	          .append(" ".repeat(paddingCostados))
+	          .append(texto)
+	          .append(" ".repeat(espaciosRestantes))
+	          .append(" ".repeat(paddingCostados))
+	          .append("║\n");
+	    }
+
+	    // 3. Línea inferior
+	    sb.append("╚").append("═".repeat(largoMarco)).append("╝");
+
+	    // Imprimir el marco
+	    System.out.println(sb.toString());
+	}
+
 	public void dibujarArrayString(String[] array) {
 		for (String linea : array) {
 			System.out.println(linea);
+		}
+	}
+
+	public void dibujarArrayString(String[] array, int rightChars) {
+		for (String linea : array) {
+			System.out.print(" ".repeat(rightChars));
+			System.out.print(linea + "\n");
 		}
 	}
 

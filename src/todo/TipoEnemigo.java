@@ -1,10 +1,10 @@
 package todo;
 import utiles.Dibujos;
 public enum TipoEnemigo {
-	DUENDE("Duende verde",35,15,1800,10,Dibujos.dibujoDuende);
-//	LOBO("Lobo Salvaje",75,25,3000,15),
-//	ARANIA("NYA tóxica",50,20,3000,20),
-//	ESQUELETO("Puro hueso",40,30,3500,20);
+	DUENDE("Duende verde",75,15,1800,10,Dibujos.dibujoDuende),
+	LOBO("Lobo Salvaje",125,25,3000,15,Dibujos.dibujoLobo),
+	ARANIA("NYA tóxica",75,20,3000,20,Dibujos.dibujoArania),
+	ESQUELETO("Puro hueso",100,30,3500,20,Dibujos.dibujoEsqueleto);
 
 	private final String nombre;
 	private final int vidaBase;

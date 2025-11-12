@@ -80,11 +80,6 @@ public class Mercenario extends Trabajar {
 		return gananciaBase;
 	}
 
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 }
