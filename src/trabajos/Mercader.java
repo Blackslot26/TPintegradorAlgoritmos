@@ -1,9 +1,9 @@
 package trabajos;
 
-import todo.Accion;
+import acciones.Accion;
+import acciones.Trabajar;
 import todo.Controlador;
 import todo.Jugador;
-import todo.Trabajar;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -15,10 +15,10 @@ public class Mercader extends Trabajar implements Accion{
 	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
 		Random r = new Random();
 		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
-		jugador.agregarDinero(ganancia);
+		jugador.modMonedas(ganancia);
 		int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 		int xp = 10 + r.nextInt(20);
-		jugador.setExperiencia(xp);
+		jugador.modExp(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 
 	}
@@ -64,11 +64,6 @@ public class Mercader extends Trabajar implements Accion{
 	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
 		// TODO Auto-generated method stub
 		return gananciaBase;
-	}
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

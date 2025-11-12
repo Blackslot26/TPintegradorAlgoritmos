@@ -1,12 +1,6 @@
+/acciones/
 /todo/
-/dibujos/
-# Ignorar la carpeta de archivos compilados de Eclipse
-/bin/
-
-# Ignorar archivos .class (por si acaso)
-*.class
-
-# Ignorar configuraciones de Eclipse
-.settings/
-.project
-.classpath
+/trabajos/
+/utiles/
+/apuestas/
+/items/

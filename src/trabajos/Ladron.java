@@ -1,12 +1,13 @@
 package trabajos;
 
-import todo.Accion;
+import acciones.Accion;
 import todo.Controlador;
 import todo.Jugador;
-import todo.Trabajar;
 
 import java.util.Random;
 import java.util.Scanner;
+
+import acciones.Trabajar;
 
 public class Ladron extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
@@ -18,10 +19,10 @@ public class Ladron extends Trabajar implements Accion{
 			Random r = new Random();
 			int ganancia = (int) (8000 + r.nextInt(5000)) * (1 + jugador.getNivel() / 10);
 			int event = r.nextInt(trabajarTextsBase(ganancia).length);
-			jugador.agregarDinero(ganancia);
+			jugador.modMonedas(ganancia);
 			this.success = 100;
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 		} else {
 			Random r = new Random();
@@ -31,17 +32,17 @@ public class Ladron extends Trabajar implements Accion{
 			int perdida = -100000 - r.nextInt(50000) - (int) (0.50 * jugador.getMonedas());
 			if (success >= 5) {
 				int event = r.nextInt(trabajarTextsBase(ganancia).length);
-				jugador.agregarDinero(ganancia); // puede ganar un
+				jugador.modMonedas(ganancia); // puede ganar un
 				int xp = 10 + r.nextInt(20);
-				jugador.setExperiencia(xp);
+				jugador.modMonedas(xp);
 				System.out.println(trabajarTexts(event, ganancia, jugador, xp)); // maximo de 13.000,
 				// la clase que mas
 				// gana.
 			} else if (success < 5) {
 				int event = r.nextInt(trabajarTextsBase(perdida).length);
-				jugador.agregarDinero(perdida); // pierde 100000 de
+				jugador.modMonedas(perdida); // pierde 100000 de
 				int xp = 10 + r.nextInt(20);
-				jugador.setExperiencia(xp);
+				jugador.modExp(xp);
 				System.out.println(trabajarTexts(event, ganancia, jugador, xp)); // dinero mas un
 				// numero al
 				// azar hasta
@@ -79,7 +80,7 @@ public class Ladron extends Trabajar implements Accion{
 
 	@Override
 	public String getNombreBase() {
-		String a = "Ladron";
+		String a = "Ladrón";
 		return a;
 	}
 
@@ -106,11 +107,6 @@ public class Ladron extends Trabajar implements Accion{
 		return gananciaBase;
 	}
 
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

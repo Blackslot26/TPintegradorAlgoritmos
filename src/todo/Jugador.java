@@ -3,18 +3,23 @@ package todo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import acciones.Trabajar;
 import items.Item;
 
 public class Jugador extends Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
+	// Atributos base del jugador
 	private Trabajar trabajo;
+	private int monedas;
+	private int experiencia;
+	private int experienciaLevel; // Cantidad de xp necesaria para subir de nivel
+	private int renacimientos;
+	private Inventario inventario;
 
-	int monedas;
-	int experiencia;
-	int experienciaLevel;
-	Inventario inventario;
-	int bonificadorRenacimiento;
-	int renacimientos;
+	// Variables auxiliares para actualizar el jugador
+	private int ultimasMonedasPerdidas;
+	private boolean murio;
+	//private int bonificadorRenacimiento;
 
 	// estadisticas EXTRA (principalmente afectan trabajos o eventos)
 	public double suerte;
@@ -23,11 +28,11 @@ public class Jugador extends Personaje implements Serializable {
 	Item[] itemsEquipados;
 
 	public Jugador(String nombre) {
-		super(nombre, 100, 1); // Empieza con 100 de vida y nivel 1.
+		super(nombre, 100, 30); // Empieza con 100 de vida y nivel 1.
 		monedas = 100;
 		experiencia = 0;
 		inventario = new Inventario();
-		bonificadorRenacimiento = 1;
+//		bonificadorRenacimiento = 1;
 		renacimientos = 0;
 		trabajo = null;
 		experienciaLevel = 100;
@@ -39,14 +44,7 @@ public class Jugador extends Personaje implements Serializable {
 		itemsEquipados = new Item[4];
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public int getNivel() {
-		return nivel;
-	}
-
+	// Funciones para acceder a atributos
 	public int getRebirth() {
 		return renacimientos;
 	}
@@ -59,92 +57,81 @@ public class Jugador extends Personaje implements Serializable {
 		return experiencia;
 	}
 
-	public void addMonedas(int cantidad) {
-		int cantidadReal = cantidad * bonificadorRenacimiento;
-		monedas += cantidadReal;
-		System.out.println("Has ganado $" + cantidadReal + " Monedas");
-	}
-
-	public void ganarExperiencia(int expGanada) {
-		int expGanadaReal = expGanada * bonificadorRenacimiento;
-		experiencia += expGanadaReal;
-		System.out.println("Ganaste " + expGanadaReal + "EXP");
-
-	}
-
-	public void perderMonedas(int monedas) {
-		this.monedas -= monedas;
-		System.out.println("Perdiste $" + monedas + " Monedas");
-	}
-
-	public void addItem(Item item) {
-		inventario.addItem(item);
-		System.out.println("Has adquirido 1 " + item.getNombre());
-
-	}
-
-	@Override
-	public void morir() {
-		perderMonedas((int) (monedas * 0.5)); // Pierde la mitad de sus monedas actuales
-		vidaActual = vidaMaxima;
-	}
-
-	@Override
-	public void actualizar() {
-		if (vidaActual <= 0) {
-			System.out.println("Moriste...");
-			morir();
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void setExperiencia(int value) {
-		experiencia += value;
-	}
-
 	public int getExperienciaLevel() {
 		return experienciaLevel;
-	}
-
-	public void setTrabajo(Trabajar choise) {
-		trabajo = choise;
 	}
 
 	public Trabajar getTrabajo() {
 		return trabajo;
 	}
 
-	//////////////////////////////////////////////////////////////
-	// estadisticas
 	public double getSuerte() {
 		return suerte;
+	}
+
+	// Funciones para modificar Atributos
+	
+	public void modMonedas(int cantidad) {
+		monedas += cantidad;
+	}
+
+	public void modExp(int expGanada) {
+		experiencia += expGanada;
+	}
+
+	// Funciones para manejar el inventario
+	public void addItem(Item item) {
+		inventario.addItem(item);
+
+	}
+
+	public void setTrabajo(Trabajar choise) {
+		trabajo = choise;
+	}
+
+	public void modSuerte(double valor) {
+		suerte += valor;
+	}
+
+	// Otras funciones necesarias
+	@Override
+	public void morir() {
+		ultimasMonedasPerdidas = (int) (monedas * -0.5);
+		modMonedas((ultimasMonedasPerdidas)); // Pierde la mitad de sus monedas actuales
+		vidaActual = vidaMaxima; // Se resetea la vida
+	}
+
+	@Override
+	public void actualizar() {
+		if (vidaActual > 100) {
+			vidaActual = 100;
+		}
+		if (vidaActual < 0) {
+			vidaActual = 0;
+		}
+		if (vidaActual <= 0) {
+			murio = true;
+			morir();
+		}
+		
+		//Resetear auxiliares
+		setEstadoDefensa(false);
+	}
+
+	public void feedbackMuerte() {
+		if (murio) {
+			System.out.println("Has muerto y perdiste la mitad de tus monedas [" + ultimasMonedasPerdidas + "]");
+		}
+		murio = false;
 	}
 
 	public void modificarSuerte(double valor) {
 		suerte = +valor;
 	}
 
-	/////////////////////////////////////////////////////////////
-
-	public void agregarDinero(int amount) {
-		monedas = monedas + amount;
-	}
-
 	public Item[] getItemsEquipados() {
 		return itemsEquipados;
 	}
-
-	public void equiparItem(Item item, int index) {
-		Item remplazo = getItemsEquipados()[index];
-		if (remplazo != null)
-			inventario.addItem(remplazo);
-		itemsEquipados[index] = item;
-	}
-
 	public void mostrarEstadoJugador() {
 		String pfp1 = "|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|";
 		String pfp2 = "|     -------     |";

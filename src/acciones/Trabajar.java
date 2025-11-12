@@ -1,5 +1,7 @@
-package todo;
+package acciones;
 import java.io.Serializable;
+
+import todo.Jugador;
 
 public abstract class Trabajar implements Serializable, Accion{
 	private static final long serialVersionUID = 1L;
