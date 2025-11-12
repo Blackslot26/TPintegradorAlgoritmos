@@ -1,10 +1,11 @@
-package todo;
+package items;
 import java.io.Serializable;
 public abstract class Item implements Serializable{
 	protected static final long serialVersionUID = 1L;
 	protected String nombre;
 	protected int precio;
 	protected int cantidad;
+	
 	
 	Item(String nombre,int precio,int cantidad){
 		this.nombre = nombre;
@@ -21,5 +22,8 @@ public abstract class Item implements Serializable{
 	}
 	public int getCantidad() {
 		return cantidad;
+	}
+	public void setCantidad(int amount) {
+		cantidad += amount;
 	}
 }

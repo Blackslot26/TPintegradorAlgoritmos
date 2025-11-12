@@ -2,6 +2,8 @@ package todo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import items.Item;
+
 public class Inventario implements Serializable{
 	private static final long serialVersionUID = 1L;
 	ArrayList<Item> slots;
@@ -17,7 +19,23 @@ public class Inventario implements Serializable{
 		System.out.println();
 	}
 	
+	
+	public ArrayList<Item> getInventario(){
+		return slots;
+	}
+	
+	
 	public void addItem(Item item) {
-		slots.add(item);
+		boolean added = false;
+		for(int i = 0; i < slots.size(); i++) {
+			if(slots.get(i).getNombre().equals(item.getNombre())) {
+				slots.get(i).setCantidad(item.getCantidad());
+				added = true;
+				break;
+			}
+		}
+		if(added == false) {
+			slots.add(item);
+		}
 	}
 }

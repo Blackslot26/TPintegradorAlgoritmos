@@ -1,14 +1,13 @@
 package trabajos;
 
+import todo.Accion;
 import todo.Controlador;
 import todo.Jugador;
 
 import java.util.Random;
 import java.util.Scanner;
 
-import acciones.Trabajar;
-
-public class Mercader extends Trabajar {
+public class Mercader extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	@Override
