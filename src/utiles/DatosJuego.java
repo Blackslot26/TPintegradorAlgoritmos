@@ -1,35 +1,25 @@
 package utiles;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Functions {
+/**
+ * Clase estática que almacena todos los datos fijos del juego (listas de
+ * palabras, comandos, etc.) para mantener la clase Functions limpia.
+ */
+public class DatosJuego {
+	// Constructor privado para evitar que se instancie
+	private DatosJuego() {
+	}
 
-	public final String[] comandos = {
-			"/trabajar -> Realizas el trabajo de tu profesión para obtener algo de dinero",
-			"/explorar -> Te encuentras con un evento aleatorio para obtener recompensas",
-			"/cazar -> Te envuelves en un combate con una criatura a cambio de recompensas",
-			"/comandos -> Muestra la lista de comandos disponibles",
-			"/leaderboard -> muestra el top global de jugadores de esta computadora",
-			"/estado -> Muestra las características actuales del jugador",
-			"/salir -> Termina el juego."
-	};
-	public final String[] palabrasAhorcado = {
-			// Conceptos Positivos y de Bienestar
-			"esperanza", "resiliencia", "calma", "serenidad", "alegria", "aceptacion", "gratitud", "animo", "valor",
-			"fuerza", "paciencia", "progreso", "recuperar", "autocuidado", "apoyo", "conexion", "empatia", "respirar",
-			"enfoque", "claridad", "liberar", "futuro", "bienestar", "optimismo", "proposito", "sanar", "presente",
-			"conciencia", "mente", "positivo", "crecer", "meditar", "hablar", "sentir", "vivir", "equilibrio",
-			"confianza", "motivacion",
-			// Medicamentos
-			"terapia", "psicologo", "psiquiatra", "dopamina", "serotonina", "cognitivo", "conductual", "neurologico",
-			"isrs", "fluoxetina", "sertralina", "escitalopram", "citalopram", "paroxetina", "venlafaxina", "duloxetina",
-			"mirtazapina", "bupropion", "trazodona", "amitriptilina", "nortriptilina", "ansiolitico", "antidepresivo",
-			// Otras opciones
-			"gambling", "apuestas", "alcohol", "methyl", "problemas" };
+	public static HashMap<String, String[]> aliasComandos = new HashMap<>();
+	public static final ArrayList<Pregunta> preguntas = new ArrayList<>();
+	
+	// Bloque estático para inicializar listas
+	static {
+		aliasComandos.put("/trabajar", new String[] { "/t", "/work" });
+		// (Puedes añadir más alias aquí)
 
-	public ArrayList<Pregunta> preguntas = new ArrayList<>();
-
-	public Functions() {
 		preguntas.add(new Pregunta(
 				"¿Cuál es la probabilidad de que, eligiendo al azar, respondas correctamente esta pregunta?",
 				new String[] { "25%", "50%", "60%", "25%" }, 0, 8000));
@@ -205,92 +195,28 @@ public class Functions {
 				1, 3000));
 		preguntas.add(new Pregunta("¿Qué pintor es conocido por sus relojes 'derretidos'?",
 				new String[] { "Picasso", "Monet", "Frida Kahlo", "Salvador Dalí" }, 3, 2500));
-
 	}
+	
+	public static final String[] comandos = {
+			"/trabajar -> Realizas el trabajo de tu profesión para obtener algo de dinero",
+			"/explorar -> Te encuentras con un evento aleatorio para obtener recompensas",
+			"/cazar -> Te envuelves en un combate con una criatura a cambio de recompensas",
+			"/comandos -> Muestra la lista de comandos disponibles",
+			"/leaderboard -> muestra el top global de jugadores de esta computadora",
+			"/estado -> Muestra las características actuales del jugador", "/salir -> Termina el juego." };
 
-	public void marco(String texto) {
-		final int paddingCostados = 2; // espacios de los costados
-		final int largoTexto = texto.length() + (2 * paddingCostados);
 
-		if (texto == null || texto.isEmpty()) {
-			texto = " ";
-		}
-
-		StringBuilder sb = new StringBuilder();
-
-		// 1. Línea superior: ╔════════...════════╗
-		sb.append("╔");
-		sb.append("═".repeat(largoTexto));
-		sb.append("╗\n");
-
-		// 2. Línea central con texto y padding
-		sb.append("║");
-		// Añadimos el padding (espacio) a la izquierda
-		sb.append(" ".repeat(paddingCostados));
-		sb.append(texto);
-		// Añadimos el padding (espacio) a la derecha
-		sb.append(" ".repeat(paddingCostados));
-		sb.append("║\n");
-
-		// 3. Línea inferior: ╚════════...════════╝
-		sb.append("╚");
-		sb.append("═".repeat(largoTexto));
-		sb.append("╝");
-
-		// Imprimimos el marco final
-		System.out.println(sb.toString());
-	}
-	public void marco(String[] textos) {
-	    final int paddingCostados = 2; // espacios de los costados
-
-	    if (textos == null || textos.length == 0) {
-	        textos = new String[] { " " };
-	    }
-
-	    // Determinar el largo máximo de los textos
-	    int largoMaximo = 0;
-	    for (String texto : textos) {
-	        if (texto != null && texto.length() > largoMaximo) {
-	            largoMaximo = texto.length();
-	        }
-	    }
-
-	    final int largoMarco = largoMaximo + (2 * paddingCostados);
-	    StringBuilder sb = new StringBuilder();
-
-	    // 1. Línea superior
-	    sb.append("╔").append("═".repeat(largoMarco)).append("╗\n");
-
-	    // 2. Líneas centrales
-	    for (String texto : textos) {
-	        if (texto == null) texto = "";
-	        int espaciosRestantes = largoMaximo - texto.length();
-	        sb.append("║")
-	          .append(" ".repeat(paddingCostados))
-	          .append(texto)
-	          .append(" ".repeat(espaciosRestantes))
-	          .append(" ".repeat(paddingCostados))
-	          .append("║\n");
-	    }
-
-	    // 3. Línea inferior
-	    sb.append("╚").append("═".repeat(largoMarco)).append("╝");
-
-	    // Imprimir el marco
-	    System.out.println(sb.toString());
-	}
-
-	public void dibujarArrayString(String[] array) {
-		for (String linea : array) {
-			System.out.println(linea);
-		}
-	}
-
-	public void dibujarArrayString(String[] array, int rightChars) {
-		for (String linea : array) {
-			System.out.print(" ".repeat(rightChars));
-			System.out.print(linea + "\n");
-		}
-	}
-
+	public static final String[] palabrasAhorcado = {
+			// Conceptos Positivos y de Bienestar
+			"esperanza", "resiliencia", "calma", "serenidad", "alegria", "aceptacion", "gratitud", "animo", "valor",
+			"fuerza", "paciencia", "progreso", "recuperar", "autocuidado", "apoyo", "conexion", "empatia", "respirar",
+			"enfoque", "claridad", "liberar", "futuro", "bienestar", "optimismo", "proposito", "sanar", "presente",
+			"conciencia", "mente", "positivo", "crecer", "meditar", "hablar", "sentir", "vivir", "equilibrio",
+			"confianza", "motivacion",
+			// Medicamentos
+			"terapia", "psicologo", "psiquiatra", "dopamina", "serotonina", "cognitivo", "conductual", "neurologico",
+			"isrs", "fluoxetina", "sertralina", "escitalopram", "citalopram", "paroxetina", "venlafaxina", "duloxetina",
+			"mirtazapina", "bupropion", "trazodona", "amitriptilina", "nortriptilina", "ansiolitico", "antidepresivo",
+			// Otras opciones
+			"gambling", "apuestas", "alcohol", "methyl", "problemas" };
 }

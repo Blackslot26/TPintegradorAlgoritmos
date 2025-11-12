@@ -79,7 +79,7 @@ public class Ladron extends Trabajar {
 
 	@Override
 	public String getNombreBase() {
-		String a = "Ladron";
+		String a = "Ladrón";
 		return a;
 	}
 

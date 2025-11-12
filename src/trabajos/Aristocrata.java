@@ -41,7 +41,7 @@ public class Aristocrata extends Trabajar {
 
 	@Override
 	public String getNombreBase() {
-		String a = "Aristocrata";
+		String a = "Aristócrata";
 		return a;
 	}
 

@@ -6,20 +6,17 @@ import java.util.Scanner;
 
 import todo.Controlador;
 import todo.Jugador;
+import utiles.DatosJuego;
 import utiles.Dibujos;
-import utiles.Functions;
+import utiles.MyUtil;
 
 public class AccionAhorcado implements Accion {
-	private Functions myUtil;
-	private Dibujos misDibujos;
 	private static final Random ran = new Random();
 
 	// Atributos de recompensa
 	int recompensaBase, recompensaBaseXP;
 
 	public AccionAhorcado() {
-		myUtil = new Functions();
-		misDibujos = new Dibujos();
 
 		// Asignar las recompensas base
 		recompensaBase = 3000;
@@ -31,8 +28,8 @@ public class AccionAhorcado implements Accion {
 	@Override
 	public void realizar(Jugador jugador, Controlador controlador, Scanner scAhorcado) {
 		boolean enAhorcado = true;
-		int indicePalabra = ran.nextInt(myUtil.palabrasAhorcado.length); // Se elige la pregunta al azar
-		String palabra = myUtil.palabrasAhorcado[indicePalabra]; // Instancia la palabraf
+		int indicePalabra = ran.nextInt(DatosJuego.palabrasAhorcado.length); // Se elige la pregunta al azar
+		String palabra = DatosJuego.palabrasAhorcado[indicePalabra]; // Instancia la palabraf
 		String input = "";// Para registrar el input local
 		StringBuilder tablero = new StringBuilder(); // crea el tablero
 		tablero.append("_ ".repeat(palabra.length()));// Inicializar el tablero
@@ -67,10 +64,10 @@ public class AccionAhorcado implements Accion {
 			throws InterruptedException {
 
 		if (input.equals("/casino") || input.equals("/salir")) { // Siempre puedes salir
-			myUtil.marco("Has recurrido a ténicas prohibidas para salir de tu grave situación");
+			MyUtil.marco("Has recurrido a ténicas prohibidas para salir de tu grave situación");
 			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
 			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
-			myUtil.marco("Has perdido" + monedasPerdidas);
+			MyUtil.marco("Has perdido" + monedasPerdidas);
 			Thread.sleep(3000);
 			return false;
 		}
@@ -133,7 +130,7 @@ public class AccionAhorcado implements Accion {
 			ArrayList<Character> letrasIntentadas) {
 		controlador.limpiarConsola();// Borrar lo anterior
 		// Mostrar las letras que ya intentó
-		misDibujos.dibujarCalavera();
+		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CALAVERA);
 
 		StringBuilder sbIntentadas = new StringBuilder("Probaste: ");
 		for (Character letra : letrasIntentadas) {
@@ -142,25 +139,25 @@ public class AccionAhorcado implements Accion {
 			}
 
 		}
-		myUtil.marco(sbIntentadas.toString());
+		MyUtil.marco(sbIntentadas.toString());
 
-		myUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima());
-		myUtil.marco(tablero.toString());
+		MyUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima());
+		MyUtil.marco(tablero.toString());
 		System.out.print("Ingrese una letra o intente adivinar la palabra: ");
 	}
 
 	// Añadimos Scanner scAhorcado como parámetro
 	private void introAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
-		myUtil.marco("Has pasado por muchas dificultades en tu vida un transtorno depresivo te ha invadido...");
+		MyUtil.marco("Has pasado por muchas dificultades en tu vida un transtorno depresivo te ha invadido...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
-		myUtil.marco("La muerte te busca, está a punto de tomar una decisión muy drástica..");
+		MyUtil.marco("La muerte te busca, está a punto de tomar una decisión muy drástica..");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
-		myUtil.marco("Pero hay otra alternativa...");
+		MyUtil.marco("Pero hay otra alternativa...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
-		myUtil.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
+		MyUtil.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
 		Thread.sleep(2500);
 
 		// Para evitar que el usuario spamee letras
@@ -172,11 +169,11 @@ public class AccionAhorcado implements Accion {
 	// Añadimos Scanner scAhorcado como parámetro
 	private void animacionMuerteAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
 		controlador.limpiarConsola();
-		myUtil.marco("No lograste adivinar la palabra...");
+		MyUtil.marco("No lograste adivinar la palabra...");
 		Thread.sleep(2000);
 		controlador.limpiarConsola();
-		misDibujos.dibujarCalavera();
-		myUtil.marco("La muerte te ha alcanzado...");
+		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CALAVERA);
+		MyUtil.marco("La muerte te ha alcanzado...");
 		Thread.sleep(2000); // Reducido para no esperar tanto
 
 		// Para evitar que el usuario spamee letras
@@ -192,12 +189,12 @@ public class AccionAhorcado implements Accion {
 		int expGanada = ran.nextInt(xpMaxima - recompensaBaseXP) + recompensaBaseXP;
 
 		// Textos y añadirle la recompensa
-		myUtil.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
-		myUtil.marco("Y Has sobrevido a un ataque de depresión");
+		MyUtil.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
+		MyUtil.marco("Y Has sobrevido a un ataque de depresión");
 		Thread.sleep(2500);
 		jugador.modMonedas(recompensa);
 		jugador.modExp(expGanada);
-		myUtil.marco("Has ganado $" + recompensa + " y " + expGanada + "XP");
+		MyUtil.marco("Has ganado $" + recompensa + " y " + expGanada + "XP");
 		Thread.sleep(2000); // Reducido
 
 		// Para evitar que el usuario spamee letras

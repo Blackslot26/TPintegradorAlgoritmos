@@ -2,24 +2,23 @@ package todo;
 
 import java.util.Scanner;
 
-import utiles.Functions;
+import utiles.MyUtil;
 import utiles.Titulos;
 
 public class Main {
-	static Scanner sc;
-	static Titulos titulos = new Titulos();
-	static Functions myUtil = new Functions();
+	static Scanner sc = new Scanner(System.in);
+	static Controlador controlador;
+	static Jugador jugadorActual;
 	public static void main(String[] args) {
 		// Intancia de clases y variables necesarias.
-		sc = new Scanner(System.in);
-		Jugador jugadorActual = logIn(); // logIn retorna el jugador logueado, si este no existe se crea uno nuevo
-		Controlador controlador = new Controlador(jugadorActual);
+		jugadorActual = logIn(); // logIn retorna el jugador logueado, si este no existe se crea uno nuevo
+		controlador = new Controlador(jugadorActual);
 		boolean enJuego = true;
 		String input = "";
 
 		if (jugadorActual.getExperiencia() == 0) { // SI LA EXPERIENCIA DEL JUGADOR ES 0 SIGNIFICA QUE ES UN JUGADOR
 													// NUEVO Y ESTA FORZADO A REALIZAR EL TUTORIAL.
-			Tutorial tutorial = new Tutorial(jugadorActual, sc);
+			Tutorial tutorial = new Tutorial(jugadorActual, sc,controlador);
 			try {
 				tutorial.iniciarTutorial();
 			} catch (InterruptedException e) {
@@ -30,7 +29,7 @@ public class Main {
 		// Bucle Principal
 		while (enJuego) {
 			controlador.limpiarConsola();//Se limpia cualquier cosa anterior
-			titulos.mostrarTituloLobby();
+			Titulos.mostrarTituloLobby();
 			
 			System.out.println(); //Separador
 			
@@ -49,7 +48,7 @@ public class Main {
 	}
 
 	public static Jugador logIn() {
-		myUtil.dibujarArrayString(titulos.marcoBienvenida,10); //Centrado 10 characters a la derecha
+		MyUtil.dibujarArrayString(Titulos.marcoBienvenida,10); //Centrado 10 characters a la derecha
 		while (true) {
 			String player = sc.nextLine().toLowerCase().trim();
 			System.out.println("Esta seguro de que su nombre es: " + player + "?   yes/no");
