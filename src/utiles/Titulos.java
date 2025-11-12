@@ -1,8 +1,19 @@
 package utiles;
 
 public class Titulos {
+	//Para evitar instanticas
+	private Titulos() {};
+	public static final String[] marcoBienvenida = {
+		    "╔════════════════════════════════════════════════════════════════════════╗",
+		    "║                                                                        ║",
+		    "║                                                                        ║",
+		    "║   Bienvenid@!, por favor escribe tu nombre de jugador para loguearte   ║",
+		    "║                                                                        ║",
+		    "║                                                                        ║",
+		    "╚════════════════════════════════════════════════════════════════════════╝"
+		};
 
-	public void mostrarTituloLobby() {
+	public static final void mostrarTituloLobby() {
 		System.out.println(
 				"LLLLLLLLLLL                  OOOOOOOOO     BBBBBBBBBBBBBBBBB   BBBBBBBBBBBBBBBBB   YYYYYYY       YYYYYYY");
 		System.out.println(
@@ -40,7 +51,7 @@ public class Titulos {
 	/**
 	 * Función para Imprimir el título "TIENDA" (17 líneas).
 	 */
-	public void mostrarTituloTienda() {
+	public static final void mostrarTituloTienda() {
 		System.out.println(
 				"                                                                                 dddddddd                  ");
 		System.out.println(

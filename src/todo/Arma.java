@@ -5,17 +5,17 @@ public class Arma extends Item {
 
 	//Atributos de las armas
 	private int danio;
-	private TipoArma tipo;
+	//private TipoArma tipo;
 
-	Arma(TipoArma tipo,int cantidad) {
+	public Arma(TipoArma tipo,int cantidad) {
 		//Asignar los valores dependiendo del tipo
 		super(tipo.getNombre(),tipo.getPrecio(),cantidad);
         this.danio = tipo.getDanio();
-        this.tipo = tipo;
+        //this.tipo = tipo;
 	}
 	
-	public void atacarMonstruo(Monstruo monstruo) {
-		monstruo.recibirDanio(danio) ;
+	public void atacarMonstruo(Enemigo monstruo) {
+		monstruo.modVida(danio) ;
 	}
 
 }

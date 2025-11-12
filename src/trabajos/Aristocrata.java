@@ -2,10 +2,11 @@ package trabajos;
 
 import todo.Controlador;
 import todo.Jugador;
-import todo.Trabajar;
 
 import java.util.Random;
 import java.util.Scanner;
+
+import acciones.Trabajar;
 
 public class Aristocrata extends Trabajar {
 
@@ -17,11 +18,11 @@ public class Aristocrata extends Trabajar {
 		double multiplier = jugador.getNivel() * (1.25 + jugador.getNivel() / 10);
 		
 		int ganancia = (int) ((1000 + r.nextInt(500)) * multiplier);
-		jugador.agregarDinero(ganancia);
+		jugador.modMonedas(ganancia);
 		
 		int event = r.nextInt(trabajarTextsBase(ganancia).length);
 		int xp = 10 + r.nextInt(20);
-		jugador.setExperiencia(xp);
+		jugador.modMonedas(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 	}
 
@@ -40,7 +41,7 @@ public class Aristocrata extends Trabajar {
 
 	@Override
 	public String getNombreBase() {
-		String a = "Aristocrata";
+		String a = "Aristócrata";
 		return a;
 	}
 
@@ -69,11 +70,6 @@ public class Aristocrata extends Trabajar {
 		return gananciaBase;
 	}
 
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

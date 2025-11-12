@@ -2,10 +2,11 @@ package trabajos;
 
 import todo.Controlador;
 import todo.Jugador;
-import todo.Trabajar;
 
 import java.util.Random;
 import java.util.Scanner;
+
+import acciones.Trabajar;
 
 public class Minero extends Trabajar {
 	private static final long serialVersionUID = 1L;
@@ -17,10 +18,10 @@ public class Minero extends Trabajar {
 		this.mineral = mineral;
 		if (mineral < 40) { // encuentra carbon
 			int ganancia = (int) (1000 + r.nextInt(1500) * (1 + jugador.getNivel() / 10));
-			jugador.agregarDinero(ganancia); // gana un maximo de
+			jugador.modMonedas(ganancia); // gana un maximo de
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// 2500 por minar
 																									// carbon, un 50% de
 																									// la ganancia de
@@ -28,30 +29,30 @@ public class Minero extends Trabajar {
 		}
 		if (mineral > 40 && mineral < 70) { // encuentra hierro
 			int ganancia = (int) (2000 + r.nextInt(1750)) * (1 + jugador.getNivel() / 10);
-			jugador.agregarDinero(ganancia); // gana un maximo de
+			jugador.modMonedas(ganancia); // gana un maximo de
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// 3750, un 75% de
 																									// la ganancia de
 																									// leñador
 		}
 		if (mineral > 70 && mineral < 90) { // encuentra piedra rojiza
 			int ganancia = (int) (4000 + r.nextInt(2000)) * (1 + jugador.getNivel() / 10);
-			jugador.agregarDinero(ganancia); // puede ganar hasta
+			jugador.modMonedas(ganancia); // puede ganar hasta
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// un maximo de
 																									// 6000, un poco mas
 																									// que leñador
 		}
 		if (mineral > 90 && mineral < 99) { // encuentra diamante
 			int ganancia = (int) (10000 + r.nextInt(5000)) * (1 + jugador.getNivel() / 10);
-			jugador.agregarDinero(ganancia); // puede ganar hasta
+			jugador.modMonedas(ganancia); // puede ganar hasta
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																						// un triple que
 																									// leñador con la
 																									// garantia de ganar
@@ -59,10 +60,10 @@ public class Minero extends Trabajar {
 		}
 		if (mineral > 99) { // encuentra netherita
 			int ganancia = (int) (250000 + r.nextInt(250000)) * (1 + jugador.getNivel() / 10);
-			jugador.agregarDinero(ganancia); // puede ganar
+			jugador.modMonedas(ganancia); // puede ganar
 			int event = r.nextInt(trabajarTextsBase(ganancia).length); //////////
 			int xp = 10 + r.nextInt(20);
-			jugador.setExperiencia(xp);
+			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																							// hasta 500.000
 																										// de dinero
 		}
@@ -137,11 +138,6 @@ public class Minero extends Trabajar {
 		return gananciaBase;
 	}
 
-	@Override
-	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

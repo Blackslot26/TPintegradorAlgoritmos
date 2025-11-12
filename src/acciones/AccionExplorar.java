@@ -1,11 +1,13 @@
-package todo;
+package acciones;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import todo.Controlador;
+import todo.Jugador;
+
 public class AccionExplorar implements Accion {
-	private String descripcion = "Te encuentras con un evento aleatorio donde puedes conseguir botín y aventuras";
 	private Random ran; // Para las recompensas
 	private ArrayList<Accion> minijuegos;
 	public AccionExplorar() {
@@ -14,10 +16,6 @@ public class AccionExplorar implements Accion {
 		
 		minijuegos.add(new AccionAhorcado());
 		minijuegos.add(new AccionPreguntado());
-	}
-	@Override
-	public String getDescripcion() {
-		return descripcion;
 	}
 
 	@Override
