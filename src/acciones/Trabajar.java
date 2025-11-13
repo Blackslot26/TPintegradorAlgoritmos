@@ -140,13 +140,4 @@ public abstract class Trabajar implements Serializable, Accion{
 	
 	public abstract String[] trabajarTextsBase(int ganancia);
 
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		return precioBase;
-
-	}
-
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		return gananciaBase;
-
-	}
 }

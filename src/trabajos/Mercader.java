@@ -20,6 +20,7 @@ public class Mercader extends Trabajar implements Accion{
 	private static final int SEG_COOLDOWN= 60;
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
+		jugador.setMultVenta(2 + (jugador.getNivel() / 10));
 		Random r = new Random();
 		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
 		jugador.modMonedas(ganancia);
@@ -62,23 +63,6 @@ public class Mercader extends Trabajar implements Accion{
 		return a;
 
 	}
-	/**
-	 * Aplica un multiplicador de venta muy superior al resto de clases.
-	 * Esta es la habilidad principal del Mercader.
-	 * * @return Precio base multiplicado por un factor alto (basado en nivel).
-	 */
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * (2 + jugador.getNivel() / 10);
-	}
-
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase;
-	}
-
 
 
 

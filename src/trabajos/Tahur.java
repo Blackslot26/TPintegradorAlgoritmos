@@ -23,6 +23,7 @@ public class Tahur extends Trabajar implements Accion{
 	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
+		jugador.setMultGanancias(1.10 + (jugador.getNivel() / 100));
 		Random r = new Random();
 		jugador.modSuerte(2 + (int) jugador.getNivel() / 10); // tiene 2% mas de probabilidades en todo y gana un
 																	// 1% mas cada 10 niveles.
@@ -63,19 +64,5 @@ public class Tahur extends Trabajar implements Accion{
 				"A cambio, los dioses de la suerte te sonríen:",
 				"posees mayor fortuna y recibes ganancias multiplicadas en todas las formas de apuesta." };
 		return a;
-	}
-
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * 0.5;
-	}
-	/**
-	 * Aplica un multiplicador de ganancias para apuestas y juegos de azar.
-	 */
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase * (1.10 + (int) jugador.getNivel() / 100);
 	}
 }

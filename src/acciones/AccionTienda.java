@@ -12,10 +12,11 @@ import todo.Jugador;
 import utiles.DatosJuego;
 import utiles.MyUtil;
 import utiles.Titulos;
+
 /**
- * Sistema de comercio del juego.
- * Permite al jugador comprar ítems (Consumibles y Equipables) usando monedas.
- * Incluye un sistema de paginación para navegar por el catálogo.
+ * Sistema de comercio del juego. Permite al jugador comprar ítems (Consumibles
+ * y Equipables) usando monedas. Incluye un sistema de paginación para navegar
+ * por el catálogo.
  */
 public class AccionTienda implements Accion {
 
@@ -23,12 +24,13 @@ public class AccionTienda implements Accion {
 	private ArrayList<Item> stock = new ArrayList<>();
 	private int paginaActual;
 	private final int itemsPorPagina;
-	Scanner sc = new Scanner(System.in);
+
 	public AccionTienda() {
 		inicializarStock();
 		paginaActual = 0;
 		itemsPorPagina = 10;
 	}
+
 	/**
 	 * Ejecuta el bucle de la tienda.
 	 * Muestra el catálogo paginado y procesa los comandos de compra y navegación.
@@ -71,28 +73,30 @@ public class AccionTienda implements Accion {
 					int indexCorrecto = indexItem - 1;
 					if (indexCorrecto >= 0 && indexCorrecto < stock.size()) {
 						Item itemAComprar = stock.get(indexCorrecto);
-						realizarVenta(jugador, itemAComprar);
+						realizarVenta(jugador, itemAComprar, scTienda);
 					} else {
 						System.out.println("El numero de item " + indexItem + " no es valido");
-						pulsarEnter();
+						pulsarEnter(scTienda);
 					}
 				} catch (NumberFormatException e) {
 					System.out.println("Por favor introduzca un numero valido");
-					pulsarEnter();
+					pulsarEnter(scTienda);
 				}catch(Exception e) {
 					System.out.println("Ocurrio un error inesperado");
-					pulsarEnter();
+					pulsarEnter(scTienda);
 				}
 
-			} else {
+			}else if(inputTienda.startsWith("/vender") || inputTienda.startsWith("/v")){
+				menuVenta(jugador, scTienda);
+				}else {
 				System.out.print(
 						"\nNo se reconoció el comando. Usa /comprar [item], /buy [item], /b [item], /comandos o /salir. > ");
-				pulsarEnter();
+				pulsarEnter(scTienda);
 			}
 		}
 
 	}
-	
+
 	public void realizarTutorial(Jugador jugador, Scanner sc) {
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
@@ -100,7 +104,8 @@ public class AccionTienda implements Accion {
 		System.out.println("\nAhora dentro de la tienda utiliza el comando \"" + MyUtil.ANSI_GREEN
 				+ "/comprar [numero de ítem]" + MyUtil.ANSI_RESET + "\" para comprar un ítem.");
 		System.out.print("\nPor ahora vamos a comprar una poción de vida. Utiliza el comando " + MyUtil.ANSI_GREEN
-				+ "\"/comprar 1\" para comprar una pocion de vida" + MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
+				+ "\"/comprar 1\" para comprar una pocion de vida" + MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> "
+				+ MyUtil.ANSI_RESET);
 		while (true) {
 			String input = sc.nextLine().toLowerCase().trim();
 			if (input.equals("/comprar 1") || input.equals("/buy 1") || input.equals("/b 1")) {
@@ -122,9 +127,10 @@ public class AccionTienda implements Accion {
 		}
 		return "";
 	}
+
 	/**
-	 * Muestra los ítems disponibles en la página actual.
-	 * Calcula dinámicamente el inicio y fin del índice basado en la página.
+	 * Muestra los ítems disponibles en la página actual. Calcula dinámicamente el
+	 * inicio y fin del índice basado en la página.
 	 */
 	private void mostrarItems() {
 		int totalItems = stock.size();
@@ -162,13 +168,14 @@ public class AccionTienda implements Accion {
 			controlesNavegacion += "|| Pagina siguiente: /siguiente (/n)";
 		System.out.println(controlesNavegacion);
 	}
+
 	/**
-	 * Procesa la transacción de compra.
-	 * Verifica fondos, resta monedas y entrega una COPIA nueva del ítem al jugador.
-	 * * @param jugador Comprador.
-	 * @param item    El ítem modelo de la estantería.
+	 * Procesa la transacción de compra. Verifica fondos, resta monedas y entrega
+	 * una COPIA nueva del ítem al jugador. * @param jugador Comprador.
+	 * 
+	 * @param item El ítem modelo de la estantería.
 	 */
-	private void realizarVenta(Jugador jugador, Item item) {
+	private void realizarVenta(Jugador jugador, Item item, Scanner scTienda) {
 		if (jugador.getMonedas() >= item.getPrecio()) {
 			Item itemNuevo = clonarItem(item);
 			if (itemNuevo != null) {
@@ -176,17 +183,19 @@ public class AccionTienda implements Accion {
 				jugador.modMonedas(-itemNuevo.getPrecio());
 				System.out.println(
 						"Compraste [ " + itemNuevo.getNombre() + " ] por " + itemNuevo.getPrecio() + " monedas");
-				pulsarEnter();
+				pulsarEnter(scTienda);
 			}
-		}else {
+		} else {
 			System.out.println("No tienes suficiente dinero");
-			pulsarEnter();
+			pulsarEnter(scTienda);
 		}
 	}
+
 	/**
 	 * Crea una instancia nueva e independiente del ítem para entregar al jugador.
-	 * Evita problemas de referencia con los objetos del stock.
-	 * * @param item El ítem original.
+	 * Evita problemas de referencia con los objetos del stock. * @param item El
+	 * ítem original.
+	 * 
 	 * @return Una copia nueva del mismo tipo.
 	 */
 	private Item clonarItem(Item item) {
@@ -200,7 +209,7 @@ public class AccionTienda implements Accion {
 
 	private void mostrarComandosTienda(Scanner scTienda) {
 		MyUtil.marco(DatosJuego.comandosTienda);
-		pulsarEnter();
+		pulsarEnter(scTienda);
 	}
 
 	private void inicializarStock() {
@@ -219,10 +228,68 @@ public class AccionTienda implements Accion {
 		}
 
 	}
-	
-	private void pulsarEnter() {
+
+	private void pulsarEnter(Scanner scTienda) {
 		System.out.println("[ Pulsa Enter para continuar ]");
-		sc.nextLine();
+		scTienda.nextLine();
+	}
+
+	private void menuVenta(Jugador jugador, Scanner scTienda) {
+		boolean vendiendo = true;
+		while (vendiendo) {
+			MyUtil.limpiarConsola();
+			System.out.println("=== ZONA DE VENTA ===");
+			System.out.println("Tu Dinero: $" + jugador.getMonedas() + " (Mult. Venta: x" + jugador.getMultVenta() + ")");
+			ArrayList<Item> inventario = jugador.getInventario().getInventario();
+
+			if (inventario.isEmpty()) {
+				System.out.println("\nTu inventario está vacío. No tienes nada que vender.");
+				pulsarEnter(scTienda);
+				return;
+			}
+
+			System.out.println("\n--- TU INVENTARIO ---");
+			for (int i = 0; i < inventario.size(); i++) {
+				Item item = inventario.get(i);
+				int precioVenta = (int) (item.getPrecio() * jugador.getMultVenta());
+				System.out.println((i + 1) + ". " + item.getNombre() + " (Vender por: $" + precioVenta + ")");
+			}
+
+			System.out.print("\nEscribe el N° del ítem para venderlo o /salir > ");
+			String input = scTienda.nextLine().toLowerCase().trim();
+
+			if (input.equals("/salir") || input.equals("/s")) {
+				vendiendo = false;
+			} else {
+				try {
+					int index = Integer.parseInt(input) - 1;
+					if (index >= 0 && index < inventario.size()) {
+						Item itemVendido = inventario.get(index);
+
+						// Lógica de venta
+						int ganancia = (int) (itemVendido.getPrecio() * jugador.getMultVenta());
+
+						jugador.modMonedas(ganancia);
+
+						// Quitar ítem (o reducir cantidad)
+						if (itemVendido.getCantidad() > 1) {
+							itemVendido.setCantidad(-1); // Restar 1
+						} else {
+							inventario.remove(index); // Borrar del array
+						}
+
+						System.out.println("¡Vendiste " + itemVendido.getNombre() + " por $" + ganancia + "!");
+						pulsarEnter(scTienda);
+					} else {
+						System.out.println("Número inválido.");
+						pulsarEnter(scTienda);
+					}
+				} catch (Exception e) {
+					System.out.println("Entrada inválida.");
+					pulsarEnter(scTienda);
+				}
+			}
+		}
 	}
 
 }

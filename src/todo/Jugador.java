@@ -53,6 +53,7 @@ public class Jugador extends Personaje implements Serializable {
 		defensa = 0;
 		suerte = 0;
 		multiplicadorGanancia = 1;
+		multiplicadorVenta = 0.5;
 
 		itemsEquipados = new Item[4];
 	}
@@ -82,7 +83,7 @@ public class Jugador extends Personaje implements Serializable {
 			this.cooldownsAcciones.clear();
 		}
 		this.multiplicadorGanancia = 1 + (rebirths * 0.10);
-		this.multiplicadorVenta = 1 + (rebirths * 0.05);
+		this.multiplicadorVenta = 0.5 + (rebirths * 0.05);
 		this.defensa = 0;
 		this.suerte = 0;
 		
@@ -130,6 +131,7 @@ public class Jugador extends Personaje implements Serializable {
 
 	public void modExp(int expGanada) {
 		experiencia += expGanada;
+		comprobarSubidaNivel();
 	}
 
 	// Funciones para manejar el inventario
@@ -154,6 +156,12 @@ public class Jugador extends Personaje implements Serializable {
 	public void modMultVenta(double value) {
 		multiplicadorVenta += value;
 	}
+	public void setMultVenta(double value) {
+		multiplicadorVenta = value;
+	}
+	public void setMultGanancias(double value) {
+		multiplicadorGanancia = value;
+	}
 	public double getMultVenta() {
 		return multiplicadorVenta;	
 	}
@@ -170,6 +178,24 @@ public class Jugador extends Personaje implements Serializable {
 	}
 	public Inventario getInventario() {
 		return this.inventario;
+	}
+	
+	public void comprobarSubidaNivel() {
+		while(experiencia >= experienciaLevel) {
+			modNivel(1);
+			experiencia -= experienciaLevel;
+			experienciaLevel = 100 + ( 50 * (getNivel() - 1));
+			subirStatsNivel();
+			MyUtil.marco(MyUtil.ANSI_YELLOW + "¡SUBES DE NIVEL!");
+		}
+	}
+	private void subirStatsNivel() {
+		// Aumentar vida máxima
+		int vidaGanada = 10 + (5 * this.getNivel());
+		this.modVidaMaxima(vidaGanada);
+		this.setVidaActual(this.getVidaMaxima()); // Curar al máximo al subir nivel
+		int danioGanado = 2 + (int)(this.getNivel() * 0.5);
+		this.modDanio(danioGanado);
 	}
 	/**
 	 * Intenta equipar un ítem en un slot específico.
@@ -200,6 +226,29 @@ public class Jugador extends Personaje implements Serializable {
 		((IEquipable) item).alEquipar(this);
 	}
 	
+	/**
+	 * Quita un ítem equipado y lo devuelve al inventario.
+	 * @param index Índice del slot (0-3).
+	 */
+	public void desequiparItem(int index) {
+		if (index < 0 || index >= itemsEquipados.length) return;
+
+		Item itemPuesto = itemsEquipados[index];
+
+		if (itemPuesto != null) {
+			// 1. Restar stats
+			if (itemPuesto instanceof IEquipable) {
+				((IEquipable) itemPuesto).alDesequipar(this);
+			}
+			// 2. Devolver al inventario
+			addItem(itemPuesto);
+			// 3. Vaciar slot
+			itemsEquipados[index] = null;
+			System.out.println("Has desequipado: " + itemPuesto.getNombre());
+		} else {
+			System.out.println("No hay nada en ese slot.");
+		}
+	}
 	
 
 	// Otras funciones necesarias

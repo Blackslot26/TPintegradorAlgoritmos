@@ -35,6 +35,9 @@ public abstract class Personaje implements Serializable {
 	public void setNivel(int value) {
 		nivel = value;
 	}
+	public void modNivel(int value) {
+		nivel += value;
+	}
 
 	public void modVida(int vida) {
 		vidaActual += vida;
