@@ -1,8 +1,16 @@
 package acciones;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import items.Consumible;
+import items.Desechable;
+import items.Equipable;
+import items.Item;
+import items.ItemConsumible;
+import items.ItemDesechable;
+import items.ItemEquipable;
 import todo.Enemigo;
 import todo.Jugador;
 import todo.TipoEnemigo;
@@ -11,9 +19,9 @@ import utiles.MyUtil;
 import utiles.Dibujos;
 
 public class AccionCazar implements Accion {
-	
+
 	private static final Random ran = new Random();
-	public static final int SEG_COOLDOWN= 120;
+	public static final int SEG_COOLDOWN = 120;
 
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
@@ -33,8 +41,8 @@ public class AccionCazar implements Accion {
 				dibujarEnemigo(enemigo);
 
 				if (turnoJugador) {
-					MyUtil.marco("Turno de: " + jugador.getNombre() + " " + jugador.getVidaActual() + "/"
-							+ jugador.getVidaMaxima());
+					MyUtil.marco("Turno de: " + jugador.getNombre() + " " + MyUtil.ANSI_GREEN + jugador.getVidaActual()
+							+ MyUtil.ANSI_RESET + "/" + jugador.getVidaMaxima());
 					System.out.print("\nQué deseas hacer? : /atacar, /escapar, /proteger> ");
 
 					input = sc.nextLine().toLowerCase().trim();
@@ -64,22 +72,27 @@ public class AccionCazar implements Accion {
 				}
 
 				if (enemigo.getVidaActual() <= 0) {
+					enemigo.setVidaActual(0);
 					// Ganó el jugador
-					MyUtil.marco("¡Has derrotado a " + enemigo.getNombre() + "!");
+					dibujarEnemigo(enemigo);
+					MyUtil.marco(
+							MyUtil.ANSI_GREEN + "¡Has derrotado a " + enemigo.getNombre() + "!" + MyUtil.ANSI_RESET);
+
 					// (Aquí va la lógica de recompensas)
 					jugador.modMonedas(enemigo.getRecompensa());
 					jugador.modExp(enemigo.getRecompensaXp());
+
 					MyUtil.marco(
-							"Has conseguido $" + enemigo.getRecompensa() + " y " + enemigo.getRecompensaXp() + "XP");
+							"Has conseguido " + MyUtil.ANSI_YELLOW + "$" + enemigo.getRecompensa() + MyUtil.ANSI_RESET
+									+ " y " + MyUtil.ANSI_CYAN + enemigo.getRecompensaXp() + "XP" + MyUtil.ANSI_RESET);
+					generarLoot(jugador,enemigo);
 					System.out.println("[Enter para volver al lobby]");
 					sc.nextLine();
 					cazando = false; // Termina la batalla
 
 				} else if (jugador.getVidaActual() <= 0) {
 					// Perdió el jugador
-					MyUtil.marco("Has sido derrotado...");
-					MyUtil.marco("[Enter para continuar]");
-					sc.nextLine();
+					MyUtil.marco(MyUtil.ANSI_RED + "Has sido derrotado..." + MyUtil.ANSI_RESET);
 					cazando = false; // Termina la batalla
 				}
 
@@ -92,7 +105,7 @@ public class AccionCazar implements Accion {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		jugador.setActionCooldown("/cazar",SEG_COOLDOWN);
+		jugador.setActionCooldown("/cazar", SEG_COOLDOWN);
 
 	}
 
@@ -103,67 +116,64 @@ public class AccionCazar implements Accion {
 		case "/atacar":
 			System.out.print("\ndebes lanzar un dado [enter]");
 			sc.nextLine();
-			
-			double multiplicadorDanio = tirarDado();
+
+			double multiplicadorDanio = tirarDado(jugador);
 			int danio = (int) (jugador.getDanio() * multiplicadorDanio);
-			if(!enemigo.estaDefendiento()) { //Si el enemigo no se está defendiendo se aplica todo el daño
-				enemigo.modVidaActual(danio *-1);
-				MyUtil.marco("Le inflijes " + danio + " de daño a " + enemigo.getNombre());
-			}
-			else {
-				int danioTotal = (int) (danio*0.75);
-				enemigo.modVidaActual(danioTotal *-1);
-				MyUtil.marco(enemigo.getNombre() + " Se protege, le inflijes " + danioTotal + " de daño");
+			if (!enemigo.estaDefendiento()) { // Si el enemigo no se está defendiendo se aplica todo el daño
+				enemigo.modVidaActual(danio * -1);
+				MyUtil.marco("Le inflijes " + MyUtil.ANSI_GREEN + danio + " de daño" + MyUtil.ANSI_RESET + " a "
+						+ enemigo.getNombre());
+			} else {
+				int danioTotal = (int) (danio * 0.75);
+				enemigo.modVidaActual(danioTotal * -1);
+				MyUtil.marco(enemigo.getNombre() + " Se protege, le inflijes " + MyUtil.ANSI_YELLOW + danioTotal
+						+ " de daño" + MyUtil.ANSI_RESET);
 				enemigo.setEstadoDefensa(false);
 			}
-
-			Thread.sleep(2000);
+			System.out.println("[Enter para pasar de turno]");
+			sc.nextLine();
 			return true;
 
 		case "/proteger":
 			jugador.setEstadoDefensa(true);
-			MyUtil.marco("Recibirás un "+MyUtil.ANSI_GREEN+"25% "+MyUtil.ANSI_RESET+"menos de daño en el siguiente golpe");
+			MyUtil.marco("Recibirás un " + MyUtil.ANSI_GREEN + "25% " + MyUtil.ANSI_RESET
+					+ "menos de daño en el siguiente golpe");
 			System.out.println("[Enter para continuar]");
 			sc.nextLine();
 			return true;
-			default:return false;
+		default:
+			return false;
 		}
 	}
 
-	private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Scanner sc)
-	        throws InterruptedException {
+private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Scanner sc) throws InterruptedException {
+		
+		int danioBruto = (int) (enemigo.getDanio() * (ran.nextInt(15) / 10.0)) + 10;
+		// Aplicar la defensa base del jugador (ej. 0.15 para 15%)
+		int danioMitigado = (int) (danioBruto * (1.0 - jugador.getDefensa()));
 
-	    //Calcula el daño bruto del enemigo (¡Arreglaste el /10.0!)
-	    int danioBruto = (int) (enemigo.getDanio() * (ran.nextInt(15)/10.0)) + 10;
+		if (ran.nextInt(4) < 3) { // 75% de probabilidad de atacar
+			
+			int danioFinal = danioMitigado; // Por defecto
 
-	    //Calcula la mitigación de defensa base del jugador
-	    int danioMitigado = (int) (danioBruto * (1.0 - jugador.getDefensa()));
+			if (jugador.estaDefendiento()) {
+				danioFinal = (int) (danioMitigado * 0.75); // Reducción adicional de /proteger
+				MyUtil.marco("Te proteges! El golpe se reduce a " + MyUtil.ANSI_YELLOW + "-" + danioFinal + "HP"
+						+ MyUtil.ANSI_RESET);
+				jugador.setEstadoDefensa(false);
+			} else {
+				MyUtil.marco(MyUtil.ANSI_RED + "Te ataca e inflige -" + danioFinal + "HP" + MyUtil.ANSI_RESET);
+			}
 
-	    if (ran.nextInt(4) < 3) { // 75% de probabilidad de atacar
+			jugador.modVida(danioFinal * -1); // Aplica el daño final
 
-	        int danioFinal = danioMitigado; // Por defecto, es el daño ya mitigado
+		} else { // 25% de probabilidad de defender
+			enemigo.setEstadoDefensa(true);
+			MyUtil.marco(MyUtil.ANSI_GREEN + enemigo.getNombre() + " se prepara para defenderse" + MyUtil.ANSI_RESET);
+		}
 
-	        if (jugador.estaDefendiento()) {
-	            // Si defiende, aplica el 25% de reducción adicional
-	            danioFinal = (int) (danioMitigado * 0.75); 
-	            MyUtil.marco("Te proteges! El golpe se reduce a " +MyUtil.ANSI_RED+ -danioFinal + "HP"+ MyUtil.ANSI_RESET);
-	            jugador.setEstadoDefensa(false);
-	        } else {
-	            MyUtil.marco("Te ataca e inflige "+MyUtil.ANSI_RED + -danioFinal + MyUtil.ANSI_RESET);
-	        }
-
-	        jugador.modVida(danioFinal * -1); // Aplica el daño final
-
-	    } else { // 25% de probabilidad de defender
-	        enemigo.setEstadoDefensa(true);
-	        MyUtil.marco(MyUtil.ANSI_GREEN+enemigo.getNombre()+" se prepara para defenderse"+MyUtil.ANSI_RESET);
-	    }
-
-	    System.out.print("[Enter para pasar a tu turno]");
-	    sc.nextLine();
-
-	    // El Thread.sleep(1000) que tenías aquí ya no es necesario
-	    // porque sc.nextLine() actúa como la pausa.
+		System.out.print("[Enter para pasar a tu turno]");
+		sc.nextLine();
 	}
 
 	private void dibujarEnemigo(Enemigo enemigo) {
@@ -199,7 +209,7 @@ public class AccionCazar implements Accion {
 		Thread.sleep(tiempoEntreTexto - 500);
 	}
 
-	private double tirarDado() throws InterruptedException {
+	private double tirarDado(Jugador jugador) throws InterruptedException {
 		MyUtil.limpiarConsola();
 		int numero = 0;
 		double multiplicador = 0;
@@ -210,18 +220,76 @@ public class AccionCazar implements Accion {
 			MyUtil.marco(Integer.toString(numero));
 			Thread.sleep(100);
 		}
-		multiplicador = numero / 10.0;
+		
+		// El multiplicador base (0.0 a 2.0) se incrementa con la suerte del jugador
+		multiplicador = (numero / 10.0) + jugador.getSuerte(); 
+		
 		MyUtil.limpiarConsola();
 		MyUtil.marco("Un " + numero + "!");
 		Thread.sleep(1000);
-		MyUtil.marco("Obtienes un multiplicador de x" + multiplicador);
+		MyUtil.marco("Obtienes un multiplicador de x" + MyUtil.ANSI_CYAN + multiplicador + MyUtil.ANSI_RESET + " (Base: "
+				+ (numero / 10.0) + " + Suerte: " + jugador.getSuerte() + ")");
 
 		if (numero == 20) {
-			MyUtil.marco("Golpe Crítico!!!!!!!!");
+			MyUtil.marco(MyUtil.ANSI_GREEN + "Golpe Crítico!!!!!!!!" + MyUtil.ANSI_RESET);
 			MyUtil.dibujarArrayString(Dibujos.DIBUJO_MUSCULOS);
 		}
 		Thread.sleep(2000);
-		return multiplicador; // devuelve un multiplicador entre 0.01 y 2
+		return multiplicador; 
 	}
 
+	/**
+	 * Procesa la tabla de loot del enemigo y añade los items al inventario del
+	 * jugador.
+	 */
+	/**
+	 * Procesa la tabla de loot del enemigo y añade los items al inventario del
+	 * jugador basándose en la probabilidad de drop.
+	 */
+	private void generarLoot(Jugador jugador, Enemigo enemigo) {
+		Enum<?>[] plantillas = enemigo.getPlantillaLoot();
+		double[] chances = enemigo.getLootChances();
+
+		if (plantillas == null || plantillas.length == 0) {
+			return; 
+		}
+
+		ArrayList<String> feedbackLoot = new ArrayList<>();
+		
+		// --- APLICACIÓN DE ESTADÍSTICA 'SUERTE' ---
+		double suerteJugador = jugador.getSuerte(); 
+
+		for (int i = 0; i < plantillas.length; i++) {
+			
+			// La chance base (ej. 0.1) se incrementa con la suerte (ej. 0.1 + 0.15 = 0.25)
+			double chanceFinal = chances[i] + suerteJugador; 
+			
+			if (ran.nextDouble() < chanceFinal) { 
+
+				Enum<?> template = plantillas[i];
+				Item itemDroppedInstance = null;
+				int cantidad = 1;
+
+				if (template instanceof ItemDesechable) {
+					itemDroppedInstance = new Desechable((ItemDesechable) template, cantidad);
+				} else if (template instanceof ItemConsumible) {
+					itemDroppedInstance = new Consumible((ItemConsumible) template, cantidad);
+				} else if (template instanceof ItemEquipable) {
+					itemDroppedInstance = new Equipable((ItemEquipable) template, cantidad);
+				}
+
+				if (itemDroppedInstance != null) {
+					jugador.addItem(itemDroppedInstance);
+					// Añadido color al item dropeado
+					feedbackLoot.add("[+] " + MyUtil.ANSI_CYAN + itemDroppedInstance.getNombre() + MyUtil.ANSI_RESET);
+				}
+			}
+		}
+
+		if (!feedbackLoot.isEmpty()) {
+			// Añadido color al título del botín
+			feedbackLoot.add(0, MyUtil.ANSI_YELLOW + "Botín Obtenido:" + MyUtil.ANSI_RESET);
+			MyUtil.marco(feedbackLoot.toArray(new String[0]));
+		}
+	}
 }

@@ -17,6 +17,7 @@ public class AccionExplorar implements Accion {
 		
 		minijuegos.add(new AccionAhorcado());
 		minijuegos.add(new AccionPreguntado());
+		minijuegos.add(new AccionBuscaminas());
 	}
 
 	@Override

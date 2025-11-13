@@ -5,7 +5,7 @@ import java.util.Random;
 public class Desechable extends Item{
 	private static final long serialVersionUID = 1L;
 	
-	Desechable(ItemDesechable tipo, int cantidad) {
+	public Desechable(ItemDesechable tipo, int cantidad) {
 		super(tipo.getNombre(), tipo.getDescripcion(), valorAleatorio(tipo), cantidad);
 	}
 	

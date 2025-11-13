@@ -29,7 +29,7 @@ public class Main {
 		// Bucle Principal
 		while (enJuego) {
 			MyUtil.limpiarConsola();//Se limpia cualquier cosa anterior
-			Titulos.mostrarTituloLobby();
+			MyUtil.dibujarArrayString(Titulos.TITULO_LOBBY, 10);
 			
 			System.out.println(); //Separador
 			

@@ -6,7 +6,7 @@ public class Equipable extends Item implements IEquipable{
 	
 	private ItemEquipable tipo;
 	private static final long serialVersionUID = 1L;
-	Equipable(ItemEquipable tipo, int cantidad) {
+	public Equipable(ItemEquipable tipo, int cantidad) {
 		super(tipo.getNombre(), tipo.getDescripcion(), tipo.getPrecio(), cantidad);
 		this.tipo = tipo;
 		

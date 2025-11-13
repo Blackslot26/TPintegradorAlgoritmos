@@ -22,12 +22,13 @@ public class DatosJuego {
 		aliasComandos.put("/work","/trabajar");
 		aliasComandos.put("/shop","/tienda");
 		aliasComandos.put("/s","/salir");
-		aliasComandos.put("/jugadores", "/leaderboard");
+		aliasComandos.put("/l", "/leaderboard");
 		aliasComandos.put("/c","/comandos");
 		aliasComandos.put("/j","/leaderboard");
-		aliasComandos.put("/e","/estado");
+		aliasComandos.put("/e","/explorar");
 		aliasComandos.put("/cz", "/cazar");
 		aliasComandos.put("/i", "/inventario");
+		aliasComandos.put("/a", "/alias");
 
 
 		preguntas.add(new Pregunta(
@@ -208,19 +209,21 @@ public class DatosJuego {
 	}
 	
 	public static final String[] comandos = {
-			"/trabajar -> Realizas el trabajo de tu profesión para obtener algo de dinero",
-			"/explorar -> Te encuentras con un evento aleatorio para obtener recompensas",
-			"/cazar -> Te envuelves en un combate con una criatura a cambio de recompensas",
-			"/comandos -> Muestra la lista de comandos disponibles",
-			"/leaderboard -> muestra el top global de jugadores de esta computadora",
-			"/estado -> Muestra las características actuales del jugador", "/salir -> Termina el juego." };
+			MyUtil.ANSI_GREEN + "/trabajar" + MyUtil.ANSI_RESET + " -> Realizas el trabajo de tu profesión para obtener algo de dinero",
+			MyUtil.ANSI_GREEN + "/explorar" + MyUtil.ANSI_RESET + " -> Te encuentras con un evento aleatorio para obtener recompensas",
+			MyUtil.ANSI_GREEN + "/cazar" + MyUtil.ANSI_RESET + " -> Te envuelves en un combate con una criatura a cambio de recompensas",
+			MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Muestra la lista de comandos disponibles",
+			MyUtil.ANSI_GREEN + "/leaderboard" + MyUtil.ANSI_RESET + " -> muestra el top global de jugadores de esta computadora",
+			MyUtil.ANSI_GREEN + "/inventario" + MyUtil.ANSI_RESET + " -> Muestra las estadísticas del jugador y su inventario",
+			MyUtil.ANSI_GREEN + "/alias" + MyUtil.ANSI_RESET + " -> Muestra la lista de abreviaciones de comandos"};
+
 	
 	public static final String[] comandosTienda = {
-		    "/comprar [ítem] -> Comprar un Item específico",
-		    "/buy [item] -> Comprar en inglés",
-		    "/b [item] -> Comando corto para comprar",
-		    "/salir -> Salir de la tienda",
-		    "/comandos -> Listar los comandos"
+		    MyUtil.ANSI_GREEN + "/comprar [ítem]" + MyUtil.ANSI_RESET + " -> Comprar un Item específico",
+		    MyUtil.ANSI_GREEN + "/buy [item]" + MyUtil.ANSI_RESET + " -> Comprar en inglés",
+		    MyUtil.ANSI_GREEN + "/b [item]" + MyUtil.ANSI_RESET + " -> Comando corto para comprar",
+		    MyUtil.ANSI_GREEN + "/salir" + MyUtil.ANSI_RESET + " -> Salir de la tienda",
+		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos"
 		};
 
 

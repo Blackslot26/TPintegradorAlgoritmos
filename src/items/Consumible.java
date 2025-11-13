@@ -6,7 +6,7 @@ public class Consumible extends Item implements IConsumible{
 	
 	ItemConsumible tipo;
 	
-	Consumible(ItemConsumible tipo, int cantidad) {
+	public Consumible(ItemConsumible tipo, int cantidad) {
 		super(tipo.getNombre(), tipo.getDescripcion(), tipo.getPrecio(), cantidad);
 		this.tipo = tipo;
 	}
