@@ -38,10 +38,11 @@ public class Controlador {
 
 		// Comandos especiales
 		switch (input) {
-
 		case "/leaderboard":
 			Leaderboard.update(jugadorActual);
 			Leaderboard.mostrarLeaderboard();
+			System.out.println("[Enter para salir]");
+			sc.nextLine();
 			break;
 
 		case "/salir":
@@ -59,21 +60,24 @@ public class Controlador {
 			break;
 
 		case "/inventario":
-			System.out.println("Si te aparece esto es porque solo se implemento en el estado del jugador,usa /estado");
+			System.out.println("Si te aparece esto es porque solo se implementó en el estado del jugador,usa /estado");
 			break;
 		default:
 			Accion accion = accionesMapeadas.get(input);
 
 			long tiempoRestante = jugadorActual.getRemainingCooldown(input);
 
-			if(tiempoRestante>0) {
-				MyUtil.marco("\nAún no puedes acceder a esta acción, espera "+MyUtil.ANSI_CYAN + tiempoRestante + MyUtil.ANSI_RESET+" Segundo más");
+			if (tiempoRestante > 0) {
+				MyUtil.marco("Que impaciente! espera " + MyUtil.ANSI_CYAN + tiempoRestante + MyUtil.ANSI_RESET
+						+ " Segundos más");
 				System.out.println("[Enter para volver]");
 				sc.nextLine();
-			}else if (accion != null) {
+			} else if (accion != null) {
 				accion.realizar(jugadorActual, sc);
 			} else
 				System.out.printf("No se reconoció el comando %s :( \n ", input);
+			System.out.println("[Enter para continuar]");
+			sc.nextLine();
 		}
 
 		return true;

@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Mercader extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
+	private static final int SEG_COOLDOWN= 60;
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
@@ -19,7 +20,7 @@ public class Mercader extends Trabajar implements Accion{
 		int xp = 10 + r.nextInt(20);
 		jugador.modExp(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));
-
+		jugador.setActionCooldown("/trabajar", SEG_COOLDOWN);
 	}
 	@Override
 	public String[] trabajarTextsBase(int ganancia) {

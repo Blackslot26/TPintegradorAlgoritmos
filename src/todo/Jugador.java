@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import acciones.Trabajar;
 import items.Item;
+import utiles.MyUtil;
 
 public class Jugador extends Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -131,7 +132,7 @@ public class Jugador extends Personaje implements Serializable {
 
 	public void feedbackMuerte() {
 		if (murio) {
-			System.out.println("Has muerto y perdiste la mitad de tus monedas [" + ultimasMonedasPerdidas + "]");
+			MyUtil.marco("Has muerto y perdiste la mitad de tus monedas [" +MyUtil.ANSI_RED+ ultimasMonedasPerdidas + MyUtil.ANSI_RESET+"]");
 		}
 		murio = false;
 	}

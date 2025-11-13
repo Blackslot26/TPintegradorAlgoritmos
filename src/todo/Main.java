@@ -46,6 +46,7 @@ public class Main {
 	}
 
 	public static Jugador logIn() {
+		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Titulos.marcoBienvenida,10); //Centrado 10 characters a la derecha
 		while (true) {
 			String player = sc.nextLine().toLowerCase().trim();

@@ -61,7 +61,6 @@ public class AccionCazar implements Accion {
 				} else {
 					MyUtil.marco("Turno de: " + enemigo.getNombre());
 					flujoEnemigo(enemigo, jugador, sc);
-					Thread.sleep(2000);
 				}
 
 				if (enemigo.getVidaActual() <= 0) {
@@ -72,7 +71,8 @@ public class AccionCazar implements Accion {
 					jugador.modExp(enemigo.getRecompensaXp());
 					MyUtil.marco(
 							"Has conseguido $" + enemigo.getRecompensa() + " y " + enemigo.getRecompensaXp() + "XP");
-					Thread.sleep(2000);
+					System.out.println("[Enter para volver al lobby]");
+					sc.nextLine();
 					cazando = false; // Termina la batalla
 
 				} else if (jugador.getVidaActual() <= 0) {
@@ -92,7 +92,7 @@ public class AccionCazar implements Accion {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		jugador.setActionCooldown("cazar",SEG_COOLDOWN);
+		jugador.setActionCooldown("/cazar",SEG_COOLDOWN);
 
 	}
 
@@ -101,7 +101,7 @@ public class AccionCazar implements Accion {
 
 		switch (input) {
 		case "/atacar":
-			MyUtil.marco("debes lanzar un dado [enter]");
+			System.out.print("\ndebes lanzar un dado [enter]");
 			sc.nextLine();
 			
 			double multiplicadorDanio = tirarDado();
@@ -122,8 +122,8 @@ public class AccionCazar implements Accion {
 
 		case "/proteger":
 			jugador.setEstadoDefensa(true);
-			MyUtil.marco(MyUtil.ANSI_GREEN+"Recibirás un 25% menos de daño en el siguiente golpe"+MyUtil.ANSI_RESET);
-			MyUtil.marco("[Enter para continuar]");
+			MyUtil.marco("Recibirás un "+MyUtil.ANSI_GREEN+"25% "+MyUtil.ANSI_RESET+"menos de daño en el siguiente golpe");
+			System.out.println("[Enter para continuar]");
 			sc.nextLine();
 			return true;
 			default:return false;
@@ -131,25 +131,39 @@ public class AccionCazar implements Accion {
 	}
 
 	private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Scanner sc)
-			throws InterruptedException {
-		int danioTotal = (int) (enemigo.getDanio() * (ran.nextInt(15)/10));
-		if (ran.nextInt(4) < 3) { // 0, 1, 2 (75% de probabilidad de atacar)
-		if (jugador.estaDefendiento()) {
-			int danioReducido = (int) ((danioTotal * 0.75) * (1 - jugador.getDefensa())); // La defensa se programa como double. Un 0.15 de defensa representa un 15% menos de daño.
-			MyUtil.marco("Te proteges! El golpe se reduce a -" + danioReducido + "HP");
-			jugador.modVida(danioReducido * -1); // Aplica daño negativo
-			jugador.setEstadoDefensa(false);
-		} else {
-			jugador.modVida((int) (-danioTotal * jugador.getDefensa()));
-			MyUtil.marco(MyUtil.ANSI_RED+"Te ataca e inflige -" + danioTotal+MyUtil.ANSI_RESET);
+	        throws InterruptedException {
 
-		}
-		}else {
-			enemigo.setEstadoDefensa(true);
-			MyUtil.marco(MyUtil.ANSI_GREEN+enemigo.getNombre()+" se prepara para defenderse"+MyUtil.ANSI_RESET);
-		}
-		Thread.sleep(1000);
+	    //Calcula el daño bruto del enemigo (¡Arreglaste el /10.0!)
+	    int danioBruto = (int) (enemigo.getDanio() * (ran.nextInt(15)/10.0)) + 10;
 
+	    //Calcula la mitigación de defensa base del jugador
+	    int danioMitigado = (int) (danioBruto * (1.0 - jugador.getDefensa()));
+
+	    if (ran.nextInt(4) < 3) { // 75% de probabilidad de atacar
+
+	        int danioFinal = danioMitigado; // Por defecto, es el daño ya mitigado
+
+	        if (jugador.estaDefendiento()) {
+	            // Si defiende, aplica el 25% de reducción adicional
+	            danioFinal = (int) (danioMitigado * 0.75); 
+	            MyUtil.marco("Te proteges! El golpe se reduce a " +MyUtil.ANSI_RED+ -danioFinal + "HP"+ MyUtil.ANSI_RESET);
+	            jugador.setEstadoDefensa(false);
+	        } else {
+	            MyUtil.marco("Te ataca e inflige "+MyUtil.ANSI_RED + -danioFinal + MyUtil.ANSI_RESET);
+	        }
+
+	        jugador.modVida(danioFinal * -1); // Aplica el daño final
+
+	    } else { // 25% de probabilidad de defender
+	        enemigo.setEstadoDefensa(true);
+	        MyUtil.marco(MyUtil.ANSI_GREEN+enemigo.getNombre()+" se prepara para defenderse"+MyUtil.ANSI_RESET);
+	    }
+
+	    System.out.print("[Enter para pasar a tu turno]");
+	    sc.nextLine();
+
+	    // El Thread.sleep(1000) que tenías aquí ya no es necesario
+	    // porque sc.nextLine() actúa como la pausa.
 	}
 
 	private void dibujarEnemigo(Enemigo enemigo) {
