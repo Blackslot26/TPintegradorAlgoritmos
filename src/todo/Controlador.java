@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import acciones.Accion;
+import acciones.AccionBlackjack;
 import acciones.AccionExplorar;
+import acciones.AccionInventario;
 import acciones.AccionTienda;
 import acciones.AccionCazar;
 import utiles.DatosJuego;
@@ -25,6 +27,8 @@ public class Controlador {
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
 		this.accionesMapeadas.put("/cazar", new AccionCazar());
 		this.accionesMapeadas.put("/trabajar", jugadorActual.getTrabajo());
+		this.accionesMapeadas.put("/blackjack", new AccionBlackjack());
+		this.accionesMapeadas.put("/inventario", new AccionInventario());
 	};
 
 	/**
@@ -55,12 +59,6 @@ public class Controlador {
 			break;
 		case "/alias" :
 			listarAlias(sc);
-			break;
-
-		case "/inventario":
-			jugadorActual.mostrarEstadoJugador();
-			System.out.println("[Enter para continuar]");
-			sc.nextLine();
 			break;
 
 		default:
@@ -129,5 +127,7 @@ public class Controlador {
 		System.out.print("[Enter para salir]");
 		sc.nextLine();
 	}
+
+	
 
 }

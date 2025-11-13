@@ -12,6 +12,15 @@ public class Equipable extends Item implements IEquipable{
 		
 		
 	}
+	@Override
+	public String getDescripcion() {
+		// Construimos una descripción detallada usando los datos del ENUM
+		return super.getDescripcion() + 
+			   " | Daño: " + tipo.getDanio() + 
+			   " | Vida: " + tipo.getVida() + 
+			   " | Def: " + (int)(tipo.getDefensa() * 100) + "%" +
+			   " | Suerte: " + tipo.getSuerte();
+	}
 	
 	@Override
 	public void alEquipar(Jugador jugador) {
@@ -30,6 +39,10 @@ public class Equipable extends Item implements IEquipable{
 		jugador.modVidaMaxima(-tipo.getVida());
 		jugador.modDefensa(-tipo.getDefensa());
 		jugador.modSuerte(-tipo.getSuerte());
+	}
+	
+	public ItemEquipable getTipo() {
+		return tipo;
 	}
 
 }

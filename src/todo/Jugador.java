@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import acciones.Trabajar;
+import items.IEquipable;
 import items.Item;
 import utiles.MyUtil;
 
@@ -33,7 +34,7 @@ public class Jugador extends Personaje implements Serializable {
 
 	public Jugador(String nombre) {
 		super(nombre, 100, 30); // Empieza con 100 de vida y nivel 1.
-		monedas = 100;
+		monedas = 1000;
 		experiencia = 0;
 		inventario = new Inventario();
 //		bonificadorRenacimiento = 1;
@@ -117,6 +118,33 @@ public class Jugador extends Personaje implements Serializable {
 	}
 	public double getMultGanancia() {
 		return multiplicadorGanancia;	
+	}
+	public void inicializarCooldowns() {
+	    if (this.cooldownsAcciones == null) {
+	        this.cooldownsAcciones = new HashMap<>();
+	    }
+	}
+	public Inventario getInventario() {
+		return this.inventario;
+	}
+	
+	public void equiparItem(Item item, int index) {
+		if(!(item instanceof IEquipable)) {
+			System.out.println("Este item no se puede equipar.");
+			addItem(item);
+			return;
+		}
+		
+		Item itemViejo = itemsEquipados[index];
+		
+		if(itemViejo != null) {
+			if(itemViejo instanceof IEquipable) {
+				((IEquipable) itemViejo).alDesequipar(this);
+			}
+			addItem(itemViejo);
+		}
+		itemsEquipados[index] = item;
+		((IEquipable) item).alEquipar(this);
 	}
 	
 	
@@ -251,7 +279,7 @@ public class Jugador extends Personaje implements Serializable {
 					if (itemIndex < inventarioSize) {
 						Item item = items.get(itemIndex);
 						rowBuilder.append(
-								itemIndex + "- " + "[ " + item.getNombre() + " (" + item.getCantidad() + ")" + " ]");
+								(itemIndex+1) + ". " + "[ " + item.getNombre() + " (" + item.getCantidad() + ")" + " ]");
 					} else {
 						rowBuilder.append("[ Vacio ]");
 					}

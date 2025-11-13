@@ -3,6 +3,7 @@ package trabajos;
 import acciones.Accion;
 import acciones.Trabajar;
 import todo.Jugador;
+import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -33,6 +34,8 @@ public class Mercenario extends Trabajar implements Accion{
 			jugador.modExp(xp);
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));
 		}
+		MyUtil.marco("Enter para continuar");
+		sc.nextLine();
 		jugador.setActionCooldown("/trabajar", SEG_COOLDOWN);
 	}
 
