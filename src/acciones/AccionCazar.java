@@ -139,7 +139,7 @@ public class AccionCazar implements Accion {
 			jugador.modVida(danioReducido * -1); // Aplica daño negativo
 			jugador.setEstadoDefensa(false);
 		} else {
-			jugador.modVida(-danioTotal);
+			jugador.modVida((int) (-danioTotal * jugador.getDefensa()));
 			MyUtil.marco("Te ataca e inflige -" + danioTotal);
 
 		}

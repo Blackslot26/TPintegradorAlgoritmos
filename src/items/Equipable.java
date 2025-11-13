@@ -1,5 +1,5 @@
 package items;
-
+import utiles.MyUtil;
 import todo.Jugador;
 
 public class Equipable extends Item implements IEquipable{
@@ -11,10 +11,10 @@ public class Equipable extends Item implements IEquipable{
 		
 		
 	}
-
+	
 	@Override
 	public void alEquipar(Jugador jugador) {
-		System.out.println("Equipaste [ " + this.nombre + " ]"); //daño, vida , resistencia, suerte
+		MyUtil.marco("Equipaste [ " + tipo.getNombre() + " ]"); //daño, vida , resistencia, suerte
 		jugador.modDanio(tipo.getDanio());
 		jugador.modVidaMaxima(tipo.getVida());
 		jugador.modDefensa(tipo.getDefensa());
@@ -24,7 +24,7 @@ public class Equipable extends Item implements IEquipable{
 
 	@Override
 	public void alDesequipar(Jugador jugador) {
-		System.out.println("Desequipaste [ " + this.nombre + " ]");
+		MyUtil.marco("Desequipaste [ " + tipo.getNombre() + " ]");
 		jugador.modDanio(-tipo.getDanio());
 		jugador.modVidaMaxima(-tipo.getVida());
 		jugador.modDefensa(-tipo.getDefensa());

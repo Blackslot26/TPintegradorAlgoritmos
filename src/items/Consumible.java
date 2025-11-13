@@ -1,5 +1,5 @@
 package items;
-
+import utiles.MyUtil;
 import todo.Jugador;
 public class Consumible extends Item implements IConsumible{
 	private static final long serialVersionUID = 1L;
@@ -13,7 +13,7 @@ public class Consumible extends Item implements IConsumible{
 
 	@Override
 	public void alUsar(Jugador jugador) {
-		System.out.println("Usaste ");
+		MyUtil.marco("Usaste " + tipo.getNombre());
 		jugador.modVida(tipo.getCuracion());
 		jugador.modSuerte(tipo.getSuerte());
 		jugador.modMultGanancia(tipo.getMultiplicador());	//pocion de aumento de ganancias (apuestas, etc)
