@@ -1,5 +1,16 @@
 package utiles;
-
+/**
+ * Clase de utilidades generales para la manipulación de la consola y textos.
+ * <p>
+ * Provee métodos estáticos para:
+ * <ul>
+ * <li>Limpiar la pantalla (compatible con Windows/Linux).</li>
+ * <li>Dibujar marcos ASCII alrededor de textos.</li>
+ * <li>Manejar colores ANSI.</li>
+ * <li>Imprimir arrays de arte ASCII.</li>
+ * </ul>
+ * </p>
+ */
 public class MyUtil {
 
 	// Para evitar instancias
@@ -17,11 +28,11 @@ public class MyUtil {
 	public static final String ANSI_WHITE = "\u001B[37m";
 
 	/**
-	 * Función de ayuda para eliminar códigos de color ANSI de un String. Esto nos
-	 * permite medir el ANCHO VISIBLE del texto.
-	 * 
-	 * @param texto El texto con códigos de color (ej. "\u001B[31mHola")
-	 * @return El texto sin códigos (ej. "Hola")
+	 * Elimina los códigos de escape ANSI de una cadena de texto.
+	 * Útil para calcular la longitud visible real de un String coloreado
+	 * al momento de alinear textos o dibujar marcos.
+	 * * @param texto El texto con colores ANSI.
+	 * @return El texto limpio.
 	 */
 	private static String stripAnsi(String texto) {
 		if (texto == null) {
@@ -30,7 +41,11 @@ public class MyUtil {
 		// Esta expresión regular busca y reemplaza los códigos de escape ANSI
 		return texto.replaceAll("\u001B\\[[;\\d]*m", "");
 	}
-
+	/**
+	 * Imprime un texto encerrado en un marco doble ASCII (╔══╗).
+	 * Calcula automáticamente el ancho necesario basándose en el texto visible.
+	 * * @param texto El contenido a enmarcar.
+	 */
 	public static void marco(String texto) {
 		final int paddingCostados = 2; // espacios de los costados
 
@@ -68,7 +83,11 @@ public class MyUtil {
 		// Imprimimos el marco final
 		System.out.println(sb.toString());
 	}
-
+	/**
+	 * Versión sobrecargada de {@link #marco(String)} para múltiples líneas.
+	 * Ajusta el ancho del marco a la línea más larga y rellena con espacios las demás.
+	 * * @param textos Array de líneas a mostrar dentro del marco.
+	 */
 	public static void marco(String[] textos) {
 		final int paddingCostados = 2; // espacios de los costados
 
@@ -140,7 +159,11 @@ public class MyUtil {
 		// Imprimir el marco
 		System.out.println(sb.toString());
 	}
-
+	/**
+	 * Imprime un array de Strings línea por línea.
+	 * Utilizado para renderizar arte ASCII complejo.
+	 * * @param array El dibujo a imprimir.
+	 */
 	public static void dibujarArrayString(String[] array) {
 		for (String linea : array) {
 			System.out.print(linea + "\n");
@@ -155,8 +178,9 @@ public class MyUtil {
 	}
 
 	/**
-	 * Simula la limpieza de la consola imprimiendo muchas líneas nuevas. o hace 50
-	 * prints.
+	 * Limpia la consola de comandos.
+	 * Intenta ejecutar el comando del sistema operativo ("cls" en Windows, "clear" en Unix).
+	 * Si falla, imprime múltiples líneas en blanco como fallback.
 	 */
 	public static void limpiarConsola() {
 		for (int i = 0; i < 50; i++) {

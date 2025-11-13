@@ -8,11 +8,23 @@ import java.util.Random;
 import java.util.Scanner;
 
 import acciones.Trabajar;
-
+/**
+ * Trabajo de alto riesgo y mecánicas de éxito/fracaso.
+ * <p>
+ * El Ladrón puede obtener las mayores ganancias directas del juego, pero existe
+ * una probabilidad real de fallar el robo, perdiendo dinero y salud en el proceso.
+ * </p>
+ */
 public class Ladron extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 	double success;
 	private static final int SEG_COOLDOWN= 60;
+	/**
+	 * Intenta realizar un robo.
+	 * Calcula una probabilidad de éxito basada en la suerte.
+	 * Si tiene éxito, gana una gran suma. Si falla, pierde una gran cantidad de dinero.
+	 * (En el tutorial, el éxito está garantizado).
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		if (jugador.getExperiencia() == 0) {	//esta garantizado de ganar en el tutorial para que no sea injusto
@@ -56,7 +68,10 @@ public class Ladron extends Trabajar implements Accion{
 		sc.nextLine();
 		jugador.setActionCooldown("/trabajar", SEG_COOLDOWN);
 	}
-
+	/**
+	 * Devuelve textos de éxito (robo completado) o fracaso (atrapado por la guardia)
+	 * dependiendo del resultado de la operación.
+	 */
 	@Override
 	public String[] trabajarTextsBase(int ganancia) {
 		String[] suceso = {
@@ -97,17 +112,6 @@ public class Ladron extends Trabajar implements Accion{
 		return a;
 	}
 
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * 0.5;
-	}
-
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase;
-	}
 
 
 

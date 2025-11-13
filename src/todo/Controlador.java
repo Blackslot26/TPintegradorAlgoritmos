@@ -12,7 +12,14 @@ import acciones.AccionTienda;
 import acciones.AccionCazar;
 import utiles.DatosJuego;
 import utiles.MyUtil;
-
+/**
+ * Controlador central del juego (Patrón Command/Dispatcher).
+ * <p>
+ * Se encarga de interpretar los comandos de texto ingresados por el usuario,
+ * validar tiempos de espera (cooldowns) y delegar la ejecución a la clase 
+ * {@link Accion} correspondiente.
+ * </p>
+ */
 public class Controlador {
 
 	Jugador jugadorActual; // Para conocer el jugador que estará jugando.
@@ -32,10 +39,10 @@ public class Controlador {
 	};
 
 	/**
-	 * Función que procesa el imput.
-	 * 
-	 * @return Devuelve false si el jugador decide salir del juego y true si elije
-	 *         una acción.
+	 * Procesa el texto ingresado por el usuario y ejecuta la acción correspondiente.
+	 * * @param input El texto crudo ingresado por el usuario.
+	 * @param sc    El Scanner compartido para pasar a las sub-acciones.
+	 * @return true si el juego debe continuar, false si el comando fue "/salir".
 	 */
 	public boolean procesarInput(String input, Scanner sc) {
 		input = input.toLowerCase().trim(); // sacar las mayúscula y espacios
@@ -84,10 +91,10 @@ public class Controlador {
 	}
 
 	/**
-	 * Función para tranformar alias de acciones en el comando original
-	 * 
-	 * @return Si el input es un alias de comando, devulve el comando original,
-	 *         sino, el mismo input.
+	 * Traduce alias cortos (ej: "/t") a comandos completos (ej: "/trabajar")
+	 * utilizando el mapa de configuración del juego.
+	 * * @param input El comando corto.
+	 * @return El comando completo estándar.
 	 */
 	private String aliasToAccion(String input) {
 		return DatosJuego.aliasComandos.getOrDefault(input, input);

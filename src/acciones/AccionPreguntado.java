@@ -7,7 +7,10 @@ import todo.Jugador;
 import utiles.MyUtil;
 import utiles.DatosJuego;
 import utiles.Dibujos;
-
+/**
+ * Minijuego de preguntas y respuestas (Trivia).
+ * Presenta un desafío intelectual donde fallar conlleva penalización de vida.
+ */
 public class AccionPreguntado implements Accion {
 	private Random ran;
 
@@ -38,6 +41,11 @@ public class AccionPreguntado implements Accion {
 	}
 
 	// Añadimos Scanner scPreguntado
+	/**
+	 * Verifica si la respuesta elegida es correcta.
+	 * * @param i Índice de la pregunta actual en la base de datos.
+	 * @return true si el juego continúa (aunque en este diseño suele ser una sola pregunta), false si termina.
+	 */
 	private boolean flujoPreguntado(Jugador jugador, String input, int i, Scanner scPreguntado)
 			throws InterruptedException {
 		if (input.equals("/escapar") || input.equals("/esc") || input.equals("/salir") || input.equals("/s")) {

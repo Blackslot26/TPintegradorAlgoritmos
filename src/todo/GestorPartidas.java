@@ -1,9 +1,16 @@
 package todo;
 
 import java.io.*;
-
+/**
+ * Clase de utilidad encargada de la persistencia de datos (Guardar/Cargar).
+ * Utiliza serialización de objetos Java (.save).
+ */
 public class GestorPartidas {
-
+	/**
+	 * Guarda el estado actual del jugador en un archivo binario.
+	 * También actualiza el {@link Leaderboard} con los datos más recientes.
+	 * * @param jugador El objeto jugador a serializar.
+	 */
 	public static void guardarPartida(Jugador jugador) { // Metodo para guardar partidas. Se ejecuta al salir del juego.
 		String nombreArchivo = jugador.getNombre() + ".save";
 
@@ -24,7 +31,12 @@ public class GestorPartidas {
 
 	}
 	
-
+	/**
+	 * Carga un jugador desde un archivo .save.
+	 * Si el archivo no existe o está corrupto, crea un jugador nuevo.
+	 * * @param nombre El nombre del archivo/jugador a buscar.
+	 * @return El objeto Jugador recuperado o una nueva instancia.
+	 */
 	public static Jugador cargarPartida(String nombre) {
 		String nombreArchivo = nombre + ".save";	//nombre de la partida
 		File archivo = new File(nombreArchivo);     //variable que actua como puntero al archivo de guardado

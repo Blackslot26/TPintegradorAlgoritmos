@@ -7,10 +7,21 @@ import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * Trabajo de "Early Game" (Juego Temprano).
+ * <p>
+ * El Mercenario gana mucho dinero en los niveles bajos, permitiendo un arranque rápido.
+ * Sin embargo, sus ganancias decaen a medida que el jugador sube de nivel (Scalability negativa).
+ * </p>
+ */
 public class Mercenario extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 	private static final int SEG_COOLDOWN= 60;
+	/**
+	 * Ejecuta el contrato del mercenario.
+	 * Si el nivel es bajo (<15), aplica una fórmula de ganancia alta.
+	 * Si el nivel es alto, la ganancia se reduce al mínimo.
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
@@ -70,17 +81,6 @@ public class Mercenario extends Trabajar implements Accion{
 
 	}
 
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * 0.5;
-	}
-
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase;
-	}
 
 
 

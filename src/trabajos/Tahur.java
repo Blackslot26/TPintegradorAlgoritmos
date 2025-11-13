@@ -7,12 +7,23 @@ import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * Trabajo especializado en apuestas y suerte.
+ * <p>
+ * El Tahúr no gana dinero trabajando (apenas mendiga), pero tiene bonificaciones pasivas
+ * masivas para los juegos de azar (Casino) y aumenta su estadística de suerte pasivamente.
+ * </p>
+ */
 public class Tahur extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 	private static final int SEG_COOLDOWN= 60;
+	/**
+	 * Aumenta la suerte del jugador permanentemente cada vez que trabaja y gana una miseria.
+	 * Su fuente real de ingresos se espera que sea el Casino.
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
+		jugador.setMultGanancias(1.10 + (jugador.getNivel() / 100));
 		Random r = new Random();
 		jugador.modSuerte(2 + (int) jugador.getNivel() / 10); // tiene 2% mas de probabilidades en todo y gana un
 																	// 1% mas cada 10 niveles.
@@ -53,17 +64,5 @@ public class Tahur extends Trabajar implements Accion{
 				"A cambio, los dioses de la suerte te sonríen:",
 				"posees mayor fortuna y recibes ganancias multiplicadas en todas las formas de apuesta." };
 		return a;
-	}
-
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * 0.5;
-	}
-
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase * (1.10 + (int) jugador.getNivel() / 100);
 	}
 }

@@ -4,7 +4,10 @@ import java.util.Random;
 import java.util.Scanner;
 import todo.Jugador;
 import utiles.MyUtil;
-
+/**
+ * Minijuego de lógica y suerte basado en el Buscaminas.
+ * El jugador debe revelar celdas en una cuadrícula 8x8 evitando las minas.
+ */
 public class AccionBuscaminas implements Accion {
 	
 	private static final Random ran = new Random();
@@ -215,6 +218,15 @@ public class AccionBuscaminas implements Accion {
 	/**
 	 * Revela celdas usando "Flood Fill". Si una celda es ' ', revela a sus vecinos.
 	 */
+	/**
+	 * Algoritmo recursivo (Flood Fill) para revelar celdas.
+	 * Si se revela una celda vacía (sin minas adyacentes), revela automáticamente
+	 * a todos sus vecinos hasta encontrar bordes numéricos.
+	 * * @param solucion Tablero con la verdad (minas y números).
+	 * @param visible  Tablero que ve el jugador.
+	 * @param r        Fila actual.
+	 * @param c        Columna actual.
+	 */
 	private void revelarRecursivo(char[][] solucion, char[][] visible, int r, int c) {
 		// 1. Límites del tablero
 		if (r < 0 || r >= TAMANIO_TABLERO || c < 0 || c >= TAMANIO_TABLERO) {
@@ -246,6 +258,10 @@ public class AccionBuscaminas implements Accion {
 	/**
 	 * Comprueba si el jugador ha ganado.
 	 * Gana si todas las celdas NO-MINA han sido reveladas.
+	 */
+	/**
+	 * Verifica la condición de victoria.
+	 * El jugador gana si todas las celdas que NO son minas han sido reveladas.
 	 */
 	private boolean chequearVictoria(char[][] solucion, char[][] visible) {
 		for (int r = 0; r < TAMANIO_TABLERO; r++) {

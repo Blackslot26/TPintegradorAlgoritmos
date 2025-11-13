@@ -4,7 +4,13 @@ import utiles.Dibujos;
 import items.ItemDesechable;
 import items.ItemEquipable;
 import items.ItemConsumible;
-
+/**
+ * Enumeración que actúa como base de datos de los enemigos del juego.
+ * <p>
+ * Define las estadísticas base, el arte ASCII y las tablas de botín (loot)
+ * con sus respectivas probabilidades de caída.
+ * </p>
+ */
 public enum TipoEnemigo {
 	// 1. Definir los drops y sus chances
 	DUENDE("Duende verde",75,15,1800,10,Dibujos.DIBUJO_DUENDE,

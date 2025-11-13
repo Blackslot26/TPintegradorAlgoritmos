@@ -8,13 +8,22 @@ import java.util.Random;
 import java.util.Scanner;
 
 import acciones.Trabajar;
-
+/**
+ * Trabajo de "Late Game" (Juego Tardío) o Inversión.
+ * <p>
+ * Comienza con ganancias muy bajas, pero escala exponencialmente con el nivel del jugador.
+ * Ideal para partidas largas o después de varios renacimientos.
+ * </p>
+ */
 public class Aristocrata extends Trabajar implements Accion{
 
 	private static final long serialVersionUID = 1L;
 	
 	private static final int SEG_COOLDOWN= 60;
-
+	/**
+	 * Ejecuta las labores administrativas del aristócrata.
+	 * Aplica un multiplicador de ganancia que crece con el nivel más rápido que otras clases.
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
@@ -66,17 +75,6 @@ public class Aristocrata extends Trabajar implements Accion{
 
 	}
 
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * 0.5;
-	}
-
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase;
-	}
 
 
 

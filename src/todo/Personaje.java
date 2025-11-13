@@ -1,7 +1,13 @@
 package todo;
 
 import java.io.Serializable;
-
+/**
+ * Clase base abstracta para todas las entidades vivas del juego (Jugador y Enemigos).
+ * <p>
+ * Define atributos fundamentales como vida, nombre, nivel y daño, así como
+ * la lógica básica de recibir daño y morir.
+ * </p>
+ */
 public abstract class Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int vidaMaxima;
@@ -26,6 +32,12 @@ public abstract class Personaje implements Serializable {
 	public int getNivel() {
 		return nivel;
 	}
+	public void setNivel(int value) {
+		nivel = value;
+	}
+	public void modNivel(int value) {
+		nivel += value;
+	}
 
 	public void modVida(int vida) {
 		vidaActual += vida;
@@ -41,6 +53,10 @@ public abstract class Personaje implements Serializable {
 
 	public int getVidaMaxima() {
 		return vidaMaxima;
+	}
+	
+	public void setVidaMaxima(int vida) {
+		vidaMaxima = vida;
 	}
 
 	public int getDanio() {
@@ -68,7 +84,11 @@ public abstract class Personaje implements Serializable {
 
 	public void morir() {
 	}
-
+	/**
+	 * Verifica y actualiza el estado vital del personaje.
+	 * Controla que la vida no supere el máximo ni baje de 0.
+	 * Si la vida llega a 0, dispara el método {@link #morir()}.
+	 */
 	public void actualizar() {
 		if (vidaActual > vidaMaxima) {
 			vidaActual = vidaMaxima;

@@ -1,5 +1,11 @@
 package utiles;
-
+/**
+ * Clase contenedora para los banners de texto ASCII grandes.
+ * <p>
+ * Almacena los títulos principales del juego (Lobby, Tienda, Bienvenida)
+ * diseñados con letras grandes para encabezar las secciones importantes.
+ * </p>
+ */
 public class Titulos {
 	// Para evitar instanticas
 	private Titulos() {

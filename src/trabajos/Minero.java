@@ -7,12 +7,22 @@ import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * Trabajo de riesgo y recompensa variable (RNG).
+ * <p>
+ * El Minero excava en busca de minerales. La mayoría de las veces obtiene carbón (poco valor),
+ * pero tiene una probabilidad baja de encontrar diamantes o netherita (premios enormes).
+ * </p>
+ */
 public class Minero extends Trabajar implements Accion {
 	private static final long serialVersionUID = 1L;
 	private static final int SEG_COOLDOWN = 60;
 	double mineral;
-
+	/**
+	 * Ejecuta la jornada laboral del minero.
+	 * Utiliza la estadística de suerte del jugador para determinar qué mineral encuentra.
+	 * Los rangos de ganancia varían drásticamente según el mineral hallado.
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
@@ -70,7 +80,9 @@ public class Minero extends Trabajar implements Accion {
 		sc.nextLine();
 		jugador.setActionCooldown("/trabajar", SEG_COOLDOWN);
 	}
-
+	/**
+	 * Devuelve textos temáticos que cambian según el mineral encontrado (carbón, hierro, diamante, etc.).
+	 */
 	@Override
 	public String[] trabajarTextsBase(int ganancia) {
 		String[] carbon = { "Picas todo el día y solo sacas carbón. Bueno, al menos ganas " + ganancia + " monedas.",
@@ -122,17 +134,4 @@ public class Minero extends Trabajar implements Accion {
 		return a;
 
 	}
-
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * 0.5;
-	}
-
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase;
-	}
-
 }

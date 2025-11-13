@@ -4,11 +4,26 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ * Gestiona el sistema de clasificación global (ranking).
+ * <p>
+ * Lee y escribe en un archivo de texto plano (leaderboard.txt) para mantener
+ * un registro persistente de los mejores jugadores, incluso entre diferentes
+ * sesiones de juego.
+ * </p>
+ */
 public class Leaderboard {
 
 	private static final String ARCHIVO = "leaderboard.txt";
-
+	/**
+	 * Actualiza o crea el registro de un jugador en el archivo de leaderboard.
+	 * Utiliza un mapa temporal para asegurar que no haya duplicados del mismo jugador,
+	 * sobrescribiendo siempre con sus estadísticas más recientes.
+	 * * @param nombre Nombre del jugador.
+	 * @param nivel Nivel alcanzado.
+	 * @param rebirths Cantidad de renacimientos.
+	 * @param monedas Dinero actual.
+	 */
 	public static void actualizarPuntaje(String nombre, int nivel, int rebirths, int monedas) {
 
 		HashMap<String, String> puntajes = new HashMap<>();
@@ -49,7 +64,10 @@ public class Leaderboard {
 				);
 	}
 	
-
+	/**
+	 * Lee el archivo de puntajes, los procesa, los ordena y los muestra en consola
+	 * en formato de tabla.
+	 */
 	public static void mostrarLeaderboard() {
 		ArrayList<String> lineas = new ArrayList<>();
 

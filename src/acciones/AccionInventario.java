@@ -9,6 +9,10 @@ import items.Item;
 import todo.Jugador;
 import utiles.MyUtil;
 
+/**
+ * Gestor visual e interactivo del inventario del jugador. Permite visualizar
+ * ítems, equipar armas/armaduras y consumir pociones.
+ */
 public class AccionInventario implements Accion {
 
 	@Override
@@ -22,6 +26,7 @@ public class AccionInventario implements Accion {
 			System.out.println("[INVENTARIO] Opciones:");
 			System.out.println("  /usar [N° item]    -> Consumir una poción o ítem usable.");
 			System.out.println("  /equipar [N° item] -> Equipar un arma o armadura.");
+			System.out.println("  /desequipar [N° item] -> Desequipa un item del inventario");
 			System.out.println("  /descripcion [N° item] -> Muesta la descripcion de un item");
 			System.out.println("  /salir        -> Volver al menú principal.");
 			System.out.print("> ");
@@ -34,12 +39,27 @@ public class AccionInventario implements Accion {
 
 			} else if (input.startsWith("/usar ") || input.startsWith("/u ")) {
 				procesarItem(jugador, input, true);
+				jugador.actualizar();
 				pausar(sc);
 
 			} else if (input.startsWith("/equipar ") || input.startsWith("/e ")) {
 				procesarItem(jugador, input, false); // false = equipar
 				pausar(sc);
 
+			} else if (input.startsWith("/desequipar ") || input.startsWith("/des ")) {
+				try {
+					String[] partes = input.split(" ");
+					int slotVisual = Integer.parseInt(partes[1]);
+					int slotReal = slotVisual - 1; // De 1..4 a 0..3
+
+					if (slotReal >= 0 && slotReal < 4) {
+						jugador.desequiparItem(slotReal);
+					} else {
+						System.out.println("Slot inválido. Usa 1, 2, 3 o 4.");
+					}
+				} catch (Exception e) {
+					System.out.println("Error: Usa /desequipar [N° Slot]");
+				}
 			} else if (input.startsWith("/descripcion") || input.startsWith("/d")) {
 				imprimirDatos(jugador, input);
 			} else {
@@ -65,7 +85,7 @@ public class AccionInventario implements Accion {
 
 			if (indexReal >= 0 && indexReal < listaItems.size()) {
 				Item item = listaItems.get(indexReal);
-						System.out.println(item.getDescripcion());
+				System.out.println(item.getDescripcion());
 
 			}
 		} catch (NumberFormatException e) {
@@ -77,6 +97,14 @@ public class AccionInventario implements Accion {
 		pausar(sc);
 	}
 
+	/**
+	 * Procesa la lógica de usar o equipar un ítem seleccionado por índice. * @param
+	 * jugador El jugador propietario del inventario.
+	 * 
+	 * @param input  El comando ingresado (ej: "/usar 1").
+	 * @param esUsar true si la acción es "usar" (Consumible), false si es "equipar"
+	 *               (Equipable).
+	 */
 	private void procesarItem(Jugador jugador, String input, boolean esUsar) {
 		try {
 			String[] partes = input.split(" ");

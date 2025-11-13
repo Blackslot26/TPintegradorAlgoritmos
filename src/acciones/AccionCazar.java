@@ -17,12 +17,24 @@ import todo.TipoEnemigo;
 
 import utiles.MyUtil;
 import utiles.Dibujos;
-
+/**
+ * Gestiona la mecánica de combate contra enemigos (PvE).
+ * <p>
+ * Incluye el bucle de turnos, cálculo de daño basado en dados, 
+ * lógica de defensa/ataque y generación de botín (loot) al ganar.
+ * </p>
+ */
 public class AccionCazar implements Accion {
 
 	private static final Random ran = new Random();
 	public static final int SEG_COOLDOWN = 120;
-
+	/**
+	 * Inicia el encuentro de combate.
+	 * Selecciona un enemigo aleatorio y comienza el bucle de turnos hasta que
+	 * uno de los dos (jugador o enemigo) pierda toda su vida o el jugador escape.
+	 * * @param jugador El jugador que inicia la caza.
+	 * @param sc      Scanner para los comandos de combate (/atacar, /proteger, /escapar).
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		MyUtil.limpiarConsola();
@@ -108,7 +120,15 @@ public class AccionCazar implements Accion {
 		jugador.setActionCooldown("/cazar", SEG_COOLDOWN);
 
 	}
-
+	/**
+     * Procesa el turno del jugador.
+     * * @param input   Comando ingresado por el usuario.
+     * @param jugador El jugador.
+     * @param enemigo El enemigo actual.
+     * @param sc      Scanner para pausas.
+     * @return true si la acción consumió el turno, false si fue un comando inválido.
+     * @throws InterruptedException Si falla el Thread.sleep en las animaciones.
+     */
 	private boolean flujoJugador(String input, Jugador jugador, Enemigo enemigo, Scanner sc)
 			throws InterruptedException {
 
@@ -208,7 +228,13 @@ private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Scanner sc) throws I
 		MyUtil.marco("Ha aparecido un " + enemigo.getNombre() + "!!!");
 		Thread.sleep(tiempoEntreTexto - 500);
 	}
-
+	/**
+     * Simula el lanzamiento de un dado D20 para determinar el multiplicador de daño.
+     * Incluye una animación visual en consola.
+     * * @param jugador Para obtener su estadística de suerte.
+     * @return Un multiplicador de daño (base + suerte + resultado del dado).
+     * @throws InterruptedException
+     */
 	private double tirarDado(Jugador jugador) throws InterruptedException {
 		MyUtil.limpiarConsola();
 		int numero = 0;
@@ -246,6 +272,10 @@ private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Scanner sc) throws I
 	 * Procesa la tabla de loot del enemigo y añade los items al inventario del
 	 * jugador basándose en la probabilidad de drop.
 	 */
+	/**
+     * Genera las recompensas (ítems) tras derrotar a un enemigo.
+     * Utiliza la probabilidad de drop del enemigo y la suerte del jugador.
+     */
 	private void generarLoot(Jugador jugador, Enemigo enemigo) {
 		Enum<?>[] plantillas = enemigo.getPlantillaLoot();
 		double[] chances = enemigo.getLootChances();

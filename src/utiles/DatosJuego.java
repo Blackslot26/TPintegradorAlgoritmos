@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Clase estática que almacena todos los datos fijos del juego (listas de
- * palabras, comandos, etc.) para mantener la clase Functions limpia.
+ * Clase estática que actúa como base de datos centralizada del juego.
+ * <p>
+ * Almacena configuraciones constantes como alias de comandos, listas de preguntas
+ * para los minijuegos, palabras para el ahorcado y textos de ayuda.
+ * Se utiliza para evitar "números mágicos" o textos dispersos en el código.
+ * </p>
  */
 public class DatosJuego {
 	// Constructor privado para evitar que se instancie

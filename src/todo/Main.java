@@ -4,7 +4,19 @@ import java.util.Scanner;
 
 import utiles.MyUtil;
 import utiles.Titulos;
-
+/**
+ * Punto de entrada principal de la aplicación.
+ * <p>
+ * Gestiona el ciclo de vida del juego:
+ * <ul>
+ * <li>Inicio de sesión / Carga de partida.</li>
+ * <li>Bucle principal del juego (Game Loop).</li>
+ * <li>Guardado automático al salir.</li>
+ * </ul>
+ * </p>
+ * * @author [Tu Nombre/Grupo]
+ * @version 1.0
+ */
 public class Main {
 	static Scanner sc = new Scanner(System.in);
 	static Controlador controlador;
@@ -44,7 +56,12 @@ public class Main {
 														// VUELVE FALSE
 		// Fin del Juego.
 	}
-
+	/**
+	 * Gestiona el proceso de login.
+	 * Pregunta el nombre de usuario e intenta cargar un archivo de guardado existente
+	 * mediante el {@link GestorPartidas}. Si no existe, crea uno nuevo.
+	 * * @return Un objeto Jugador cargado o nuevo.
+	 */
 	public static Jugador logIn() {
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Titulos.marcoBienvenida,10); //Centrado 10 characters a la derecha

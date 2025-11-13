@@ -7,13 +7,20 @@ import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * Trabajo centrado en el comercio.
+ * <p>
+ * Aunque sus ganancias directas por "trabajar" son mediocres, el Mercader
+ * posee una habilidad pasiva única que multiplica enormemente el precio de venta de los ítems.
+ * </p>
+ */
 public class Mercader extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	private static final int SEG_COOLDOWN= 60;
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
+		jugador.setMultVenta(2 + (jugador.getNivel() / 10));
 		Random r = new Random();
 		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
 		jugador.modMonedas(ganancia);
@@ -56,19 +63,6 @@ public class Mercader extends Trabajar implements Accion{
 		return a;
 
 	}
-
-	@Override
-	public double multiplicadorVenta(double precioBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return precioBase * (2 + jugador.getNivel() / 10);
-	}
-
-	@Override
-	public double multiplicadorGanancias(double gananciaBase, Jugador jugador) {
-		// TODO Auto-generated method stub
-		return gananciaBase;
-	}
-
 
 
 
