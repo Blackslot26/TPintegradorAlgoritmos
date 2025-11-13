@@ -2,10 +2,24 @@ package acciones;
 import java.io.Serializable;
 
 import todo.Jugador;
-
+/**
+ * Clase abstracta que sirve de plantilla para todos los trabajos del juego.
+ * <p>
+ * Maneja la lógica de presentación visual (cajas ASCII) y define los métodos
+ * que cada trabajo concreto debe implementar (estrategia de ganancias, textos, etc.).
+ * </p>
+ */
 public abstract class Trabajar implements Serializable, Accion{
 	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * Genera y formatea una caja de texto ASCII con el resultado del trabajo realizado.
+	 * Incluye información sobre el jugador, la ganancia obtenida y la experiencia.
+	 * * @param event    El índice del evento de texto aleatorio seleccionado.
+	 * @param ganancia La cantidad de monedas ganadas.
+	 * @param jugador  El jugador que realizó el trabajo.
+	 * @param xp       La experiencia ganada.
+	 * @return Un String formateado listo para imprimir en consola.
+	 */
 	
 	public String trabajarTexts(int event, int ganancia, Jugador jugador, int xp) {
 		
@@ -40,7 +54,10 @@ public abstract class Trabajar implements Serializable, Accion{
 		return sb.toString();
 	}
 	
-
+	/**
+	 * Genera el arte ASCII del nombre del trabajo encerrado en una caja.
+	 * * @return String con el nombre formateado.
+	 */
 	public String getNombre() {
 		String nombreSimple = getNombreBase();
 		StringBuilder sb = new StringBuilder();

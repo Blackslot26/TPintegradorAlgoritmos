@@ -7,7 +7,13 @@ import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * Trabajo centrado en el comercio.
+ * <p>
+ * Aunque sus ganancias directas por "trabajar" son mediocres, el Mercader
+ * posee una habilidad pasiva única que multiplica enormemente el precio de venta de los ítems.
+ * </p>
+ */
 public class Mercader extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
@@ -56,7 +62,11 @@ public class Mercader extends Trabajar implements Accion{
 		return a;
 
 	}
-
+	/**
+	 * Aplica un multiplicador de venta muy superior al resto de clases.
+	 * Esta es la habilidad principal del Mercader.
+	 * * @return Precio base multiplicado por un factor alto (basado en nivel).
+	 */
 	@Override
 	public double multiplicadorVenta(double precioBase, Jugador jugador) {
 		// TODO Auto-generated method stub

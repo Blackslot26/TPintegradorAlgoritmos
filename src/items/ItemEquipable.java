@@ -1,5 +1,8 @@
 package items;
-
+/**
+ * Base de datos de todos los objetos equipables del juego.
+ * Define las estadísticas base (daño, defensa, etc.) y propiedades de cada pieza de equipo.
+ */
 public enum ItemEquipable {
     // Define el constructor para cada tipo de arma
     DAGACEREMONIAL("Daga ceremonial", "Daga utilizada en rituales. Aumenta el daño y la suerte", 20000, 20, 0, 0, 0.5, true),  //daño promedio y aumenta la suerte que es una buena stat

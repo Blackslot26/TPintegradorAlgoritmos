@@ -14,7 +14,13 @@ import trabajos.Minero;
 import trabajos.Tahur;
 import utiles.MyUtil; // Asegúrate de que MyUtil tenga los ANSI_GREEN y ANSI_RESET
 import utiles.Titulos;
-
+/**
+ * Clase encargada de la experiencia de usuario inicial (Onboarding).
+ * <p>
+ * Guía al jugador nuevo a través de la narrativa inicial, la selección forzosa
+ * de un trabajo y la explicación interactiva de los comandos básicos (tienda, inventario).
+ * </p>
+ */
 public class Tutorial {
 	private Jugador jugador;
 	private Scanner sc;
@@ -23,7 +29,11 @@ public class Tutorial {
 		this.jugador = jugador;
 		this.sc = sc;
 	}
-
+	/**
+	 * Inicia la secuencia del tutorial.
+	 * Contiene pausas (Thread.sleep) para mejorar el ritmo de lectura.
+	 * * @throws InterruptedException Si se interrumpe el hilo durante las pausas.
+	 */
 	void iniciarTutorial() throws InterruptedException {
 		System.out.println("Bienvenido " + jugador.getNombre() + "." + " \nAquí es donde comienza tu aventura.");
 		Thread.sleep(2000);
@@ -147,7 +157,10 @@ public class Tutorial {
 				+ MyUtil.ANSI_RESET + ".");
 		sc.nextLine();
 	}
-
+	/**
+	 * Muestra la lista de trabajos disponibles y gestiona la elección del jugador.
+	 * Incluye una confirmación para asegurar que el jugador está conforme con su elección.
+	 */
 	void elegirTrabajo() throws InterruptedException {
 
 		// Instanciar los trabajos

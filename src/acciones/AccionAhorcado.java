@@ -8,7 +8,10 @@ import todo.Jugador;
 import utiles.DatosJuego;
 import utiles.Dibujos;
 import utiles.MyUtil;
-
+/**
+ * Minijuego clásico del Ahorcado.
+ * El jugador debe adivinar una palabra oculta letra por letra antes de perder toda su vida.
+ */
 public class AccionAhorcado implements Accion {
 	private static final Random ran = new Random();
 
@@ -51,12 +54,11 @@ public class AccionAhorcado implements Accion {
 	}
 
 	/**
-	 * Función para realizar el minijuego del ahorcado * @return Un flujo de acción
-	 * para resolver un ahorcado.
-	 * 
-	 * @throws InterruptedException
+	 * Controla el flujo de un intento en el ahorcado.
+	 * Verifica si la letra ingresada está en la palabra o si el jugador intentó adivinar la palabra completa.
+	 * Aplica daño al jugador si falla.
+	 * * @return false si el juego termina (victoria o derrota), true si debe continuar.
 	 */
-	// Añadimos Scanner scAhorcado como parámetro
 	private boolean flujoAhorcado(Jugador jugador, String palabra, String input,
 			StringBuilder tablero, ArrayList<Character> letrasIntentadas, Scanner scAhorcado)
 			throws InterruptedException {

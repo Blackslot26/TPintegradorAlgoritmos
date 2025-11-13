@@ -1,6 +1,14 @@
 package todo;
 //import java.util.ArrayList;
 import java.util.Random;
+/**
+ * Representa a un oponente controlado por la IA.
+ * <p>
+ * Se instancia basándose en un {@link TipoEnemigo}, del cual hereda sus estadísticas
+ * base y tabla de botín. Aplica una variación aleatoria a las recompensas
+ * para que no sean siempre idénticas.
+ * </p>
+ */
 public class Enemigo extends Personaje{
 	private static final long serialVersionUID = 1L;
 	
@@ -10,7 +18,12 @@ public class Enemigo extends Personaje{
 	private final String[] dibujo;
 	private final Enum<?>[] plantillaLoot;
 	private final double[] lootChances;
-	
+
+	/**
+	 * Crea un enemigo nuevo basado en una plantilla.
+	 * Calcula las recompensas finales con una variación aleatoria.
+	 * * @param tipo El Enum que define la plantilla del enemigo (ej: LOBO, DRAGON).
+	 */
 	public Enemigo(TipoEnemigo tipo){
 		
 		//Constructo de personaje

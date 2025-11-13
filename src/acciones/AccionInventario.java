@@ -8,7 +8,10 @@ import items.IEquipable;
 import items.Item;
 import todo.Jugador;
 import utiles.MyUtil;
-
+/**
+ * Gestor visual e interactivo del inventario del jugador.
+ * Permite visualizar ítems, equipar armas/armaduras y consumir pociones.
+ */
 public class AccionInventario implements Accion {
 
 	@Override
@@ -34,6 +37,7 @@ public class AccionInventario implements Accion {
 
 			} else if (input.startsWith("/usar ") || input.startsWith("/u ")) {
 				procesarItem(jugador, input, true);
+				jugador.actualizar();
 				pausar(sc);
 
 			} else if (input.startsWith("/equipar ") || input.startsWith("/e ")) {
@@ -76,7 +80,12 @@ public class AccionInventario implements Accion {
 		Scanner sc = new Scanner(System.in);
 		pausar(sc);
 	}
-
+	/**
+	 * Procesa la lógica de usar o equipar un ítem seleccionado por índice.
+	 * * @param jugador El jugador propietario del inventario.
+	 * @param input   El comando ingresado (ej: "/usar 1").
+	 * @param esUsar  true si la acción es "usar" (Consumible), false si es "equipar" (Equipable).
+	 */
 	private void procesarItem(Jugador jugador, String input, boolean esUsar) {
 		try {
 			String[] partes = input.split(" ");

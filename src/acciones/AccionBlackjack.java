@@ -9,7 +9,10 @@ import utiles.Dibujos;
 import utiles.MyUtil;
 
 import java.util.ArrayList;
-
+/**
+ * Minijuego de apuestas basado en el Blackjack clásico (21).
+ * Permite al jugador apostar monedas y jugar contra la "Casa" (IA simple).
+ */
 public class AccionBlackjack implements Accion {
 
 	private Mazo mazo;
@@ -17,7 +20,17 @@ public class AccionBlackjack implements Accion {
 	public AccionBlackjack() {
 		this.mazo = new Mazo();
 	}
-
+	/**
+	 * Inicia la partida de Blackjack.
+	 * <p>
+	 * Flujo:
+	 * 1. Pedir apuesta.
+	 * 2. Repartir cartas iniciales.
+	 * 3. Turno del jugador (Pedir/Plantarse).
+	 * 4. Turno de la casa (Pide obligatoriamente hasta 17).
+	 * 5. Resolución y pago.
+	 * </p>
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		MyUtil.limpiarConsola();
@@ -159,7 +172,12 @@ public class AccionBlackjack implements Accion {
 
 	pausar(sc);
 	}
-
+	/**
+	 * Calcula el puntaje total de una mano de cartas.
+	 * Maneja automáticamente el valor del As (11 o 1) para evitar pasarse de 21.
+	 * * @param mano Lista de cartas a evaluar.
+	 * @return La suma total de puntos.
+	 */
 	int calcularPuntaje(ArrayList<Carta> mano) {
 		int puntaje = 0;
 		int ases = 0;
@@ -175,7 +193,11 @@ public class AccionBlackjack implements Accion {
 		}
 		return puntaje;
 	}
-
+	/**
+	 * Imprime las cartas en consola una al lado de la otra (arte ASCII).
+	 * * @param mano           Lista de cartas a dibujar.
+	 * @param ocultarPrimera Si es true, la primera carta se muestra boca abajo (turno de la casa).
+	 */
 	public void imprimirMano(ArrayList<Carta> mano, boolean ocultarPrimera) {
 		if (mano.isEmpty())
 			return;

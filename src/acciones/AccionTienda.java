@@ -12,7 +12,11 @@ import todo.Jugador;
 import utiles.DatosJuego;
 import utiles.MyUtil;
 import utiles.Titulos;
-
+/**
+ * Sistema de comercio del juego.
+ * Permite al jugador comprar ítems (Consumibles y Equipables) usando monedas.
+ * Incluye un sistema de paginación para navegar por el catálogo.
+ */
 public class AccionTienda implements Accion {
 
 	Titulos titulos;
@@ -25,7 +29,10 @@ public class AccionTienda implements Accion {
 		paginaActual = 0;
 		itemsPorPagina = 10;
 	}
-
+	/**
+	 * Ejecuta el bucle de la tienda.
+	 * Muestra el catálogo paginado y procesa los comandos de compra y navegación.
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner scTienda) {
 
@@ -115,7 +122,10 @@ public class AccionTienda implements Accion {
 		}
 		return "";
 	}
-
+	/**
+	 * Muestra los ítems disponibles en la página actual.
+	 * Calcula dinámicamente el inicio y fin del índice basado en la página.
+	 */
 	private void mostrarItems() {
 		int totalItems = stock.size();
 		int totalPaginas = (int) Math.ceil((double) totalItems / itemsPorPagina); // la funcion ceil es un redondeo pero
@@ -152,7 +162,12 @@ public class AccionTienda implements Accion {
 			controlesNavegacion += "|| Pagina siguiente: /siguiente (/n)";
 		System.out.println(controlesNavegacion);
 	}
-
+	/**
+	 * Procesa la transacción de compra.
+	 * Verifica fondos, resta monedas y entrega una COPIA nueva del ítem al jugador.
+	 * * @param jugador Comprador.
+	 * @param item    El ítem modelo de la estantería.
+	 */
 	private void realizarVenta(Jugador jugador, Item item) {
 		if (jugador.getMonedas() >= item.getPrecio()) {
 			Item itemNuevo = clonarItem(item);
@@ -168,7 +183,12 @@ public class AccionTienda implements Accion {
 			pulsarEnter();
 		}
 	}
-
+	/**
+	 * Crea una instancia nueva e independiente del ítem para entregar al jugador.
+	 * Evita problemas de referencia con los objetos del stock.
+	 * * @param item El ítem original.
+	 * @return Una copia nueva del mismo tipo.
+	 */
 	private Item clonarItem(Item item) {
 		if (item instanceof Consumible)
 			return new Consumible(((Consumible) item).getTipo(), 1);

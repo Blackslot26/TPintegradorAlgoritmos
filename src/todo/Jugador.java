@@ -8,7 +8,14 @@ import acciones.Trabajar;
 import items.IEquipable;
 import items.Item;
 import utiles.MyUtil;
-
+/**
+ * Representa al usuario y contiene todo el estado de la partida.
+ * <p>
+ * Almacena estadísticas (vida, monedas, exp), inventario, equipamiento,
+ * trabajos y progreso de renacimientos (rebirths).
+ * Es la clase principal que se serializa para guardar la partida.
+ * </p>
+ */
 public class Jugador extends Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// Atributos base del jugador
@@ -16,7 +23,7 @@ public class Jugador extends Personaje implements Serializable {
 	private int monedas;
 	private int experiencia;
 	private int experienciaLevel; // Cantidad de xp necesaria para subir de nivel
-	private int renacimientos;
+	private int rebirths;
 	public double defensa;
 	private Inventario inventario;
 
@@ -38,7 +45,7 @@ public class Jugador extends Personaje implements Serializable {
 		experiencia = 0;
 		inventario = new Inventario();
 //		bonificadorRenacimiento = 1;
-		renacimientos = 0;
+		rebirths = 0;
 		trabajo = null;
 		experienciaLevel = 100;
 
@@ -52,11 +59,48 @@ public class Jugador extends Personaje implements Serializable {
 
 	// Funciones para acceder a atributos
 	public int getRebirth() {
-		return renacimientos;
+		return rebirths;
+	}
+	/**
+	 * Realiza la mecánica de "Prestigio" o "Renacimiento".
+	 * <p>
+	 * Reinicia el nivel, inventario y monedas del jugador a 0, pero incrementa
+	 * el contador de 'rebirths' y otorga multiplicadores permanentes de ganancia y venta.
+	 * </p>
+	 */
+	public void realizarRebirth() {
+		rebirths++;
+		this.setVidaActual(100);
+		this.setVidaMaxima(100);
+		this.setMonedas(0);
+		this.setNivel(1);
+		this.setExperiencia(1);
+		this.setExperienciaLevel(100);
+		this.inventario = new Inventario();
+		this.itemsEquipados = new Item[4];
+		if(this.cooldownsAcciones != null) {
+			this.cooldownsAcciones.clear();
+		}
+		this.multiplicadorGanancia = 1 + (rebirths * 0.10);
+		this.multiplicadorVenta = 1 + (rebirths * 0.05);
+		this.defensa = 0;
+		this.suerte = 0;
+		
+	}
+
+	
+	public void setExperiencia(int value) {
+		experiencia = value;
+	}
+	public void setExperienciaLevel(int value) {
+		experienciaLevel = value;
 	}
 
 	public int getMonedas() {
 		return monedas;
+	}
+	public void setMonedas(int value) {
+		monedas = value;
 	}
 
 	public int getExperiencia() {
@@ -127,7 +171,16 @@ public class Jugador extends Personaje implements Serializable {
 	public Inventario getInventario() {
 		return this.inventario;
 	}
-	
+	/**
+	 * Intenta equipar un ítem en un slot específico.
+	 * <p>
+	 * Si el ítem no es equipable, lo devuelve al inventario.
+	 * Si ya había un ítem en ese slot, lo desequipa (restando stats) y lo guarda.
+	 * Finalmente, aplica las estadísticas del nuevo ítem.
+	 * </p>
+	 * * @param item  El ítem a equipar.
+	 * @param index El índice del slot de equipamiento (0-3).
+	 */
 	public void equiparItem(Item item, int index) {
 		if(!(item instanceof IEquipable)) {
 			System.out.println("Este item no se puede equipar.");
@@ -166,10 +219,9 @@ public class Jugador extends Personaje implements Serializable {
 	}
 
 	/**
-	 * Establece el cooldown para una acción.
-	 * 
-	 * @param nombreAccion El nombre del comando (ej: "/cazar") y seconds
-	 * @param seconds La cantidad de segundos que debe esperar
+	 * Establece un tiempo de espera (cooldown) para una acción específica.
+	 * * @param nombreAccion El comando a bloquear (ej: "/cazar").
+	 * @param seconds      Segundos que debe esperar el jugador.
 	 */
 	public void setActionCooldown(String nombreAccion, int seconds) {
 		long ahora = System.currentTimeMillis();
@@ -203,7 +255,10 @@ public class Jugador extends Personaje implements Serializable {
 		//Convertir milisegundos a segundos (redondeando hacia arriba)
 		return (millisRestantes / 1000) + 1;
 	}
-
+	/**
+	 * Genera una representación visual completa del estado del jugador.
+	 * Incluye arte ASCII, estadísticas, barras de progreso, inventario y equipamiento.
+	 */
 	public void mostrarEstadoJugador() {
 		String pfp1 = "|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|";
 		String pfp2 = "|     -------     |";

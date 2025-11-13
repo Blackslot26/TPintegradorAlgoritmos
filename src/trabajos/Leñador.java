@@ -7,11 +7,21 @@ import acciones.Accion;
 import acciones.Trabajar;
 import todo.Jugador;
 import utiles.MyUtil;
-
+/**
+ * Trabajo básico y estable.
+ * <p>
+ * El Leñador ofrece ganancias constantes y de riesgo bajo.
+ * Ideal para jugadores que prefieren un progreso seguro.
+ * </p>
+ */
 public class Leñador extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	private static final int SEG_COOLDOWN= 60;
+	/**
+	 * Ejecuta la jornada laboral del leñador.
+	 * Calcula una ganancia moderada basada en el nivel y muestra un evento aleatorio.
+	 */
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
@@ -25,7 +35,9 @@ public class Leñador extends Trabajar implements Accion{
 		sc.nextLine();
 		jugador.setActionCooldown("/trabajar", SEG_COOLDOWN);
 	}
-	
+	/**
+	 * Provee textos temáticos relacionados con la tala de árboles y el bosque.
+	 */
 	@Override
 	public String[] trabajarTextsBase(int ganancia) {
 		String[] a = {

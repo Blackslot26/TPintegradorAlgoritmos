@@ -1,5 +1,8 @@
 package items;
-
+/**
+ * Base de datos de todos los objetos consumibles.
+ * Define los efectos (curación, buffs) y propiedades de pociones y alimentos.
+ */
 public enum ItemConsumible {
 	POCIONVIDA("Pocion Vida", "Pocion de vida pequeña. Restaura un poco de salud", 1000, 20, 0, 0, true),
 	PANACEA("La Panacea", "La cura a todos los males. Restaura completamente la vida del jugador.",10000, 100000, 0.5, 1, true),

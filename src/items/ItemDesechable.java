@@ -1,5 +1,8 @@
 package items;
-
+/**
+ * Base de datos de objetos de botín (loot).
+ * Define el nombre, descripción y el rango de valor monetario (min-max) para la venta.
+ */
 public enum ItemDesechable {
 	//definicion de los constructores
 	PIELLOBO("Piel de lobo", "Piel de lobo alfa. Se vende por un puñado de monedas", 2000, 4000),
