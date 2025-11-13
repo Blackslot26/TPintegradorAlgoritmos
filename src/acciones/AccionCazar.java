@@ -135,12 +135,12 @@ public class AccionCazar implements Accion {
 		int danioTotal = (int) (enemigo.getDanio() * (ran.nextInt(15)/10));
 		if (ran.nextInt(4) < 3) { // 0, 1, 2 (75% de probabilidad de atacar)
 		if (jugador.estaDefendiento()) {
-			int danioReducido = (int) (danioTotal * 0.75); // Reduce el daño en 25%
+			int danioReducido = (int) ((danioTotal * 0.75) * (1 - jugador.getDefensa())); // La defensa se programa como double. Un 0.15 de defensa representa un 15% menos de daño.
 			MyUtil.marco("Te proteges! El golpe se reduce a -" + danioReducido + "HP");
 			jugador.modVida(danioReducido * -1); // Aplica daño negativo
 			jugador.setEstadoDefensa(false);
 		} else {
-			jugador.modVida(-danioTotal);
+			jugador.modVida((int) (-danioTotal * jugador.getDefensa()));
 			MyUtil.marco(MyUtil.ANSI_RED+"Te ataca e inflige -" + danioTotal+MyUtil.ANSI_RESET);
 
 		}

@@ -46,6 +46,9 @@ public abstract class Personaje implements Serializable {
 	public int getDanio() {
 		return danio;
 	}
+	public void modDanio(int modificador) {
+		danio += modificador;
+	}
 
 	public boolean estaDefendiento() {
 		return defendiendo;
