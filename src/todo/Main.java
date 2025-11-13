@@ -25,6 +25,7 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
+		controlador.setAccionTrabajo(jugadorActual.getTrabajo());
 		/**/
 		// Bucle Principal
 		while (enJuego) {
@@ -59,7 +60,7 @@ public class Main {
 				System.out.print("Por favor ingrese su nombre > ");
 			}
 			else {
-				System.out.print("No se reconoció \"" + choise + "\" ingrese si/no. > ");
+				System.out.print("No se reconoció \"" + choise + "\" ingrese su nombre > ");
 			}
 		}
 	}

@@ -14,7 +14,7 @@ public class Tahur extends Trabajar implements Accion{
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
-		jugador.modSuerte(2 + (int) jugador.getNivel() / 10); // tiene 2% mas de probabilidades en todo y gana un
+		jugador.setSuerte(0.2 + (int) jugador.getNivel() / 10); // tiene 2% mas de probabilidades en todo y gana un
 																	// 1% mas cada 10 niveles.
 		int ganancia = 10 + r.nextInt(140);
 		jugador.modMonedas(ganancia); // mendigas por un maximo de 140

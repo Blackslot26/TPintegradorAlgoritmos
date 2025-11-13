@@ -26,7 +26,6 @@ public class Controlador {
 		this.accionesMapeadas.put("/explorar", new AccionExplorar());
 		this.accionesMapeadas.put("/tienda", new AccionTienda());
 		this.accionesMapeadas.put("/cazar", new AccionCazar());
-		this.accionesMapeadas.put("/trabajar", jugadorActual.getTrabajo());
 		this.accionesMapeadas.put("/blackjack", new AccionBlackjack());
 		this.accionesMapeadas.put("/inventario", new AccionInventario());
 	};
@@ -57,7 +56,7 @@ public class Controlador {
 		case "/comandos":
 			listarComandos(sc);
 			break;
-		case "/alias" :
+		case "/alias":
 			listarAlias(sc);
 			break;
 
@@ -75,14 +74,16 @@ public class Controlador {
 				accion.realizar(jugadorActual, sc);
 			} else {
 				System.out.printf("No se reconoció el comando %s :( \n ", input);
-			System.out.println("[Enter para continuar]");
-			sc.nextLine();
+				System.out.println("[Enter para continuar]");
+				sc.nextLine();
 			}
 		}
-
 		return true;
 	}
-
+	// Añade este nuevo método a Controlador.java
+	public void setAccionTrabajo(Accion trabajo) {
+	    this.accionesMapeadas.put("/trabajar", trabajo);
+	}
 	/**
 	 * Función para tranformar alias de acciones en el comando original
 	 * 
@@ -92,7 +93,7 @@ public class Controlador {
 	private String aliasToAccion(String input) {
 		return DatosJuego.aliasComandos.getOrDefault(input, input);
 	}
-	
+
 	/**
 	 * Función para listar los alias de comandos disponibles.
 	 */
@@ -127,7 +128,5 @@ public class Controlador {
 		System.out.print("[Enter para salir]");
 		sc.nextLine();
 	}
-
-	
 
 }

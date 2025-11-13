@@ -23,6 +23,7 @@ public class MyUtil {
 	 * @param texto El texto con códigos de color (ej. "\u001B[31mHola")
 	 * @return El texto sin códigos (ej. "Hola")
 	 */
+
 	private static String stripAnsi(String texto) {
 		if (texto == null) {
 			return "";
@@ -121,26 +122,37 @@ public class MyUtil {
 			textos = new String[] { " " };
 		}
 
-		// Determinar el largo máximo de los textos
-		int largoMaximo = largo;
+		// El largo total del marco (el ancho de la línea '═')
+		int largoMarco = largo;
 		StringBuilder sb = new StringBuilder();
 
 		// 2. Líneas centrales
 		for (String texto : textos) {
 			if (texto == null)
 				texto = "";
-			int espaciosRestantes = largoMaximo - texto.length() - paddingCostados * 2;
-			sb.append("║").append(" ".repeat(paddingCostados)).append(texto).append(" ".repeat(espaciosRestantes))
+
+			// --- SOLUCIÓN AQUÍ ---
+			// Calcular los espacios restantes basándose en el largo VISIBLE (sin ANSI)
+			int largoVisibleActual = stripAnsi(texto).length();
+			int espaciosRestantes = largoMarco - largoVisibleActual - (paddingCostados * 2);
+
+			// Asegurarse de que los espacios no sean negativos si el texto es muy largo
+			if (espaciosRestantes < 0) {
+				espaciosRestantes = 0;
+			}
+			// --- FIN DE LA SOLUCICIÓN ---
+
+			sb.append("║").append(" ".repeat(paddingCostados)).append(texto) // Imprime el texto ORIGINAL (con color)
+					.append(" ".repeat(espaciosRestantes)) // Añade el relleno correcto
 					.append(" ".repeat(paddingCostados)).append("║\n");
 		}
 
 		// 3. Línea inferior
-		sb.append("╠" + "═".repeat(largoMaximo) + "╣");
+		sb.append("╠" + "═".repeat(largoMarco) + "╣");
 
 		// Imprimir el marco
 		System.out.println(sb.toString());
 	}
-
 	public static void dibujarArrayString(String[] array) {
 		for (String linea : array) {
 			System.out.print(linea + "\n");
