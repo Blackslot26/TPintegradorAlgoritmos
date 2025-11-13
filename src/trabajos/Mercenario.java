@@ -1,18 +1,17 @@
 package trabajos;
 
-import todo.Controlador;
+import acciones.Accion;
+import acciones.Trabajar;
 import todo.Jugador;
 
 import java.util.Random;
 import java.util.Scanner;
 
-import acciones.Trabajar;
-
-public class Mercenario extends Trabajar {
+public class Mercenario extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
+	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
 		if (jugador.getNivel() < 15) {
 			int ganancia = (10000 + r.nextInt(5000)) - (jugador.getNivel() / 3) * 1500;

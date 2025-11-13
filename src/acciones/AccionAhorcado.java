@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import todo.Controlador;
 import todo.Jugador;
 import utiles.DatosJuego;
 import utiles.Dibujos;
@@ -26,7 +25,7 @@ public class AccionAhorcado implements Accion {
 
 
 	@Override
-	public void realizar(Jugador jugador, Controlador controlador, Scanner scAhorcado) {
+	public void realizar(Jugador jugador, Scanner scAhorcado) {
 		boolean enAhorcado = true;
 		int indicePalabra = ran.nextInt(DatosJuego.palabrasAhorcado.length); // Se elige la pregunta al azar
 		String palabra = DatosJuego.palabrasAhorcado[indicePalabra]; // Instancia la palabraf
@@ -37,19 +36,18 @@ public class AccionAhorcado implements Accion {
 
 		try {
 			// Pasamos el Scanner a la intro
-			introAhorcado(controlador, scAhorcado);
+			introAhorcado(scAhorcado);
 			while (enAhorcado) {
-				mostrarTablero(jugador, controlador, tablero, letrasIntentadas);// Muestra la pregunta
+				mostrarTablero(jugador, tablero, letrasIntentadas);// Muestra la pregunta
 
 				input = scAhorcado.nextLine().toLowerCase().trim(); // Input normalizado
 
 				// Pasamos el Scanner al flujo
-				enAhorcado = flujoAhorcado(jugador, controlador, palabra, input, tablero, letrasIntentadas, scAhorcado);
+				enAhorcado = flujoAhorcado(jugador, palabra, input, tablero, letrasIntentadas, scAhorcado);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -59,7 +57,7 @@ public class AccionAhorcado implements Accion {
 	 * @throws InterruptedException
 	 */
 	// Añadimos Scanner scAhorcado como parámetro
-	private boolean flujoAhorcado(Jugador jugador, Controlador controlador, String palabra, String input,
+	private boolean flujoAhorcado(Jugador jugador, String palabra, String input,
 			StringBuilder tablero, ArrayList<Character> letrasIntentadas, Scanner scAhorcado)
 			throws InterruptedException {
 
@@ -106,7 +104,7 @@ public class AccionAhorcado implements Accion {
 			Thread.sleep(1000);
 			jugador.modVida(-jugador.getVidaActual());
 
-			animacionMuerteAhorcado(controlador, scAhorcado);
+			animacionMuerteAhorcado(scAhorcado);
 			return false;
 		} else {
 			// myUtil.marco("SOLO UNA LETRA!!!");
@@ -120,15 +118,15 @@ public class AccionAhorcado implements Accion {
 			return false;
 		} else if (jugador.getVidaActual() <= 0) { // Si perdió todas las vidas
 			// Pasamos el Scanner
-			animacionMuerteAhorcado(controlador, scAhorcado);
+			animacionMuerteAhorcado(scAhorcado);
 			return false;
 		}
 		return true;
 	}
 
-	private void mostrarTablero(Jugador jugador, Controlador controlador, StringBuilder tablero,
+	private void mostrarTablero(Jugador jugador, StringBuilder tablero,
 			ArrayList<Character> letrasIntentadas) {
-		controlador.limpiarConsola();// Borrar lo anterior
+		MyUtil.limpiarConsola();// Borrar lo anterior
 		// Mostrar las letras que ya intentó
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CALAVERA);
 
@@ -147,16 +145,19 @@ public class AccionAhorcado implements Accion {
 	}
 
 	// Añadimos Scanner scAhorcado como parámetro
-	private void introAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
+	private void introAhorcado(Scanner scAhorcado) throws InterruptedException {
 		MyUtil.marco("Has pasado por muchas dificultades en tu vida un transtorno depresivo te ha invadido...");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		
+		MyUtil.limpiarConsola();
 		MyUtil.marco("La muerte te busca, está a punto de tomar una decisión muy drástica..");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		
+		MyUtil.limpiarConsola();
 		MyUtil.marco("Pero hay otra alternativa...");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		
+		MyUtil.limpiarConsola();
 		MyUtil.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
 		Thread.sleep(2500);
 
@@ -167,11 +168,11 @@ public class AccionAhorcado implements Accion {
 	}
 
 	// Añadimos Scanner scAhorcado como parámetro
-	private void animacionMuerteAhorcado(Controlador controlador, Scanner scAhorcado) throws InterruptedException {
-		controlador.limpiarConsola();
+	private void animacionMuerteAhorcado(Scanner scAhorcado) throws InterruptedException {
+		MyUtil.limpiarConsola();
 		MyUtil.marco("No lograste adivinar la palabra...");
 		Thread.sleep(2000);
-		controlador.limpiarConsola();
+		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CALAVERA);
 		MyUtil.marco("La muerte te ha alcanzado...");
 		Thread.sleep(2000); // Reducido para no esperar tanto

@@ -12,13 +12,23 @@ public class DatosJuego {
 	private DatosJuego() {
 	}
 
-	public static HashMap<String, String[]> aliasComandos = new HashMap<>();
+	public static HashMap<String, String> aliasComandos = new HashMap<>();
 	public static final ArrayList<Pregunta> preguntas = new ArrayList<>();
 	
 	// Bloque estático para inicializar listas
 	static {
-		aliasComandos.put("/trabajar", new String[] { "/t", "/work" });
-		// (Puedes añadir más alias aquí)
+		//Inicializar los alias de comandos
+		aliasComandos.put("/t","/trabajar");
+		aliasComandos.put("/work","/trabajar");
+		aliasComandos.put("/shop","/tienda");
+		aliasComandos.put("/s","/salir");
+		aliasComandos.put("/jugadores", "/leaderboard");
+		aliasComandos.put("/c","/comandos");
+		aliasComandos.put("/j","/leaderboard");
+		aliasComandos.put("/e","/estado");
+		aliasComandos.put("/cz", "/cazar");
+		aliasComandos.put("/i", "/inventario");
+
 
 		preguntas.add(new Pregunta(
 				"¿Cuál es la probabilidad de que, eligiendo al azar, respondas correctamente esta pregunta?",
@@ -204,6 +214,14 @@ public class DatosJuego {
 			"/comandos -> Muestra la lista de comandos disponibles",
 			"/leaderboard -> muestra el top global de jugadores de esta computadora",
 			"/estado -> Muestra las características actuales del jugador", "/salir -> Termina el juego." };
+	
+	public static final String[] comandosTienda = {
+		    "/comprar [ítem] -> Comprar un Item específico",
+		    "/buy [item] -> Comprar en inglés",
+		    "/b [item] -> Comando corto para comprar",
+		    "/salir -> Salir de la tienda",
+		    "/comandos -> Listar los comandos"
+		};
 
 
 	public static final String[] palabrasAhorcado = {

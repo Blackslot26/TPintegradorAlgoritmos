@@ -64,8 +64,14 @@ public class Controlador {
 		default:
 			Accion accion = accionesMapeadas.get(input);
 
-			if (accion != null) {
-				accion.realizar(jugadorActual, this, sc);
+			long tiempoRestante = jugadorActual.getRemainingCooldown(input);
+
+			if(tiempoRestante>0) {
+				MyUtil.marco("\nAún no puedes acceder a esta acción, espera "+MyUtil.ANSI_CYAN + tiempoRestante + MyUtil.ANSI_RESET+" Segundo más");
+				System.out.println("[Enter para volver]");
+				sc.nextLine();
+			}else if (accion != null) {
+				accion.realizar(jugadorActual, sc);
 			} else
 				System.out.printf("No se reconoció el comando %s :( \n ", input);
 		}
@@ -80,45 +86,7 @@ public class Controlador {
 	 *         sino, el mismo input.
 	 */
 	private String aliasToAccion(String input) {
-		switch (input) {
-		case "/t":
-			input = "/trabajar";
-			break;
-		case "/work":
-			input = "/trabajar";
-			break;
-
-		case "/s":
-			input = "/salir";
-			break;
-		case "/c":
-			input = "/comandos";
-			break;
-		case "/jugadores":
-			input = "/leaderboard";
-			break;
-
-		case "/j":
-			input = "/leaderboard";
-			break;
-
-		case "/e":
-			input = "/estado";
-			break;
-		case "/cz":
-			input = "/cazar";
-			break;
-
-		case "/shop":
-			input = "/tienda";
-			break;
-
-		case "/i":
-			input = "/inventario";
-			break;
-
-		}
-		return input;
+		return DatosJuego.aliasComandos.getOrDefault(input, input);
 	}
 
 	/**
@@ -130,36 +98,6 @@ public class Controlador {
 		MyUtil.marco(DatosJuego.comandos);
 		System.out.print("[Enter para salir]");
 		sc.nextLine();
-	}
-
-	/**
-	 * Simula la limpieza de la consola imprimiendo muchas líneas nuevas.
-	 */
-	public void limpiarConsola() {
-		 /*for (int i = 0; i < 50; i++) { System.out.println(); }/**/
-
-		// Para cuando se exporte como archivo jar
-		
-		try {
-			// Obtenemos el nombre del sistema operativo
-			String os = System.getProperty("os.name");
-
-			// Creamos una lista de comandos
-			ProcessBuilder pb;
-			if (os.contains("Windows")) {
-				// Si es Windows, usamos "cls"
-				pb = new ProcessBuilder("cmd", "/c", "cls");
-			} else {
-				// Si no es Windows, usamos "clear"
-				pb = new ProcessBuilder("clear");
-			}
-
-			// Ejecutamos el comando
-			pb.inheritIO().start().waitFor();
-
-		} catch (final Exception e) {
-			System.out.print("Error al limpiar la pantalla: " + e.getMessage());
-		} /**/
 	}
 
 }

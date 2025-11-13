@@ -1,18 +1,17 @@
 package trabajos;
 
-import todo.Controlador;
+import acciones.Accion;
+import acciones.Trabajar;
 import todo.Jugador;
 
 import java.util.Random;
 import java.util.Scanner;
 
-import acciones.Trabajar;
-
-public class Minero extends Trabajar {
+public class Minero extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 	double mineral;
 	@Override
-	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
+	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
 		double mineral = r.nextInt(101) + jugador.getSuerte();
 		this.mineral = mineral;

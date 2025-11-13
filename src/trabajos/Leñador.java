@@ -3,15 +3,15 @@ package trabajos;
 import java.util.Random;
 import java.util.Scanner;
 
+import acciones.Accion;
 import acciones.Trabajar;
-import todo.Controlador;
 import todo.Jugador;
 
-public class Leñador extends Trabajar {
+public class Leñador extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
+	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
 		int ganancia = (int) (3000 + r.nextInt(2000) * (1 + jugador.getNivel() / 5)); ////////////
 		jugador.modMonedas(ganancia); // gana entre 3000 y 5000	//////////////
@@ -61,9 +61,4 @@ public class Leñador extends Trabajar {
 		// TODO Auto-generated method stub
 		return gananciaBase;
 	}
-
-
-
-
-
 }

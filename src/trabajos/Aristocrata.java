@@ -1,6 +1,6 @@
 package trabajos;
 
-import todo.Controlador;
+import acciones.Accion;
 import todo.Jugador;
 
 import java.util.Random;
@@ -8,12 +8,12 @@ import java.util.Scanner;
 
 import acciones.Trabajar;
 
-public class Aristocrata extends Trabajar {
+public class Aristocrata extends Trabajar implements Accion{
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
+	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
 		double multiplier = jugador.getNivel() * (1.25 + jugador.getNivel() / 10);
 		

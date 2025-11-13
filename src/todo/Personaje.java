@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public abstract class Personaje implements Serializable {
 	private static final long serialVersionUID = 1L;
-	protected int vidaMaxima;
-	protected int vidaActual;
-	protected int nivel;
-	protected String nombre;
-	protected int danio;
-	protected boolean defendiendo; // Para la batalla
+	private int vidaMaxima;
+	private int vidaActual;
+	private int nivel;
+	private String nombre;
+	private int danio;
+	private boolean defendiendo; // Para la batalla
 
 	public Personaje(String nombre, int vidaMaxima, int danio) {
 		this.nombre = nombre;
@@ -30,6 +30,10 @@ public abstract class Personaje implements Serializable {
 	public void modVida(int vida) {
 		vidaActual += vida;
 	}
+	
+	public void setVidaActual(int vida) {
+		vidaActual = vida;
+	}
 
 	public int getVidaActual() {
 		return vidaActual;
@@ -41,6 +45,9 @@ public abstract class Personaje implements Serializable {
 
 	public int getDanio() {
 		return danio;
+	}
+	public void modDanio(int modificador) {
+		danio += modificador;
 	}
 
 	public boolean estaDefendiento() {
@@ -63,7 +70,13 @@ public abstract class Personaje implements Serializable {
 	}
 
 	public void actualizar() {
+		if (vidaActual > vidaMaxima) {
+			vidaActual = vidaMaxima;
+		}
 		if (vidaActual <= 0) {
+			vidaActual = 0;
+		}
+		if (vidaActual == 0) {
 			morir();
 		}
 	}
