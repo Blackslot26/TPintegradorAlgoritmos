@@ -1,9 +1,13 @@
 package acciones;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import items.Consumible;
+import items.Equipable;
 import items.Item;
+import items.ItemConsumible;
+import items.ItemEquipable;
 import todo.Jugador;
 import utiles.DatosJuego;
 import utiles.MyUtil;
@@ -12,10 +16,14 @@ import utiles.Titulos;
 public class AccionTienda implements Accion {
 
 	Titulos titulos;
-	private HashMap<String, Item> stock = new HashMap<>();
-
+	private ArrayList<Item> stock = new ArrayList<>();
+	private int paginaActual;
+	private final int itemsPorPagina;
+	Scanner sc = new Scanner(System.in);
 	public AccionTienda() {
-
+		inicializarStock();
+		paginaActual = 0;
+		itemsPorPagina = 10;
 	}
 
 	@Override
@@ -29,7 +37,11 @@ public class AccionTienda implements Accion {
 		mostrarItems();
 
 		while (enTienda) {
-			System.out.print("\n[TIENDA] Prueba /comprar [item],/comandos o /salir > ");
+			MyUtil.limpiarConsola();
+			Titulos.mostrarTituloTienda();
+			mostrarItems();
+			System.out.print("\n[TIENDA] Prueba /comprar [item],/comandos o /salir > \n");
+			MyUtil.marco("Monedas: " + jugador.getMonedas());
 			inputTienda = scTienda.nextLine().toLowerCase().trim();
 
 			if (inputTienda.equals("/salir") || inputTienda.equals("/s") || inputTienda.equals("/exit")) {
@@ -39,25 +51,42 @@ public class AccionTienda implements Accion {
 			} else if (inputTienda.equals("/comandos")) {
 				mostrarComandosTienda(scTienda);
 
+			} else if (inputTienda.equals("/next") || inputTienda.equals("/siguiente") // PAGINADO//PAGINADO//PAGINADO
+					|| inputTienda.equals("/n")) {
+				paginaActual++;
+			} else if (inputTienda.equals("/previous") || inputTienda.equals("/anterior") // PAGINADO//PAGINADO//PAGINADO
+					|| inputTienda.equals("/p")) {
+				paginaActual--;
 			} else if (inputTienda.startsWith("/comprar ") || inputTienda.startsWith("/buy ")
 					|| inputTienda.startsWith("/b ")) {
-				String nombreItem = extraerNombreItem(inputTienda);
-				Item itemAComprar = stock.get(nombreItem);
-
-				if (itemAComprar != null) {
-					realizarVenta(jugador, itemAComprar);
-				} else {
-					System.out.println("El item '" + nombreItem + "' no existe en la tienda.");
+				try {
+					int indexItem = Integer.parseInt(extraerIndexItem(inputTienda));
+					int indexCorrecto = indexItem - 1;
+					if (indexCorrecto >= 0 && indexCorrecto < stock.size()) {
+						Item itemAComprar = stock.get(indexCorrecto);
+						realizarVenta(jugador, itemAComprar);
+					} else {
+						System.out.println("El numero de item " + indexItem + " no es valido");
+						pulsarEnter();
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("Por favor introduzca un numero valido");
+					pulsarEnter();
+				}catch(Exception e) {
+					System.out.println("Ocurrio un error inesperado");
+					pulsarEnter();
 				}
 
 			} else {
 				System.out.print(
 						"\nNo se reconoció el comando. Usa /comprar [item], /buy [item], /b [item], /comandos o /salir. > ");
+				pulsarEnter();
 			}
 		}
+
 	}
 
-	private String extraerNombreItem(String input) {
+	private String extraerIndexItem(String input) {
 		if (input.startsWith("/comprar ")) {
 			return input.substring("/comprar ".length()).trim();
 		} else if (input.startsWith("/buy ")) {
@@ -69,23 +98,92 @@ public class AccionTienda implements Accion {
 	}
 
 	private void mostrarItems() {
-		System.out.println("Elementos disponibles: ");
-		for (String item : stock.keySet()) {
-			System.out.println(">" + stock.get(item).getNombre() + " : $" + stock.get(item).getPrecio());
+		int totalItems = stock.size();
+		int totalPaginas = (int) Math.ceil((double) totalItems / itemsPorPagina); // la funcion ceil es un redondeo pero
+																					// hacia
+		// arriba. Al revez del casteo a int que
+		// elimina el decimal para abajo este lo
+		// elima para arriba.
+		if (paginaActual < 0)
+			paginaActual = 0;
+		if (paginaActual >= totalPaginas && totalPaginas > 0)
+			paginaActual = totalPaginas - 1;
+
+		int inicio = paginaActual * itemsPorPagina;
+		int fin = Math.min(inicio + itemsPorPagina, totalItems);
+
+		int largoTienda = 120;
+		String textoNumeroPagina = "Pagina Numero " + (paginaActual + 1) + " de " + totalPaginas;
+		System.out.println("╔" + "═".repeat((largoTienda - textoNumeroPagina.length()) / 2) + textoNumeroPagina
+				+ "═".repeat(
+						largoTienda - textoNumeroPagina.length() - ((largoTienda - textoNumeroPagina.length()) / 2))
+				+ "╗");
+
+		for (int i = inicio; i < fin; i++) {
+			String[] a = { ">" + (i + 1) + ". " + stock.get(i).getNombre() + " : $" + stock.get(i).getPrecio(),
+					"   Descripcion: " + stock.get(i).getDescripcion() };
+			MyUtil.marcoTienda(a, largoTienda);
 		}
+		System.out.println("╚" + "═".repeat(largoTienda) + "╝\n");
+
+		String controlesNavegacion = "Cambio de pagina: ";
+		if (paginaActual > 0)
+			controlesNavegacion += "Pagina anterior: /anterior (/p)";
+		if (paginaActual < totalPaginas - 1)
+			controlesNavegacion += "|| Pagina siguiente: /siguiente (/n)";
+		System.out.println(controlesNavegacion);
 	}
 
 	private void realizarVenta(Jugador jugador, Item item) {
 		if (jugador.getMonedas() >= item.getPrecio()) {
-			jugador.addItem(item);
-			jugador.modMonedas(item.getPrecio());
+			Item itemNuevo = clonarItem(item);
+			if (itemNuevo != null) {
+				jugador.addItem(itemNuevo);
+				jugador.modMonedas(-itemNuevo.getPrecio());
+				System.out.println(
+						"Compraste [ " + itemNuevo.getNombre() + " ] por " + itemNuevo.getPrecio() + " monedas");
+				pulsarEnter();
+			}
+		}else {
+			System.out.println("No tienes suficiente dinero");
+			pulsarEnter();
 		}
+	}
+
+	private Item clonarItem(Item item) {
+		if (item instanceof Consumible)
+			return new Consumible(((Consumible) item).getTipo(), 1);
+		if (item instanceof Equipable)
+			return new Equipable(((Equipable) item).getTipo(), 1);
+		return null;
+
 	}
 
 	private void mostrarComandosTienda(Scanner scTienda) {
 		MyUtil.marco(DatosJuego.comandosTienda);
-		System.out.println("\n[Enter para continuar]");
-		scTienda.nextLine();
+		pulsarEnter();
+	}
+
+	private void inicializarStock() {
+		// Stock consumibles
+		for (ItemConsumible tipo : ItemConsumible.values()) {
+			if (tipo.seVende()) {
+				stock.add(new Consumible(tipo, 1));
+			}
+		}
+
+		// Stock equipables
+		for (ItemEquipable tipo : ItemEquipable.values()) {
+			if (tipo.seVende()) {
+				stock.add(new Equipable(tipo, 1));
+			}
+		}
+
+	}
+	
+	private void pulsarEnter() {
+		System.out.println("[ Pulsa Enter para continuar ]");
+		sc.nextLine();
 	}
 
 }

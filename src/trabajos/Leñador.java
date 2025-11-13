@@ -6,6 +6,7 @@ import java.util.Scanner;
 import acciones.Accion;
 import acciones.Trabajar;
 import todo.Jugador;
+import utiles.MyUtil;
 
 public class Leñador extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
@@ -19,6 +20,8 @@ public class Leñador extends Trabajar implements Accion{
 		int xp = 10 + r.nextInt(20);
 		jugador.modExp(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));			////////////							// de dinero
+		MyUtil.marco("Enter para continuar");
+		sc.nextLine();
 	}
 	
 	@Override

@@ -85,6 +85,37 @@ public class MyUtil {
 		// Imprimir el marco
 		System.out.println(sb.toString());
 	}
+	
+	public static void marcoTienda(String[] textos, int largo) {
+		final int paddingCostados = 2; // espacios de los costados
+
+		if (textos == null || textos.length == 0) {
+			textos = new String[] { " " };
+		}
+
+		// Determinar el largo máximo de los textos
+		int largoMaximo = largo;
+		StringBuilder sb = new StringBuilder();
+
+		// 2. Líneas centrales
+		for (String texto : textos) {
+			if (texto == null)
+				texto = "";
+			int espaciosRestantes = largoMaximo - texto.length() - paddingCostados*2;
+			sb.append("║").append(" ".repeat(paddingCostados)).append(texto).append(" ".repeat(espaciosRestantes))
+					.append(" ".repeat(paddingCostados)).append("║\n");
+		}
+
+		// 3. Línea inferior
+		sb.append("╠" + "═".repeat(largoMaximo) + "╣");
+
+		// Imprimir el marco
+		System.out.println(sb.toString());
+	}
+	
+	
+	
+	
 
 	public static void dibujarArrayString(String[] array) {
 		for (String linea : array) {

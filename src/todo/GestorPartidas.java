@@ -41,6 +41,7 @@ public class GestorPartidas {
 
 		Jugador jugadorActual = (Jugador) ois.readObject(); // si el nombre del jugador existe se inicializa una clase
 		System.out.println("Bienvenido devuelta: " + nombre); // de jugador con sus datos
+		jugadorActual.inicializarCooldowns();
 		return jugadorActual;
 
 	}catch(IOException|

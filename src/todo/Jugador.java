@@ -117,6 +117,11 @@ public class Jugador extends Personaje implements Serializable {
 	public double getMultGanancia() {
 		return multiplicadorGanancia;	
 	}
+	public void inicializarCooldowns() {
+	    if (this.cooldownsAcciones == null) {
+	        this.cooldownsAcciones = new HashMap<>();
+	    }
+	}
 	
 	
 
@@ -250,7 +255,7 @@ public class Jugador extends Personaje implements Serializable {
 					if (itemIndex < inventarioSize) {
 						Item item = items.get(itemIndex);
 						rowBuilder.append(
-								itemIndex + "- " + "[ " + item.getNombre() + " (" + item.getCantidad() + ")" + " ]");
+								(itemIndex+1) + ". " + "[ " + item.getNombre() + " (" + item.getCantidad() + ")" + " ]");
 					} else {
 						rowBuilder.append("[ Vacio ]");
 					}

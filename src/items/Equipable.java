@@ -4,7 +4,8 @@ import todo.Jugador;
 
 public class Equipable extends Item implements IEquipable{
 	private static final long serialVersionUID = 1L;
-	Equipable(ItemEquipable tipo, int cantidad) {
+	ItemEquipable tipo;
+	public Equipable(ItemEquipable tipo, int cantidad) {
 		super(tipo.getNombre(), tipo.getDescripcion(), tipo.getPrecio(), cantidad);
 		this.tipo = tipo;
 		
@@ -28,6 +29,10 @@ public class Equipable extends Item implements IEquipable{
 		jugador.modVidaMaxima(-tipo.getVida());
 		jugador.modDefensa(-tipo.getDefensa());
 		jugador.modSuerte(-tipo.getSuerte());
+	}
+	
+	public ItemEquipable getTipo() {
+		return tipo;
 	}
 
 }

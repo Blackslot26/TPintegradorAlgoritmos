@@ -2,6 +2,7 @@ package trabajos;
 
 import acciones.Accion;
 import todo.Jugador;
+import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -51,7 +52,8 @@ public class Ladron extends Trabajar implements Accion{
 				// actual.
 			}
 		}
-
+		MyUtil.marco("Enter para continuar");
+		sc.nextLine();
 	}
 
 	@Override
