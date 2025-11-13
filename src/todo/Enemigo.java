@@ -8,7 +8,8 @@ public class Enemigo extends Personaje{
 	private int recompensa;
 	private int recompensaXP;
 	private final String[] dibujo;
-	//private ArrayList<Item> loot;
+	private final Enum<?>[] plantillaLoot;
+	private final double[] lootChances;
 	
 	public Enemigo(TipoEnemigo tipo){
 		
@@ -21,6 +22,10 @@ public class Enemigo extends Personaje{
 		
 		//Para dibujar el enemigo;
 		dibujo = tipo.getDibujo();
+		
+		//Para el loot
+		this.plantillaLoot = tipo.getPlantillaLoot();
+		this.lootChances = tipo.getLootChances();
 	}
 	
 	public int getRecompensa() {
@@ -30,7 +35,12 @@ public class Enemigo extends Personaje{
 	public int getRecompensaXp() {
 		return recompensaXP;
 	}
-	
+	public Enum<?>[] getPlantillaLoot() {
+	    return plantillaLoot;
+	}
+	public double[] getLootChances() {
+	    return lootChances;
+	}
 	public String[] getDibujo() {
 		return dibujo;
 	}

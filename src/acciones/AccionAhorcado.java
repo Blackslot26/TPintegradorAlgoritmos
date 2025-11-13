@@ -65,7 +65,7 @@ public class AccionAhorcado implements Accion {
 			MyUtil.marco("Has recurrido a ténicas prohibidas para salir de tu grave situación");
 			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
 			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
-			MyUtil.marco("Has perdido" + monedasPerdidas);
+			MyUtil.marco("Has perdido " + MyUtil.ANSI_RED + monedasPerdidas + MyUtil.ANSI_RESET);
 			Thread.sleep(3000);
 			return false;
 		}
@@ -74,14 +74,14 @@ public class AccionAhorcado implements Accion {
 			char letraInput = input.charAt(0);
 
 			if (letrasIntentadas.contains(letraInput)) { // Si ya intentó esta letra
-//				myUtil.marco("Esa letra ya la intentaste. Prueba otra.");
-//				Thread.sleep(1500);
+				MyUtil.marco(MyUtil.ANSI_YELLOW + "Esa letra ya la intentaste. Prueba otra." + MyUtil.ANSI_RESET);
 				return true;
 			} else {
 				letrasIntentadas.add(letraInput);
 			}
 
 			if (palabra.indexOf(letraInput) != -1) {// Si la letra está en la palabra
+				MyUtil.marco(MyUtil.ANSI_GREEN + "¡Correcto!" + MyUtil.ANSI_RESET);
 				// Se reemplaza la letra
 				for (int i = 0; i < palabra.length(); i++) {
 					if (palabra.charAt(i) == letraInput) {
@@ -92,8 +92,7 @@ public class AccionAhorcado implements Accion {
 			} else {
 				int danio = (int) (jugador.getVidaMaxima() * -0.1);
 				jugador.modVida(danio);
-//				myUtil.marco("INCORRECTA! PERDISTE " + danio + "HP");
-//				Thread.sleep(1500);
+				MyUtil.marco(MyUtil.ANSI_RED + "INCORRECTA! PERDISTE " + (-danio) + "HP" + MyUtil.ANSI_RESET);
 			}
 
 		} else if (input.equals(palabra)) {
@@ -102,13 +101,13 @@ public class AccionAhorcado implements Accion {
 			return false;
 		} else if (input.length() == palabra.length()) { // Intentó la palabra y falló
 			Thread.sleep(1000);
-			jugador.modVida(-jugador.getVidaActual());
+			jugador.modVida(-jugador.getVidaActual()); // Pierde toda la vida
 
 			animacionMuerteAhorcado(scAhorcado);
 			return false;
 		} else {
-			// myUtil.marco("SOLO UNA LETRA!!!");
-			// Thread.sleep(2000);
+			// Feedback para input inválido
+			MyUtil.marco(MyUtil.ANSI_RED + "Entrada inválida. Intenta una sola letra o la palabra completa." + MyUtil.ANSI_RESET);
 		}
 
 		// Si ya no quedan '_', el jugador gana
@@ -138,8 +137,9 @@ public class AccionAhorcado implements Accion {
 
 		}
 		MyUtil.marco(sbIntentadas.toString());
-
-		MyUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima());
+		
+		MyUtil.marco("Vida: " + MyUtil.ANSI_GREEN + jugador.getVidaActual() + MyUtil.ANSI_RESET + "/"
+				+ jugador.getVidaMaxima());
 		MyUtil.marco(tablero.toString());
 		System.out.print("Ingrese una letra o intente adivinar la palabra: ");
 	}
@@ -158,7 +158,7 @@ public class AccionAhorcado implements Accion {
 		Thread.sleep(2000);
 		
 		MyUtil.limpiarConsola();
-		MyUtil.marco("JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA");
+		MyUtil.marco(MyUtil.ANSI_PURPLE + "JUGUEMOS AL AHORCADO!!! ADIVINA LA PALABRA" + MyUtil.ANSI_RESET);
 		Thread.sleep(2500);
 
 		// Para evitar que el usuario spamee letras
@@ -174,7 +174,7 @@ public class AccionAhorcado implements Accion {
 		Thread.sleep(2000);
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CALAVERA);
-		MyUtil.marco("La muerte te ha alcanzado...");
+		MyUtil.marco(MyUtil.ANSI_RED + "La muerte te ha alcanzado..." + MyUtil.ANSI_RESET);
 		Thread.sleep(2000); // Reducido para no esperar tanto
 
 		// Para evitar que el usuario spamee letras
@@ -182,21 +182,37 @@ public class AccionAhorcado implements Accion {
 		scAhorcado.nextLine();
 	}
 
-	// Añadimos Scanner scAhorcado como parámetro
 	private void victoriaAhorcado(Jugador jugador, String palabra, int recMaxima, int xpMaxima, Scanner scAhorcado)
 			throws InterruptedException {
+		
+		double multiplicadorSuerte = 1.0 + jugador.getSuerte(); // Ej: 1.0 + 0.15 = 1.15 (15% más)
+		
 		// Calcular las recompensas
-		int recompensa = ran.nextInt(recMaxima - recompensaBase + 1) + recompensaBase;
-		int expGanada = ran.nextInt(xpMaxima - recompensaBaseXP) + recompensaBaseXP;
+		int recompensaBruta = ran.nextInt(recMaxima - recompensaBase + 1) + recompensaBase;
+		int expBruta = ran.nextInt(xpMaxima - recompensaBaseXP) + recompensaBaseXP;
+		
+		// Aplicar bonificación de suerte
+		int recompensaFinal = (int) (recompensaBruta * multiplicadorSuerte);
+		int expFinal = (int) (expBruta * multiplicadorSuerte);
 
 		// Textos y añadirle la recompensa
-		MyUtil.marco("¡Felicidades! Has adivinadado la palabra: " + palabra);
+		MyUtil.marco(MyUtil.ANSI_GREEN + "¡Felicidades! Has adivinadado la palabra: " + palabra + MyUtil.ANSI_RESET);
 		MyUtil.marco("Y Has sobrevido a un ataque de depresión");
 		Thread.sleep(2500);
-		jugador.modMonedas(recompensa);
-		jugador.modExp(expGanada);
-		MyUtil.marco("Has ganado $" + recompensa + " y " + expGanada + "XP");
-		Thread.sleep(2000); // Reducido
+		jugador.modMonedas(recompensaFinal);
+		jugador.modExp(expFinal);
+		
+		// --- AÑADIDO COLOR A LAS RECOMPENSAS ---
+		MyUtil.marco("Has ganado " + MyUtil.ANSI_YELLOW + "$" + recompensaFinal + MyUtil.ANSI_RESET + " y " 
+				+ MyUtil.ANSI_CYAN + expFinal + "XP" + MyUtil.ANSI_RESET);
+		
+		// Muestra el desglose de la suerte si hubo bonificación
+		if (jugador.getSuerte() > 0) {
+			MyUtil.marco("(Bonificación por suerte: $" + (recompensaFinal - recompensaBruta) + " y " 
+					+ (expFinal - expBruta) + "XP)");
+		}
+		
+		Thread.sleep(4000); 
 
 		// Para evitar que el usuario spamee letras
 		System.out.print("\n[Presiona Enter para continuar]");

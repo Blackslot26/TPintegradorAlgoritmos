@@ -1,5 +1,6 @@
 package todo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -42,10 +43,11 @@ public class Controlador {
 
 		// Comandos especiales
 		switch (input) {
-
 		case "/leaderboard":
 			Leaderboard.update(jugadorActual);
 			Leaderboard.mostrarLeaderboard();
+			System.out.println("[Enter para salir]");
+			sc.nextLine();
 			break;
 
 		case "/salir":
@@ -55,20 +57,27 @@ public class Controlador {
 		case "/comandos":
 			listarComandos(sc);
 			break;
+		case "/alias" :
+			listarAlias(sc);
+			break;
+
 		default:
 			Accion accion = accionesMapeadas.get(input);
 
 			long tiempoRestante = jugadorActual.getRemainingCooldown(input);
 
 			if (tiempoRestante > 0) {
-				MyUtil.marco("\nAún no puedes acceder a esta acción, espera " + MyUtil.ANSI_CYAN + tiempoRestante
-						+ MyUtil.ANSI_RESET + " Segundo más");
+				MyUtil.marco("Que impaciente! espera " + MyUtil.ANSI_CYAN + tiempoRestante + MyUtil.ANSI_RESET
+						+ " Segundos más");
 				System.out.println("[Enter para volver]");
 				sc.nextLine();
 			} else if (accion != null) {
 				accion.realizar(jugadorActual, sc);
-			} else
+			} else {
 				System.out.printf("No se reconoció el comando %s :( \n ", input);
+			System.out.println("[Enter para continuar]");
+			sc.nextLine();
+			}
 		}
 
 		return true;
@@ -82,6 +91,30 @@ public class Controlador {
 	 */
 	private String aliasToAccion(String input) {
 		return DatosJuego.aliasComandos.getOrDefault(input, input);
+	}
+	
+	/**
+	 * Función para listar los alias de comandos disponibles.
+	 */
+	private void listarAlias(Scanner sc) {
+		// 1. Crear el contenedor para las líneas del marco
+		ArrayList<String> lineasAlias = new ArrayList<>();
+		lineasAlias.add("--- Lista de Alias ---");
+		lineasAlias.add("(Alias -> Comando Principal)");
+		lineasAlias.add(""); // Espacio
+
+		// 2. Iterar sobre el HashMap de alias
+		for (HashMap.Entry<String, String> entry : DatosJuego.aliasComandos.entrySet()) {
+			// Formato: /t -> /trabajar
+			lineasAlias.add(MyUtil.ANSI_GREEN + entry.getKey() + MyUtil.ANSI_RESET + "  ->  " + entry.getValue());
+		}
+
+		// 3. Dibujar el marco
+		MyUtil.marco(lineasAlias.toArray(new String[0]));
+
+		// 4. Esperar al usuario
+		System.out.print("[Enter para salir]");
+		sc.nextLine();
 	}
 
 	/**

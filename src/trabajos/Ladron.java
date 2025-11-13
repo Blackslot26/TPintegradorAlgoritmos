@@ -12,7 +12,7 @@ import acciones.Trabajar;
 public class Ladron extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 	double success;
-
+	private static final int SEG_COOLDOWN= 60;
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		if (jugador.getExperiencia() == 0) {	//esta garantizado de ganar en el tutorial para que no sea injusto
@@ -54,6 +54,7 @@ public class Ladron extends Trabajar implements Accion{
 		}
 		MyUtil.marco("Enter para continuar");
 		sc.nextLine();
+		jugador.setActionCooldown("/trabajar", SEG_COOLDOWN);
 	}
 
 	@Override

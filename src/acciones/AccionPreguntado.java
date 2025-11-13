@@ -46,7 +46,6 @@ public class AccionPreguntado implements Accion {
 			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
 			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
 			MyUtil.marco("Se te caen -$" + -monedasPerdidas);
-			Thread.sleep(3000);
 
 			// Para evitar que el usuario spamee letras
 			System.out.print("\n[Presiona Enter para continuar]...");
@@ -60,8 +59,8 @@ public class AccionPreguntado implements Accion {
 				victoriaPreguntado(jugador, i, scPreguntado);
 				return false;
 			} else if (Integer.parseInt(input) - 1 >= DatosJuego.preguntas.get(i).getOpciones().length) {
-//				MyUtil.marco("No ves que no existe la opción " + input + "?");
-//				Thread.sleep(2500);
+				MyUtil.marco("No ves que no existe la opción " + input + "?");
+				Thread.sleep(1000);
 			} else {
 				// Pasamos el Scanner
 				return derrotaPreguntado(jugador, scPreguntado);
@@ -78,7 +77,7 @@ public class AccionPreguntado implements Accion {
 	private void mostrarPregunta(Jugador jugador, int i) {
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_ESFINGE);
-		MyUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima()); // Muestra la vida
+		MyUtil.marco("Vida: " + MyUtil.ANSI_GREEN + jugador.getVidaActual() + MyUtil.ANSI_RESET + "/" + jugador.getVidaMaxima());
 		MyUtil.marco(DatosJuego.preguntas.get(i).getPregunta());// Muestra la pregunta
 		MyUtil.marco(DatosJuego.preguntas.get(i).opcionesToString()); // Muestra las opciones
 		System.out.print("\nElige con cuidado (1,2,3 o 4): "); // Para ingresar el input
@@ -87,15 +86,28 @@ public class AccionPreguntado implements Accion {
 	// Añadimos Scanner scPreguntado
 	private void victoriaPreguntado(Jugador jugador, int indicePregunta, Scanner scPreguntado)
 			throws InterruptedException {
-		int recompensa = DatosJuego.preguntas.get(indicePregunta).getRecompensa();
-		int expGanada = ran.nextInt(20) + 10;// Puede ganar hasta 30 de EXP y minimo 10
-		MyUtil.marco("Muy bien, has logrado sobrevir");
+		double multiplicadorSuerte = 1.0 + jugador.getSuerte();
+		
+		int recompensaBruta = DatosJuego.preguntas.get(indicePregunta).getRecompensa();
+		int expBruta = ran.nextInt(20) + 10; // Puede ganar hasta 30 de EXP y sin la suerte
+		
+		int recompensaFinal = (int) (recompensaBruta * multiplicadorSuerte);
+		int expFinal = (int) (expBruta * multiplicadorSuerte);
+		
+		MyUtil.marco(MyUtil.ANSI_GREEN + "Muy bien, has logrado sobrevir" + MyUtil.ANSI_RESET);
 		MyUtil.marco("Puedes irte");
 		Thread.sleep(2500);
-		jugador.modMonedas(recompensa);
-		jugador.modExp(expGanada);
-		MyUtil.marco("Has ganado $" + recompensa + " y " + expGanada + "XP");
-		Thread.sleep(2500);
+		jugador.modMonedas(recompensaFinal);
+		jugador.modExp(expFinal);
+		
+		MyUtil.marco("Has ganado " + MyUtil.ANSI_YELLOW + "$" + recompensaFinal + MyUtil.ANSI_RESET + " y " + MyUtil.ANSI_CYAN + expFinal + "XP" + MyUtil.ANSI_RESET);
+		
+		// Muestra el desglose de la suerte si hubo bonificación
+		if (jugador.getSuerte() > 0) {
+			MyUtil.marco("(Bonificación por suerte: $" + (recompensaFinal - recompensaBruta) + " y " 
+					+ (expFinal - expBruta) + "XP)");
+		}
+		
 
 		// Para evitar que el usuario spamee letras
 		System.out.print("\n[Presiona Enter para continuar]...");
@@ -106,12 +118,11 @@ public class AccionPreguntado implements Accion {
 	private boolean derrotaPreguntado(Jugador jugador, Scanner scPreguntado) throws InterruptedException {
 		int danio = (int) (jugador.getVidaMaxima() / -3);// Pierde un tercio de su vida máxima
 		jugador.modVida(danio);
-		MyUtil.marco("Esa no es la opción correcta. *Recibe un fuerte golpe* " + danio + "HP");
-		Thread.sleep(2500); // Esto es feedback, no una cinemática final, no requiere sc.nextLine()
+		MyUtil.marco("Esa no es la opción correcta. *Recibe un fuerte golpe* " + MyUtil.ANSI_RED + danio + "HP" + MyUtil.ANSI_RESET);
+		Thread.sleep(2500);
 
 		if (jugador.getVidaActual() <= 0) {
-			MyUtil.marco("Has muerto en el intento");
-			Thread.sleep(2500);
+			MyUtil.marco(MyUtil.ANSI_RED + "Has muerto en el intento" + MyUtil.ANSI_RESET);
 
 			// Para evitar que el usuario spamee letras
 			System.out.print("\n[Presiona Enter para continuar]...");
@@ -138,8 +149,9 @@ public class AccionPreguntado implements Accion {
 		Thread.sleep(3000);
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_ESFINGE);
-		MyUtil.marco("RESPONDE O MUERE AQUÍ MISMO!!!");
-		Thread.sleep(2500);
+		MyUtil.marco(MyUtil.ANSI_RED + "RESPONDE O MUERE AQUÍ MISMO!!!" + MyUtil.ANSI_RESET);
+		
+		
 		// Para evitar que el usuario spamee letras
 		System.out.print("\n[Presiona Enter para comenzar]...");
 		scPreguntado.nextLine();

@@ -2,11 +2,11 @@ package utiles;
 
 public class MyUtil {
 
-	
-	//Para evitar instancias
-	private MyUtil() {}
-	
-	//Comandos de colores para usar en los prints
+	// Para evitar instancias
+	private MyUtil() {
+	}
+
+	// Comandos de colores para usar en los prints
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_RED = "\u001B[31m";
 	public static final String ANSI_GREEN = "\u001B[32m";
@@ -16,33 +16,53 @@ public class MyUtil {
 	public static final String ANSI_CYAN = "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
 
+	/**
+	 * Función de ayuda para eliminar códigos de color ANSI de un String. Esto nos
+	 * permite medir el ANCHO VISIBLE del texto.
+	 * 
+	 * @param texto El texto con códigos de color (ej. "\u001B[31mHola")
+	 * @return El texto sin códigos (ej. "Hola")
+	 */
+	private static String stripAnsi(String texto) {
+		if (texto == null) {
+			return "";
+		}
+		// Esta expresión regular busca y reemplaza los códigos de escape ANSI
+		return texto.replaceAll("\u001B\\[[;\\d]*m", "");
+	}
+
 	public static void marco(String texto) {
 		final int paddingCostados = 2; // espacios de los costados
-		final int largoTexto = texto.length() + (2 * paddingCostados);
 
 		if (texto == null || texto.isEmpty()) {
 			texto = " ";
 		}
 
+		// 1. Medir el largo VISIBLE, sin códigos de color
+		int largoVisible = stripAnsi(texto).length();
+
+		// 2. Calcular el marco basándose en el largo VISIBLE
+		final int largoMarco = largoVisible + (2 * paddingCostados);
+
 		StringBuilder sb = new StringBuilder();
 
-		// 1. Línea superior: ╔════════...════════╗
+		// 1. Línea superior
 		sb.append("╔");
-		sb.append("═".repeat(largoTexto));
+		sb.append("═".repeat(largoMarco));
 		sb.append("╗\n");
 
-		// 2. Línea central con texto y padding
+		// 2. Línea central
 		sb.append("║");
-		// Añadimos el padding (espacio) a la izquierda
 		sb.append(" ".repeat(paddingCostados));
-		sb.append(texto);
-		// Añadimos el padding (espacio) a la derecha
+		sb.append(texto); // Se imprime el texto ORIGINAL (con color)
+
+		// 3. Añadir el relleno derecho
 		sb.append(" ".repeat(paddingCostados));
 		sb.append("║\n");
 
-		// 3. Línea inferior: ╚════════...════════╝
+		// 4. Línea inferior
 		sb.append("╚");
-		sb.append("═".repeat(largoTexto));
+		sb.append("═".repeat(largoMarco));
 		sb.append("╝");
 
 		// Imprimimos el marco final
@@ -56,11 +76,15 @@ public class MyUtil {
 			textos = new String[] { " " };
 		}
 
-		// Determinar el largo máximo de los textos
+		// 1. Determinar el largo máximo VISIBLE
 		int largoMaximo = 0;
 		for (String texto : textos) {
-			if (texto != null && texto.length() > largoMaximo) {
-				largoMaximo = texto.length();
+			if (texto != null) {
+				// Medir el texto "limpio"
+				int largoVisible = stripAnsi(texto).length();
+				if (largoVisible > largoMaximo) {
+					largoMaximo = largoVisible;
+				}
 			}
 		}
 
@@ -69,13 +93,17 @@ public class MyUtil {
 
 		// 1. Línea superior
 		sb.append("╔").append("═".repeat(largoMarco)).append("╗\n");
-
 		// 2. Líneas centrales
 		for (String texto : textos) {
 			if (texto == null)
 				texto = "";
-			int espaciosRestantes = largoMaximo - texto.length();
-			sb.append("║").append(" ".repeat(paddingCostados)).append(texto).append(" ".repeat(espaciosRestantes))
+
+			// Calcular los espacios restantes basándose en el largo VISIBLE
+			int largoVisibleActual = stripAnsi(texto).length();
+			int espaciosRestantes = largoMaximo - largoVisibleActual;
+
+			sb.append("║").append(" ".repeat(paddingCostados)).append(texto) // Imprime el texto ORIGINAL (con color)
+					.append(" ".repeat(espaciosRestantes)) // Añade el relleno correcto
 					.append(" ".repeat(paddingCostados)).append("║\n");
 		}
 
@@ -85,7 +113,7 @@ public class MyUtil {
 		// Imprimir el marco
 		System.out.println(sb.toString());
 	}
-	
+
 	public static void marcoTienda(String[] textos, int largo) {
 		final int paddingCostados = 2; // espacios de los costados
 
@@ -101,7 +129,7 @@ public class MyUtil {
 		for (String texto : textos) {
 			if (texto == null)
 				texto = "";
-			int espaciosRestantes = largoMaximo - texto.length() - paddingCostados*2;
+			int espaciosRestantes = largoMaximo - texto.length() - paddingCostados * 2;
 			sb.append("║").append(" ".repeat(paddingCostados)).append(texto).append(" ".repeat(espaciosRestantes))
 					.append(" ".repeat(paddingCostados)).append("║\n");
 		}
@@ -112,14 +140,10 @@ public class MyUtil {
 		// Imprimir el marco
 		System.out.println(sb.toString());
 	}
-	
-	
-	
-	
 
 	public static void dibujarArrayString(String[] array) {
 		for (String linea : array) {
-			System.out.println(linea);
+			System.out.print(linea + "\n");
 		}
 	}
 
@@ -129,16 +153,18 @@ public class MyUtil {
 			System.out.print(linea + "\n");
 		}
 	}
-	
+
 	/**
-	 * Simula la limpieza de la consola imprimiendo muchas líneas nuevas.
-	 * o hace 50 prints.
+	 * Simula la limpieza de la consola imprimiendo muchas líneas nuevas. o hace 50
+	 * prints.
 	 */
 	public static void limpiarConsola() {
-		 for (int i = 0; i < 50; i++) { System.out.println(); }/**/
+		for (int i = 0; i < 50; i++) {
+			System.out.println();
+		} /**/
 
 		// Para cuando se exporte como archivo jar
-		
+
 		try {
 			// Obtenemos el nombre del sistema operativo
 			String os = System.getProperty("os.name");
@@ -160,7 +186,5 @@ public class MyUtil {
 			System.out.print("Error al limpiar la pantalla: " + e.getMessage());
 		} /**/
 	}
-
-
 
 }

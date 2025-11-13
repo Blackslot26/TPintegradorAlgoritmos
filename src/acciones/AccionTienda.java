@@ -33,12 +33,12 @@ public class AccionTienda implements Accion {
 		String inputTienda;
 
 		MyUtil.limpiarConsola();
-		Titulos.mostrarTituloTienda();
+		MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
 		mostrarItems();
 
 		while (enTienda) {
 			MyUtil.limpiarConsola();
-			Titulos.mostrarTituloTienda();
+			MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
 			mostrarItems();
 			System.out.print("\n[TIENDA] Prueba /comprar [item],/comandos o /salir > \n");
 			MyUtil.marco("Monedas: " + jugador.getMonedas());
@@ -88,7 +88,7 @@ public class AccionTienda implements Accion {
 	
 	public void realizarTutorial(Jugador jugador, Scanner sc) {
 		MyUtil.limpiarConsola();
-		Titulos.mostrarTituloTienda();
+		MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
 		mostrarItems();
 		System.out.println("\nAhora dentro de la tienda utiliza el comando \"" + MyUtil.ANSI_GREEN
 				+ "/comprar [numero de ítem]" + MyUtil.ANSI_RESET + "\" para comprar un ítem.");
