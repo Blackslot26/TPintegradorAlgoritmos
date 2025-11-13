@@ -3,7 +3,6 @@ package acciones;
 import java.util.Random;
 import java.util.Scanner;
 
-import todo.Controlador;
 import todo.Jugador;
 import utiles.MyUtil;
 import utiles.DatosJuego;
@@ -18,19 +17,19 @@ public class AccionPreguntado implements Accion {
 
 
 	@Override
-	public void realizar(Jugador jugador, Controlador controlador, Scanner scPreguntado) {
+	public void realizar(Jugador jugador, Scanner scPreguntado) {
 		boolean enPreguntado = true;
 		int indicePregunta = ran.nextInt(DatosJuego.preguntas.size()); // Se elige la pregunta al azar
 		String input = "";// Para registrar el input local
 
 		try {
 			// Pasamos el Scanner a la intro
-			introPreguntado(controlador, scPreguntado);
+			introPreguntado(scPreguntado);
 			while (enPreguntado) {
-				mostrarPregunta(jugador, controlador, indicePregunta);// Dibujar lo necesario
+				mostrarPregunta(jugador, indicePregunta);// Dibujar lo necesario
 				input = scPreguntado.nextLine().toLowerCase().trim(); // Input normalizado
 				// Pasamos el Scanner al flujo
-				enPreguntado = flujoPreguntado(jugador, controlador, input, indicePregunta, scPreguntado);
+				enPreguntado = flujoPreguntado(jugador, input, indicePregunta, scPreguntado);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -39,7 +38,7 @@ public class AccionPreguntado implements Accion {
 	}
 
 	// Añadimos Scanner scPreguntado
-	private boolean flujoPreguntado(Jugador jugador, Controlador controlador, String input, int i, Scanner scPreguntado)
+	private boolean flujoPreguntado(Jugador jugador, String input, int i, Scanner scPreguntado)
 			throws InterruptedException {
 		if (input.equals("/escapar") || input.equals("/esc") || input.equals("/salir") || input.equals("/s")) {
 
@@ -76,7 +75,7 @@ public class AccionPreguntado implements Accion {
 		return true;
 	}
 
-	private void mostrarPregunta(Jugador jugador, Controlador controlador, int i) {
+	private void mostrarPregunta(Jugador jugador, int i) {
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_ESFINGE);
 		MyUtil.marco("Vida: " + jugador.getVidaActual() + "/" + jugador.getVidaMaxima()); // Muestra la vida
@@ -123,7 +122,7 @@ public class AccionPreguntado implements Accion {
 	}
 
 	// Añadimos Scanner scPreguntado
-	private void introPreguntado(Controlador controlador, Scanner scPreguntado) throws InterruptedException {
+	private void introPreguntado(Scanner scPreguntado) throws InterruptedException {
 		MyUtil.marco("Te has aventurado a tierras inexploradas");
 		MyUtil.dibujarArrayString(Dibujos.DIBUJO_CAMELLO);
 		Thread.sleep(3000);

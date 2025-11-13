@@ -2,6 +2,7 @@ package todo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import acciones.Trabajar;
 import items.Item;
@@ -20,13 +21,14 @@ public class Jugador extends Personaje implements Serializable {
 	// Variables auxiliares para actualizar el jugador
 	private int ultimasMonedasPerdidas;
 	private boolean murio;
-	//private int bonificadorRenacimiento;
+	// private int bonificadorRenacimiento;
 
 	// estadisticas EXTRA (principalmente afectan trabajos o eventos)
 	public double suerte;
 	public double multiplicadorVenta;
 	public double multiplicadorGanancia;
 	Item[] itemsEquipados;
+	private HashMap<String, Long> cooldownsAcciones = new HashMap<>();
 
 	public Jugador(String nombre) {
 		super(nombre, 100, 30); // Empieza con 100 de vida y nivel 1.
@@ -71,8 +73,11 @@ public class Jugador extends Personaje implements Serializable {
 		return suerte;
 	}
 
+	public Item[] getItemsEquipados() {
+		return itemsEquipados;
+	}
 	// Funciones para modificar Atributos
-	
+
 	public void modMonedas(int cantidad) {
 		monedas += cantidad;
 	}
@@ -118,26 +123,10 @@ public class Jugador extends Personaje implements Serializable {
 	// Otras funciones necesarias
 	@Override
 	public void morir() {
+		murio = true;
 		ultimasMonedasPerdidas = (int) (monedas * -0.5);
 		modMonedas((ultimasMonedasPerdidas)); // Pierde la mitad de sus monedas actuales
-		vidaActual = vidaMaxima; // Se resetea la vida
-	}
-
-	@Override
-	public void actualizar() {
-		if (vidaActual > vidaMaxima) {	//cambio de 100 --> vidaMaxima por las dudas
-			vidaActual = vidaMaxima;
-		}
-		if (vidaActual < 0) {
-			vidaActual = 0;
-		}
-		if (vidaActual <= 0) {
-			murio = true;
-			morir();
-		}
-		
-		//Resetear auxiliares
-		setEstadoDefensa(false);
+		this.setVidaActual(this.getVidaMaxima()); // Se resetea la vida
 	}
 
 	public void feedbackMuerte() {
@@ -147,9 +136,45 @@ public class Jugador extends Personaje implements Serializable {
 		murio = false;
 	}
 
-	public Item[] getItemsEquipados() {
-		return itemsEquipados;
+	/**
+	 * Establece el cooldown para una acción.
+	 * 
+	 * @param nombreAccion El nombre del comando (ej: "/cazar") y seconds
+	 * @param seconds La cantidad de segundos que debe esperar
+	 */
+	public void setActionCooldown(String nombreAccion, int seconds) {
+		long ahora = System.currentTimeMillis();
+		long readyTime = ahora + (seconds * 1000); // Convierte segundos a milisegundos
+		cooldownsAcciones.put(nombreAccion, readyTime);
 	}
+
+	/**
+	 * Devuelve el tiempo restante (en segundos) para que una acción esté lista.
+	 * 
+	 * @param actionName El nombre del comando
+	 * @return Segundos restantes, o 0 si está lista.
+	 */
+	public long getRemainingCooldown(String actionName) {
+		//Obtener el tiempo en que estará lista
+		Long readyTime = cooldownsAcciones.get(actionName);
+		
+		//Si nunca se ha usado, está lista (retorna 0)
+		if (readyTime == null) {
+			return 0;
+		}
+
+		//Calcular el tiempo restante
+		long millisRestantes = readyTime - System.currentTimeMillis();
+
+		// Si el tiempo restante es negativo (ya pasó), retorna 0
+		if (millisRestantes <= 0) {
+			return 0;
+		}
+
+		//Convertir milisegundos a segundos (redondeando hacia arriba)
+		return (millisRestantes / 1000) + 1;
+	}
+
 	public void mostrarEstadoJugador() {
 		String pfp1 = "|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|";
 		String pfp2 = "|     -------     |";
@@ -159,10 +184,9 @@ public class Jugador extends Personaje implements Serializable {
 		String pfp6 = "|     ---|---     |";
 		String pfp7 = "|     |  |  |     |";
 		String pfp8 = "|________|________|";
-		
-		
+
 		int boxLong = 80;
-		String pName = " Player Name: " + getNombre();
+		String pName = " Player Name: " + getNombre().toUpperCase();
 		String stats = "     --Estadisticas--";
 		String monedas = " Monedas: " + getMonedas();
 		String vida = " Vida: " + getVidaActual() + "/" + getVidaMaxima();
@@ -191,12 +215,12 @@ public class Jugador extends Personaje implements Serializable {
 		String slots = slotsBuild.toString();
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("\n╔" + "═".repeat(boxLong)+ "╗\n");
-		sb.append("║" + " ".repeat(boxLong-pfp1.length()) + pfp1 + "║\n");
+		sb.append("\n╔" + "═".repeat(boxLong) + "╗\n");
+		sb.append("║" + " ".repeat(boxLong - pfp1.length()) + pfp1 + "║\n");
 		sb.append("║" + pName + " ".repeat(boxLong - pName.length() - pfp2.length()) + pfp2 + "║\n");
 		sb.append("║" + " ".repeat(boxLong - pfp3.length()) + pfp3 + "║\n");
-		sb.append("║" + stats + " ".repeat(boxLong - stats.length()-pfp4.length()) + pfp4 + "║\n");
-		sb.append("║" + monedas + " ".repeat(boxLong - monedas.length() - pfp5.length())  + pfp5 + "║\n");
+		sb.append("║" + stats + " ".repeat(boxLong - stats.length() - pfp4.length()) + pfp4 + "║\n");
+		sb.append("║" + monedas + " ".repeat(boxLong - monedas.length() - pfp5.length()) + pfp5 + "║\n");
 		sb.append("║" + vida + " ".repeat(boxLong - vida.length() - pfp6.length()) + pfp6 + "║\n");
 		sb.append("║" + nivel + " ".repeat(boxLong - nivel.length() - pfp7.length()) + pfp7 + "║\n");
 		sb.append("║" + experiencia + " ".repeat(boxLong - experiencia.length() - pfp8.length()) + pfp8 + "║\n");

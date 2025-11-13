@@ -3,7 +3,6 @@ package acciones;
 import java.util.Random;
 import java.util.Scanner;
 
-import todo.Controlador;
 import todo.Enemigo;
 import todo.Jugador;
 import todo.TipoEnemigo;
@@ -12,11 +11,12 @@ import utiles.MyUtil;
 import utiles.Dibujos;
 
 public class AccionCazar implements Accion {
+	
 	private static final Random ran = new Random();
-
+	public static final int SEG_COOLDOWN= 120;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador controlador, Scanner sc) {
+	public void realizar(Jugador jugador, Scanner sc) {
 		MyUtil.limpiarConsola();
 		// Elegir el enemigo
 		TipoEnemigo tipoEnemigo = elegirEnemigoAleatorio();
@@ -27,7 +27,7 @@ public class AccionCazar implements Accion {
 		String input = "";
 
 		try {
-			animacionEntrada(controlador, enemigo);
+			animacionEntrada(enemigo);
 			while (cazando) {
 				MyUtil.limpiarConsola();
 				dibujarEnemigo(enemigo);
@@ -39,7 +39,7 @@ public class AccionCazar implements Accion {
 
 					input = sc.nextLine().toLowerCase().trim();
 
-					boolean cambiarTurno = flujoJugador(input, jugador, controlador, enemigo, sc);
+					boolean cambiarTurno = flujoJugador(input, jugador, enemigo, sc);
 
 					// Si la acción fue escapar, 'cazando' será false y saldrá
 					if (input.equals("/escapar")) {
@@ -60,7 +60,7 @@ public class AccionCazar implements Accion {
 
 				} else {
 					MyUtil.marco("Turno de: " + enemigo.getNombre());
-					flujoEnemigo(enemigo, jugador, controlador, sc);
+					flujoEnemigo(enemigo, jugador, sc);
 					Thread.sleep(2000);
 				}
 
@@ -92,10 +92,11 @@ public class AccionCazar implements Accion {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		jugador.setActionCooldown("cazar",SEG_COOLDOWN);
 
 	}
 
-	private boolean flujoJugador(String input, Jugador jugador, Controlador controlador, Enemigo enemigo, Scanner sc)
+	private boolean flujoJugador(String input, Jugador jugador, Enemigo enemigo, Scanner sc)
 			throws InterruptedException {
 
 		switch (input) {
@@ -103,7 +104,7 @@ public class AccionCazar implements Accion {
 			MyUtil.marco("debes lanzar un dado [enter]");
 			sc.nextLine();
 			
-			double multiplicadorDanio = tirarDado(controlador);
+			double multiplicadorDanio = tirarDado();
 			int danio = (int) (jugador.getDanio() * multiplicadorDanio);
 			if(!enemigo.estaDefendiento()) { //Si el enemigo no se está defendiendo se aplica todo el daño
 				enemigo.modVidaActual(danio *-1);
@@ -121,7 +122,7 @@ public class AccionCazar implements Accion {
 
 		case "/proteger":
 			jugador.setEstadoDefensa(true);
-			MyUtil.marco("Recibirás un 25% menos de daño en el siguiente golpe");
+			MyUtil.marco(MyUtil.ANSI_GREEN+"Recibirás un 25% menos de daño en el siguiente golpe"+MyUtil.ANSI_RESET);
 			MyUtil.marco("[Enter para continuar]");
 			sc.nextLine();
 			return true;
@@ -129,9 +130,9 @@ public class AccionCazar implements Accion {
 		}
 	}
 
-	private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Controlador controlador, Scanner sc)
+	private void flujoEnemigo(Enemigo enemigo, Jugador jugador, Scanner sc)
 			throws InterruptedException {
-		int danioTotal = enemigo.getDanio() + ran.nextInt(10);
+		int danioTotal = (int) (enemigo.getDanio() * (ran.nextInt(15)/10));
 		if (ran.nextInt(4) < 3) { // 0, 1, 2 (75% de probabilidad de atacar)
 		if (jugador.estaDefendiento()) {
 			int danioReducido = (int) ((danioTotal * 0.75) * (1 - jugador.getDefensa())); // La defensa se programa como double. Un 0.15 de defensa representa un 15% menos de daño.
@@ -140,12 +141,12 @@ public class AccionCazar implements Accion {
 			jugador.setEstadoDefensa(false);
 		} else {
 			jugador.modVida((int) (-danioTotal * jugador.getDefensa()));
-			MyUtil.marco("Te ataca e inflige -" + danioTotal);
+			MyUtil.marco(MyUtil.ANSI_RED+"Te ataca e inflige -" + danioTotal+MyUtil.ANSI_RESET);
 
 		}
 		}else {
 			enemigo.setEstadoDefensa(true);
-			MyUtil.marco(enemigo.getNombre()+" se prepara para defenderse");
+			MyUtil.marco(MyUtil.ANSI_GREEN+enemigo.getNombre()+" se prepara para defenderse"+MyUtil.ANSI_RESET);
 		}
 		Thread.sleep(1000);
 
@@ -166,7 +167,7 @@ public class AccionCazar implements Accion {
 		return tipos[indice];
 	}
 
-	private void animacionEntrada(Controlador controlador, Enemigo enemigo) throws InterruptedException {
+	private void animacionEntrada(Enemigo enemigo) throws InterruptedException {
 		int tiempoEntreTexto = 1500;
 		MyUtil.marco("Te adentras en un oscuro bosque");
 		Thread.sleep(tiempoEntreTexto);
@@ -184,7 +185,7 @@ public class AccionCazar implements Accion {
 		Thread.sleep(tiempoEntreTexto - 500);
 	}
 
-	private double tirarDado(Controlador controlador) throws InterruptedException {
+	private double tirarDado() throws InterruptedException {
 		MyUtil.limpiarConsola();
 		int numero = 0;
 		double multiplicador = 0;

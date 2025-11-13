@@ -2,7 +2,6 @@ package trabajos;
 
 import acciones.Accion;
 import acciones.Trabajar;
-import todo.Controlador;
 import todo.Jugador;
 
 import java.util.Random;
@@ -12,7 +11,7 @@ public class Tahur extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
+	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
 		jugador.modSuerte(2 + (int) jugador.getNivel() / 10); // tiene 2% mas de probabilidades en todo y gana un
 																	// 1% mas cada 10 niveles.

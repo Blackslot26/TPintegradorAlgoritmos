@@ -3,99 +3,89 @@ package acciones;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import todo.Controlador;
 import items.Item;
 import todo.Jugador;
+import utiles.DatosJuego;
 import utiles.MyUtil;
 import utiles.Titulos;
 
 public class AccionTienda implements Accion {
 
-    Titulos titulos;
-    private HashMap<String, Item> stock = new HashMap<>();
+	Titulos titulos;
+	private HashMap<String, Item> stock = new HashMap<>();
 
-    public AccionTienda() {
-    	
-    }
+	public AccionTienda() {
 
-    @Override
-    public void realizar(Jugador jugador, Controlador controlador, Scanner scTienda) {
+	}
 
-        boolean enTienda = true;
-        String inputTienda;
+	@Override
+	public void realizar(Jugador jugador, Scanner scTienda) {
 
-        MyUtil.limpiarConsola();
-        Titulos.mostrarTituloTienda();
-        mostrarItems();
+		boolean enTienda = true;
+		String inputTienda;
 
-        while (enTienda) {
-            System.out.print("\n[TIENDA] Prueba /comprar [item], /buy [item], /b [item] o /salir > ");
-            inputTienda = scTienda.nextLine().toLowerCase().trim();
-            inputTienda = normalizarInput(inputTienda);
+		MyUtil.limpiarConsola();
+		Titulos.mostrarTituloTienda();
+		mostrarItems();
 
-            if (inputTienda.equals("/salir") || inputTienda.equals("/s")) {
-                enTienda = false;
-                MyUtil.limpiarConsola();
+		while (enTienda) {
+			System.out.print("\n[TIENDA] Prueba /comprar [item],/comandos o /salir > ");
+			inputTienda = scTienda.nextLine().toLowerCase().trim();
 
-            } else if (inputTienda.equals("/comandos")) {
-                mostrarComandosTienda();
+			if (inputTienda.equals("/salir") || inputTienda.equals("/s") || inputTienda.equals("/exit")) {
+				enTienda = false;
+				MyUtil.limpiarConsola();
 
-            } else if (inputTienda.startsWith("/comprar ") || inputTienda.startsWith("/buy ") || inputTienda.startsWith("/b ")) {
-                String nombreItem = extraerNombreItem(inputTienda);
-                Item itemAComprar = stock.get(nombreItem);
+			} else if (inputTienda.equals("/comandos")) {
+				mostrarComandosTienda(scTienda);
 
-                if (itemAComprar != null) {
-                    realizarVenta(jugador, itemAComprar);
-                } else {
-                    System.out.println("El item '" + nombreItem + "' no existe en la tienda.");
-                }
+			} else if (inputTienda.startsWith("/comprar ") || inputTienda.startsWith("/buy ")
+					|| inputTienda.startsWith("/b ")) {
+				String nombreItem = extraerNombreItem(inputTienda);
+				Item itemAComprar = stock.get(nombreItem);
 
-            } else {
-                System.out.print("\nNo se reconoció el comando. Usa /comprar [item], /buy [item], /b [item], /comandos o /salir. > ");
-            }
-        }
-    }
+				if (itemAComprar != null) {
+					realizarVenta(jugador, itemAComprar);
+				} else {
+					System.out.println("El item '" + nombreItem + "' no existe en la tienda.");
+				}
 
-    private String extraerNombreItem(String input) {
-        if (input.startsWith("/comprar ")) {
-            return input.substring("/comprar ".length()).trim();
-        } else if (input.startsWith("/buy ")) {
-            return input.substring("/buy ".length()).trim();
-        } else if (input.startsWith("/b ")) {
-            return input.substring("/b ".length()).trim();
-        }
-        return "";
-    }
+			} else {
+				System.out.print(
+						"\nNo se reconoció el comando. Usa /comprar [item], /buy [item], /b [item], /comandos o /salir. > ");
+			}
+		}
+	}
 
-    private void mostrarItems() {
-        System.out.println("Elementos disponibles: ");
-        for (String item : stock.keySet()) {
-            System.out.println(">" + stock.get(item).getNombre() + " : $" + stock.get(item).getPrecio());
-        }
-    }
+	private String extraerNombreItem(String input) {
+		if (input.startsWith("/comprar ")) {
+			return input.substring("/comprar ".length()).trim();
+		} else if (input.startsWith("/buy ")) {
+			return input.substring("/buy ".length()).trim();
+		} else if (input.startsWith("/b ")) {
+			return input.substring("/b ".length()).trim();
+		}
+		return "";
+	}
 
-    private void realizarVenta(Jugador jugador, Item item) {
-        if (jugador.getMonedas() >= item.getPrecio()) {
-            jugador.addItem(item);
-            jugador.modMonedas(item.getPrecio());
-        }
-    }
+	private void mostrarItems() {
+		System.out.println("Elementos disponibles: ");
+		for (String item : stock.keySet()) {
+			System.out.println(">" + stock.get(item).getNombre() + " : $" + stock.get(item).getPrecio());
+		}
+	}
 
-    private void mostrarComandosTienda() {
-        System.out.println("/comprar *Item deseado* -> Comprar un Item específico");
-        System.out.println("/buy *Item deseado* -> Comprar en inglés");
-        System.out.println("/b *Item deseado* -> Comando corto para comprar");
-        System.out.println("/salir -> Salir de la tienda");
-        System.out.println("/comandos -> Listar los comandos");
-    }
+	private void realizarVenta(Jugador jugador, Item item) {
+		if (jugador.getMonedas() >= item.getPrecio()) {
+			jugador.addItem(item);
+			jugador.modMonedas(item.getPrecio());
+		}
+	}
 
-    private String normalizarInput(String input) {
-        switch (input) {
-            case "/s":
-            case "/exit":
-                return "/salir";
-            default:
-                return input;
-        }
-    }
+	private void mostrarComandosTienda(Scanner scTienda) {
+		MyUtil.marco(DatosJuego.comandosTienda);
+		System.out.println("\n[Enter para continuar]");
+		scTienda.nextLine();
+	}
+
 }
