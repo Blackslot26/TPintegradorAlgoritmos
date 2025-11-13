@@ -14,6 +14,7 @@ public class Jugador extends Personaje implements Serializable {
 	private int experiencia;
 	private int experienciaLevel; // Cantidad de xp necesaria para subir de nivel
 	private int renacimientos;
+	public double defensa;
 	private Inventario inventario;
 
 	// Variables auxiliares para actualizar el jugador
@@ -38,6 +39,7 @@ public class Jugador extends Personaje implements Serializable {
 		experienciaLevel = 100;
 
 		// estadisticas extra
+		defensa = 0;
 		suerte = 0;
 		multiplicadorGanancia = 1;
 
@@ -92,6 +94,26 @@ public class Jugador extends Personaje implements Serializable {
 	public void modSuerte(double valor) {
 		suerte += valor;
 	}
+	public double getDefensa() {
+		return defensa;
+	}
+	public void modDefensa(double d) {  //LA DEFENSA DEBE DE SER MODIFICADA DE FORMA INVERSA, ES DECIR NORMALMENTE ES 1, PARA QUE AUMENTE SE LE TIENE QUE RESTAR YA QUE POR ESTA SE MULTIPLICA EL DAÑO RECIBIDO
+		defensa += d;  // defensa = 0.75 es igual a que el jugador recibe un 25% menos de daño.
+	}
+	public void modMultVenta(double value) {
+		multiplicadorVenta += value;
+	}
+	public double getMultVenta() {
+		return multiplicadorVenta;	
+	}
+	public void modMultGanancia(double value) {
+		multiplicadorGanancia += value;
+	}
+	public double getMultGanancia() {
+		return multiplicadorGanancia;	
+	}
+	
+	
 
 	// Otras funciones necesarias
 	@Override
@@ -103,8 +125,8 @@ public class Jugador extends Personaje implements Serializable {
 
 	@Override
 	public void actualizar() {
-		if (vidaActual > 100) {
-			vidaActual = 100;
+		if (vidaActual > vidaMaxima) {	//cambio de 100 --> vidaMaxima por las dudas
+			vidaActual = vidaMaxima;
 		}
 		if (vidaActual < 0) {
 			vidaActual = 0;
@@ -123,10 +145,6 @@ public class Jugador extends Personaje implements Serializable {
 			System.out.println("Has muerto y perdiste la mitad de tus monedas [" + ultimasMonedasPerdidas + "]");
 		}
 		murio = false;
-	}
-
-	public void modificarSuerte(double valor) {
-		suerte = +valor;
 	}
 
 	public Item[] getItemsEquipados() {
@@ -151,6 +169,8 @@ public class Jugador extends Personaje implements Serializable {
 		String nivel = " Nivel: " + getNivel();
 		String experiencia = " Experiencia: " + getExperiencia() + "/" + getExperienciaLevel();
 		String rebirths = " Rebirths: " + getRebirth();
+		String danio = " Daño: " + getDanio();
+		String defensa = " Defensa: " + getDefensa() * 10 + "%";
 		String suerte = " Suerte: " + getSuerte();
 		String trabajo = " Trabajo: " + getTrabajo().getNombreBase();
 
@@ -181,6 +201,8 @@ public class Jugador extends Personaje implements Serializable {
 		sb.append("║" + nivel + " ".repeat(boxLong - nivel.length() - pfp7.length()) + pfp7 + "║\n");
 		sb.append("║" + experiencia + " ".repeat(boxLong - experiencia.length() - pfp8.length()) + pfp8 + "║\n");
 		sb.append("║" + rebirths + " ".repeat(boxLong - rebirths.length()) + "║\n");
+		sb.append("║" + danio + " ".repeat(boxLong - danio.length()) + "║\n");
+		sb.append("║" + defensa + " ".repeat(boxLong - defensa.length()) + "║\n");
 		sb.append("║" + suerte + " ".repeat(boxLong - suerte.length()) + "║\n");
 		sb.append("║" + trabajo + " ".repeat(boxLong - trabajo.length()) + "║\n");
 		sb.append("║" + " ".repeat(boxLong) + "║\n");
@@ -236,5 +258,6 @@ public class Jugador extends Personaje implements Serializable {
 		// ╔═╗║╚╝
 
 	}
+
 
 }
