@@ -17,6 +17,7 @@ public class AccionExplorar implements Accion {
 		
 		minijuegos.add(new AccionAhorcado());
 		minijuegos.add(new AccionPreguntado());
+		minijuegos.add(new AccionBuscaminas());
 	}
 
 	@Override
@@ -24,7 +25,7 @@ public class AccionExplorar implements Accion {
 		MyUtil.limpiarConsola(); // Primero limpia la consola
 		int indiceMinijuego = ran.nextInt(minijuegos.size()); //Elige un minijuego al azar
 		minijuegos.get(indiceMinijuego).realizar(jugadorActual,scExplorar);
-		jugadorActual.setActionCooldown("explorar", SEG_COOLDOWN);
+		jugadorActual.setActionCooldown("/explorar", SEG_COOLDOWN);
 	}
 	
 }

@@ -29,7 +29,7 @@ public class Main {
 		// Bucle Principal
 		while (enJuego) {
 			MyUtil.limpiarConsola();//Se limpia cualquier cosa anterior
-			Titulos.mostrarTituloLobby();
+			MyUtil.dibujarArrayString(Titulos.TITULO_LOBBY, 10);
 			
 			System.out.println(); //Separador
 			
@@ -46,6 +46,7 @@ public class Main {
 	}
 
 	public static Jugador logIn() {
+		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Titulos.marcoBienvenida,10); //Centrado 10 characters a la derecha
 		while (true) {
 			String player = sc.nextLine().toLowerCase().trim();

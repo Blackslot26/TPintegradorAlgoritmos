@@ -8,87 +8,115 @@ public class MyUtil {
 	
 	//Comandos de colores para usar en los prints
 	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_RED = "\u001B[31m";
+	public static final String ANSI_RED =   "\u001B[31m";
 	public static final String ANSI_GREEN = "\u001B[32m";
-	public static final String ANSI_YELLOW = "\u001B[33m";
-	public static final String ANSI_BLUE = "\u001B[34m";
-	public static final String ANSI_PURPLE = "\u001B[35m";
-	public static final String ANSI_CYAN = "\u001B[36m";
+	public static final String ANSI_YELLOW ="\u001B[33m";
+	public static final String ANSI_BLUE =  "\u001B[34m";
+	public static final String ANSI_PURPLE ="\u001B[35m";
+	public static final String ANSI_CYAN =  "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
 
-	public static void marco(String texto) {
-		final int paddingCostados = 2; // espacios de los costados
-		final int largoTexto = texto.length() + (2 * paddingCostados);
+	/**
+     * Función de ayuda para eliminar códigos de color ANSI de un String.
+     * Esto nos permite medir el ANCHO VISIBLE del texto.
+     * @param texto El texto con códigos de color (ej. "\u001B[31mHola")
+     * @return El texto sin códigos (ej. "Hola")
+     */
+    private static String stripAnsi(String texto) {
+        if (texto == null) {
+            return "";
+        }
+        // Esta expresión regular busca y reemplaza los códigos de escape ANSI
+        return texto.replaceAll("\u001B\\[[;\\d]*m", "");
+    }
 
-		if (texto == null || texto.isEmpty()) {
-			texto = " ";
-		}
+    public static void marco(String texto) {
+        final int paddingCostados = 2; // espacios de los costados
 
-		StringBuilder sb = new StringBuilder();
+        if (texto == null || texto.isEmpty()) {
+            texto = " ";
+        }
 
-		// 1. Línea superior: ╔════════...════════╗
-		sb.append("╔");
-		sb.append("═".repeat(largoTexto));
-		sb.append("╗\n");
+        // 1. Medir el largo VISIBLE, sin códigos de color
+        int largoVisible = stripAnsi(texto).length();
 
-		// 2. Línea central con texto y padding
-		sb.append("║");
-		// Añadimos el padding (espacio) a la izquierda
-		sb.append(" ".repeat(paddingCostados));
-		sb.append(texto);
-		// Añadimos el padding (espacio) a la derecha
-		sb.append(" ".repeat(paddingCostados));
-		sb.append("║\n");
+        // 2. Calcular el marco basándose en el largo VISIBLE
+        final int largoMarco = largoVisible + (2 * paddingCostados);
 
-		// 3. Línea inferior: ╚════════...════════╝
-		sb.append("╚");
-		sb.append("═".repeat(largoTexto));
-		sb.append("╝");
+        StringBuilder sb = new StringBuilder();
 
-		// Imprimimos el marco final
-		System.out.println(sb.toString());
-	}
+        // 1. Línea superior
+        sb.append("╔");
+        sb.append("═".repeat(largoMarco));
+        sb.append("╗\n");
 
-	public static void marco(String[] textos) {
-		final int paddingCostados = 2; // espacios de los costados
+        // 2. Línea central
+        sb.append("║");
+        sb.append(" ".repeat(paddingCostados));
+        sb.append(texto); // Se imprime el texto ORIGINAL (con color)
+        
+        // 3. Añadir el relleno derecho
+        sb.append(" ".repeat(paddingCostados));
+        sb.append("║\n");
 
-		if (textos == null || textos.length == 0) {
-			textos = new String[] { " " };
-		}
+        // 4. Línea inferior
+        sb.append("╚");
+        sb.append("═".repeat(largoMarco));
+        sb.append("╝");
 
-		// Determinar el largo máximo de los textos
-		int largoMaximo = 0;
-		for (String texto : textos) {
-			if (texto != null && texto.length() > largoMaximo) {
-				largoMaximo = texto.length();
-			}
-		}
+        // Imprimimos el marco final
+        System.out.println(sb.toString());
+    }
 
-		final int largoMarco = largoMaximo + (2 * paddingCostados);
-		StringBuilder sb = new StringBuilder();
+    public static void marco(String[] textos) {
+        final int paddingCostados = 2; // espacios de los costados
 
-		// 1. Línea superior
-		sb.append("╔").append("═".repeat(largoMarco)).append("╗\n");
+        if (textos == null || textos.length == 0) {
+            textos = new String[] { " " };
+        }
 
-		// 2. Líneas centrales
-		for (String texto : textos) {
-			if (texto == null)
-				texto = "";
-			int espaciosRestantes = largoMaximo - texto.length();
-			sb.append("║").append(" ".repeat(paddingCostados)).append(texto).append(" ".repeat(espaciosRestantes))
-					.append(" ".repeat(paddingCostados)).append("║\n");
-		}
+        // 1. Determinar el largo máximo VISIBLE
+        int largoMaximo = 0;
+        for (String texto : textos) {
+            if (texto != null) {
+                // Medir el texto "limpio"
+                int largoVisible = stripAnsi(texto).length();
+                if (largoVisible > largoMaximo) {
+                    largoMaximo = largoVisible;
+                }
+            }
+        }
 
-		// 3. Línea inferior
-		sb.append("╚").append("═".repeat(largoMarco)).append("╝");
+        final int largoMarco = largoMaximo + (2 * paddingCostados);
+        StringBuilder sb = new StringBuilder();
 
-		// Imprimir el marco
-		System.out.println(sb.toString());
-	}
-	
+        // 1. Línea superior
+        sb.append("╔").append("═".repeat(largoMarco)).append("╗\n");
 	public static void marcoTienda(String[] textos, int largo) {
 		final int paddingCostados = 2; // espacios de los costados
 
+        // 2. Líneas centrales
+        for (String texto : textos) {
+            if (texto == null)
+                texto = "";
+
+            // Calcular los espacios restantes basándose en el largo VISIBLE
+            int largoVisibleActual = stripAnsi(texto).length();
+            int espaciosRestantes = largoMaximo - largoVisibleActual;
+
+            sb.append("║").append(" ".repeat(paddingCostados))
+              .append(texto) // Imprime el texto ORIGINAL (con color)
+              .append(" ".repeat(espaciosRestantes)) // Añade el relleno correcto
+              .append(" ".repeat(paddingCostados)).append("║\n");
+        }
+
+        // 3. Línea inferior
+        sb.append("╚").append("═".repeat(largoMarco)).append("╝");
+
+        // Imprimir el marco
+        System.out.println(sb.toString());
+    }
+    
 		if (textos == null || textos.length == 0) {
 			textos = new String[] { " " };
 		}
@@ -119,10 +147,9 @@ public class MyUtil {
 
 	public static void dibujarArrayString(String[] array) {
 		for (String linea : array) {
-			System.out.println(linea);
+			System.out.print(linea + "\n");
 		}
 	}
-
 	public static void dibujarArrayString(String[] array, int rightChars) {
 		for (String linea : array) {
 			System.out.print(" ".repeat(rightChars));

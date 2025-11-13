@@ -3,7 +3,10 @@ package items;
 public enum ItemDesechable {
 	//definicion de los constructores
 	PIELLOBO("Piel de lobo", "Piel de lobo alfa. Se vende por un puñado de monedas", 2000, 4000),
-	ESCAMASDEDRAGON("Escamas de Dragon", "Grandes placas escarlatas. Son resitentes y poseen poder magico. Se venden por bastantes monedas", 10000, 15000);
+	ESCAMASDEDRAGON("Escamas de Dragón", "Grandes placas escarlatas. Son resitentes y poseen poder magico. Se venden por bastantes monedas", 10000, 15000),
+	POLVODEHUESO("Polvo de Hueso", "Restos de un esqueleto. No parece muy valioso.", 500, 1000),
+	COLMILLOVENENOSO("Colmillo Venenoso", "Un colmillo afilado que gotea veneno. Se vende bien en el mercado negro.", 1500, 2500),
+	DIENTE_DRAGON("Diente de Dragon", "Diente afilado como cuchilla. Vale una fortuna.", 3500,7000);
 	
 	
 	

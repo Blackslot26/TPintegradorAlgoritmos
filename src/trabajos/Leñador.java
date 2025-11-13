@@ -11,6 +11,7 @@ import utiles.MyUtil;
 public class Leñador extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
+	private static final int SEG_COOLDOWN= 60;
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
@@ -22,6 +23,7 @@ public class Leñador extends Trabajar implements Accion{
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));			////////////							// de dinero
 		MyUtil.marco("Enter para continuar");
 		sc.nextLine();
+		jugador.setActionCooldown("/trabajar", SEG_COOLDOWN);
 	}
 	
 	@Override

@@ -33,7 +33,7 @@ public class AccionTienda implements Accion {
 		String inputTienda;
 
 		MyUtil.limpiarConsola();
-		Titulos.mostrarTituloTienda();
+		MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
 		mostrarItems();
 
 		while (enTienda) {

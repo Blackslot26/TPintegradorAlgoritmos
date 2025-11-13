@@ -103,7 +103,7 @@ public class Tutorial {
 			String input = sc.nextLine().toLowerCase().trim();
 			if (input.equals("/salir") || input.equals("/s")) {
 				MyUtil.limpiarConsola();
-				Titulos.mostrarTituloLobby();
+				MyUtil.dibujarArrayString(Titulos.TITULO_LOBBY, 10);
 				break;
 			}
 			System.out.print("\nComando incorrecto. Por favor escriba " + MyUtil.ANSI_GREEN + "/salir"
@@ -141,20 +141,7 @@ public class Tutorial {
 					+ MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
 		}
 
-		System.out.println("\nAcabas de utilizar la poción de vida menor y recuperaste tu vida al máximo");
-		System.out.print("Para ver tus estadísticas y vida utiliza el comando " + MyUtil.ANSI_GREEN + "/estado"
-				+ MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
 
-		while (true) {
-			String estado = sc.nextLine().toLowerCase().trim();
-			if (estado.equals("/estado") || estado.equals("/e")) {
-				MyUtil.limpiarConsola();
-				break;
-			}
-			System.out.print("\nComando incorrecto. Por favor escriba " + MyUtil.ANSI_GREEN + "/estado"
-					+ MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
-		}
-		jugador.mostrarEstadoJugador();
 		jugador.modExp(10);
 		System.out.print("Muy bien, terminamos por ahora " + MyUtil.ANSI_GREEN + "[Enter para continuar]"
 				+ MyUtil.ANSI_RESET + ".");

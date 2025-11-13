@@ -6,7 +6,7 @@ public abstract class Desechable extends Item{
 	private static final long serialVersionUID = 1L;
 	ItemDesechable tipo;
 	
-	Desechable(ItemDesechable tipo, int cantidad) {
+	public Desechable(ItemDesechable tipo, int cantidad) {
 		super(tipo.getNombre(), tipo.getDescripcion(), valorAleatorio(tipo), cantidad);
 		this.tipo = tipo;
 	}
