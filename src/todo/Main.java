@@ -18,7 +18,7 @@ public class Main {
 
 		if (jugadorActual.getExperiencia() == 0) { // SI LA EXPERIENCIA DEL JUGADOR ES 0 SIGNIFICA QUE ES UN JUGADOR
 													// NUEVO Y ESTA FORZADO A REALIZAR EL TUTORIAL.
-			Tutorial tutorial = new Tutorial(jugadorActual, sc,controlador);
+			Tutorial tutorial = new Tutorial(jugadorActual, sc);
 			try {
 				tutorial.iniciarTutorial();
 			} catch (InterruptedException e) {
@@ -39,11 +39,9 @@ public class Main {
 			input = sc.nextLine(); // Ingresa Imput.
 			enJuego = controlador.procesarInput(input, sc); // Verifica si sigue en juego o no.
 		}
-
+		MyUtil.limpiarConsola();
 		GestorPartidas.guardarPartida(jugadorActual);// GUARDAR LA PARTIDA AL ROMPER EL BUCLE WHILE CUANDO enJuego SE
 														// VUELVE FALSE
-
-		MyUtil.limpiarConsola();
 		// Fin del Juego.
 	}
 
@@ -51,13 +49,16 @@ public class Main {
 		MyUtil.dibujarArrayString(Titulos.marcoBienvenida,10); //Centrado 10 characters a la derecha
 		while (true) {
 			String player = sc.nextLine().toLowerCase().trim();
-			System.out.println("Esta seguro de que su nombre es: " + player + "?   yes/no");
+			System.out.print("Esta seguro de que su nombre es: " + player + "? si/no. > ");
 			String choise = sc.nextLine();
 			choise = choise.toLowerCase().trim();
-			if (choise.equals("yes")) {
+			if (choise.equals("si") ||choise.equals("yes")||choise.equals("y")) {
 				return GestorPartidas.cargarPartida(player);
-			} else {
-				System.out.println("Por favor ingrese su nombre: ");
+			} else if(choise.equals("no") ||choise.equals("n")){
+				System.out.print("Por favor ingrese su nombre > ");
+			}
+			else {
+				System.out.print("No se reconoció \"" + choise + "\" ingrese si/no. > ");
 			}
 		}
 	}

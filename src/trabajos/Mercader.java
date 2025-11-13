@@ -2,7 +2,6 @@ package trabajos;
 
 import acciones.Accion;
 import acciones.Trabajar;
-import todo.Controlador;
 import todo.Jugador;
 
 import java.util.Random;
@@ -12,7 +11,7 @@ public class Mercader extends Trabajar implements Accion{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void realizar(Jugador jugador, Controlador c, Scanner sc) {
+	public void realizar(Jugador jugador, Scanner sc) {
 		Random r = new Random();
 		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
 		jugador.modMonedas(ganancia);
