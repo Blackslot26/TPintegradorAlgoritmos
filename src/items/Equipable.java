@@ -4,11 +4,21 @@ import todo.Jugador;
 
 public class Equipable extends Item implements IEquipable{
 	private static final long serialVersionUID = 1L;
-	Equipable(ItemEquipable tipo, int cantidad) {
+	ItemEquipable tipo;
+	public Equipable(ItemEquipable tipo, int cantidad) {
 		super(tipo.getNombre(), tipo.getDescripcion(), tipo.getPrecio(), cantidad);
 		this.tipo = tipo;
 		
 		
+	}
+	@Override
+	public String getDescripcion() {
+		// Construimos una descripción detallada usando los datos del ENUM
+		return super.getDescripcion() + 
+			   " | Daño: " + tipo.getDanio() + 
+			   " | Vida: " + tipo.getVida() + 
+			   " | Def: " + (int)(tipo.getDefensa() * 100) + "%" +
+			   " | Suerte: " + tipo.getSuerte();
 	}
 	
 	@Override
@@ -28,6 +38,10 @@ public class Equipable extends Item implements IEquipable{
 		jugador.modVidaMaxima(-tipo.getVida());
 		jugador.modDefensa(-tipo.getDefensa());
 		jugador.modSuerte(-tipo.getSuerte());
+	}
+	
+	public ItemEquipable getTipo() {
+		return tipo;
 	}
 
 }

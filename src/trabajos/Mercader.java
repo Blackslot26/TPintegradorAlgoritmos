@@ -3,6 +3,7 @@ package trabajos;
 import acciones.Accion;
 import acciones.Trabajar;
 import todo.Jugador;
+import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -19,7 +20,8 @@ public class Mercader extends Trabajar implements Accion{
 		int xp = 10 + r.nextInt(20);
 		jugador.modExp(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));
-
+		MyUtil.marco("Enter para continuar");
+		sc.nextLine();
 	}
 	@Override
 	public String[] trabajarTextsBase(int ganancia) {

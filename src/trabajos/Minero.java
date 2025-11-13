@@ -3,6 +3,7 @@ package trabajos;
 import acciones.Accion;
 import acciones.Trabajar;
 import todo.Jugador;
+import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -66,6 +67,8 @@ public class Minero extends Trabajar implements Accion{
 			System.out.println(trabajarTexts(event, ganancia, jugador, xp));																							// hasta 500.000
 																										// de dinero
 		}
+		MyUtil.marco("Enter para continuar");
+		sc.nextLine();
 	}
 	
 	@Override

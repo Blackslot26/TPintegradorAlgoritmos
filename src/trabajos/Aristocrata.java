@@ -2,6 +2,7 @@ package trabajos;
 
 import acciones.Accion;
 import todo.Jugador;
+import utiles.MyUtil;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -24,6 +25,9 @@ public class Aristocrata extends Trabajar implements Accion{
 		int xp = 10 + r.nextInt(20);
 		jugador.modMonedas(xp);
 		System.out.println(trabajarTexts(event, ganancia, jugador, xp));
+		
+		MyUtil.marco("Enter para continuar");
+		sc.nextLine();
 	}
 
 	@Override
