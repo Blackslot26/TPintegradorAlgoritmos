@@ -85,6 +85,25 @@ public class AccionTienda implements Accion {
 		}
 
 	}
+	
+	public void realizarTutorial(Jugador jugador, Scanner sc) {
+		MyUtil.limpiarConsola();
+		Titulos.mostrarTituloTienda();
+		mostrarItems();
+		System.out.println("\nAhora dentro de la tienda utiliza el comando \"" + MyUtil.ANSI_GREEN
+				+ "/comprar [numero de ítem]" + MyUtil.ANSI_RESET + "\" para comprar un ítem.");
+		System.out.print("\nPor ahora vamos a comprar una poción de vida. Utiliza el comando " + MyUtil.ANSI_GREEN
+				+ "\"/comprar 1\" para comprar una pocion de vida" + MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
+		while (true) {
+			String input = sc.nextLine().toLowerCase().trim();
+			if (input.equals("/comprar 1") || input.equals("/buy 1") || input.equals("/b 1")) {
+				MyUtil.limpiarConsola();
+				break;
+			}
+			System.out.print("\nComando incorrecto. Por favor escriba " + MyUtil.ANSI_GREEN + "/comprar pocion"
+					+ MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
+		}
+	}
 
 	private String extraerIndexItem(String input) {
 		if (input.startsWith("/comprar ")) {
@@ -112,7 +131,7 @@ public class AccionTienda implements Accion {
 		int inicio = paginaActual * itemsPorPagina;
 		int fin = Math.min(inicio + itemsPorPagina, totalItems);
 
-		int largoTienda = 120;
+		int largoTienda = 150;
 		String textoNumeroPagina = "Pagina Numero " + (paginaActual + 1) + " de " + totalPaginas;
 		System.out.println("╔" + "═".repeat((largoTienda - textoNumeroPagina.length()) / 2) + textoNumeroPagina
 				+ "═".repeat(

@@ -3,6 +3,7 @@ package todo;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import acciones.AccionTienda;
 import acciones.Trabajar;
 import trabajos.Aristocrata;
 import trabajos.Ladron;
@@ -82,6 +83,8 @@ public class Tutorial {
 			String tienda = sc.nextLine().toLowerCase().trim();
 			if (tienda.equals("/tienda") || tienda.equals("/shop")) {
 				MyUtil.limpiarConsola();
+				AccionTienda accionTienda = new AccionTienda();
+				accionTienda.realizarTutorial(jugador, sc);
 				break;
 			}
 
@@ -89,22 +92,8 @@ public class Tutorial {
 					+ " para acceder a la tienda. " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
 		}
 
-		System.out.println("\nAhora dentro de la tienda utiliza el comando \"" + MyUtil.ANSI_GREEN
-				+ "/comprar [nombre o numero de ítem]" + MyUtil.ANSI_RESET + "\" para comprar un ítem.");
-		System.out.print("\nPor ahora vamos a comprar una poción de vida menor. Utiliza el comando " + MyUtil.ANSI_GREEN
-				+ "/comprar pocion" + MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
 
-		while (true) {
-			String input = sc.nextLine().toLowerCase().trim();
-			if (input.equals("/comprar pocion") || input.equals("/buy pocion") || input.equals("/b pocion")) {
-				MyUtil.limpiarConsola();
-				break;
-			}
-			System.out.print("\nComando incorrecto. Por favor escriba " + MyUtil.ANSI_GREEN + "/comprar pocion"
-					+ MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
-		}
-
-		System.out.println("\nMuy bien! Acabas de comprar una poción de vida menor. "
+		System.out.println("\nMuy bien! Acabas de comprar una poción de vida. "
 				+ "Los items que compres u obtengas se guardarán en tu inventario.");
 
 		System.out.print("\nUna vez termines de comprar en la tienda utiliza el comando " + MyUtil.ANSI_GREEN + "/salir"
@@ -129,6 +118,7 @@ public class Tutorial {
 			String input = sc.nextLine().toLowerCase().trim();
 			if (input.equals("/inventario") || input.equals("/i")) {
 				MyUtil.limpiarConsola();
+				jugador.mostrarEstadoJugador();
 				break;
 			}
 			System.out.print("\nComando incorrecto. Utiliza " + MyUtil.ANSI_GREEN + "/inventario" + MyUtil.ANSI_RESET
@@ -137,8 +127,7 @@ public class Tutorial {
 
 		System.out.print("\nAhora que puedes ver los items de tu inventario puedes utilizar \"" + MyUtil.ANSI_GREEN
 				+ "/usar [prefix o nombre]" + MyUtil.ANSI_RESET + "\" para equipar o utilizar el objeto que deseas \n"
-				+ "\no Utiliza la pocion de vida que acabas de comprar. Para esto escribe \"" + MyUtil.ANSI_GREEN
-				+ "/usar pocion" + MyUtil.ANSI_RESET + "\" o \"" + MyUtil.ANSI_GREEN + "/usar 1" + MyUtil.ANSI_RESET
+				+ "\no Utiliza la pocion de vida que acabas de comprar. Para esto escribe \"" + MyUtil.ANSI_GREEN + "/usar 1" + MyUtil.ANSI_RESET
 				+ "\". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
 
 		while (true) {

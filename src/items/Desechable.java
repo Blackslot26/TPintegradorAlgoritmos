@@ -2,7 +2,7 @@ package items;
 
 import java.util.Random;
 
-public class Desechable extends Item{
+public abstract class Desechable extends Item{
 	private static final long serialVersionUID = 1L;
 	ItemDesechable tipo;
 	
