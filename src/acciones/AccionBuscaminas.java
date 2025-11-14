@@ -14,7 +14,7 @@ public class AccionBuscaminas implements Accion {
 	public static final int SEG_COOLDOWN = 180; // 3 minutos de cooldown
 
 	// --- Configuración del Juego ---
-	private static final int TAMANIO_TABLERO = 15; // Un tablero de 8x8
+	private static final int TAMANIO_TABLERO = 8; // Un tablero de 8x8
 	private static final int CANTIDAD_MINAS = 10; // 10 minas
 	private static final char CELDA_OCULTA = '■';
 	private static final char CELDA_MINA = '*';
