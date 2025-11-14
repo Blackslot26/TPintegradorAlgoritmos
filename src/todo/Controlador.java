@@ -8,6 +8,7 @@ import acciones.Accion;
 import acciones.AccionBlackjack;
 import acciones.AccionExplorar;
 import acciones.AccionInventario;
+import acciones.AccionRebirth;
 import acciones.AccionTienda;
 import acciones.AccionCazar;
 import utiles.DatosJuego;
@@ -35,6 +36,7 @@ public class Controlador {
 		this.accionesMapeadas.put("/cazar", new AccionCazar());
 		this.accionesMapeadas.put("/blackjack", new AccionBlackjack());
 		this.accionesMapeadas.put("/inventario", new AccionInventario());
+		this.accionesMapeadas.put("/rebirth", new AccionRebirth());
 	};
 
 	/**

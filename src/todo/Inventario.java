@@ -40,7 +40,8 @@ public class Inventario implements Serializable{
 		boolean added = false;
 		for(int i = 0; i < slots.size(); i++) {
 			if(slots.get(i).getNombre().equals(item.getNombre())) {
-				slots.get(i).setCantidad(item.getCantidad());
+				int nuevaCantidad = slots.get(i).getCantidad() + item.getCantidad();
+				slots.get(i).setCantidad(nuevaCantidad);
 				added = true;
 				break;
 			}

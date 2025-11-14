@@ -190,7 +190,7 @@ public class Jugador extends Personaje implements Serializable {
 			experiencia -= experienciaLevel;
 			experienciaLevel = 100 + ( 50 * (getNivel() - 1));
 			subirStatsNivel();
-			MyUtil.marco(MyUtil.ANSI_YELLOW + "¡SUBES DE NIVEL!");
+			MyUtil.marco(MyUtil.ANSI_YELLOW + "¡SUBES DE NIVEL!" + MyUtil.ANSI_RESET);
 		}
 	}
 	private void subirStatsNivel() {
@@ -322,7 +322,7 @@ public class Jugador extends Personaje implements Serializable {
 		String pfp7 = "|     |  |  |     |";
 		String pfp8 = "|________|________|";
 
-		int boxLong = 80;
+		int boxLong = 140;
 		String pName = " Player Name: " + getNombre().toUpperCase();
 		String stats = "     --Estadisticas--";
 		String monedas = " Monedas: " + getMonedas();

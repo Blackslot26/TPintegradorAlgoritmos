@@ -70,7 +70,7 @@ public class Main {
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Titulos.marcoBienvenida, 10); // Centrado 10 characters a la derecha
 		while (true) {
-			System.out.print("\nIngrese su nombre (3-15 caracteres) > ");
+			System.out.print("\nIngrese su nombre (3-15 caracteres) >");
 			String player = sc.nextLine().trim();
 			if (player.length() > 15) {
 				System.out.println(MyUtil.ANSI_RED + "ERROR: ¡Nombre demasiado largo!" + MyUtil.ANSI_RESET + " Maximo 15 caracteres");
@@ -79,7 +79,7 @@ public class Main {
 				System.out.println(MyUtil.ANSI_RED + "ERROR: ¡Nombre demasiado corto!" + MyUtil.ANSI_RESET + " Minimo 3 caracteres");
 				continue;
 			}
-				MyUtil.marco("Estas seguro tu nombre es: " + MyUtil.ANSI_YELLOW + player + MyUtil.ANSI_RESET +"? si/no. > ");
+				MyUtil.marco("Estas seguro tu nombre es: " + MyUtil.ANSI_YELLOW + player + MyUtil.ANSI_RESET +"? si/no. ");
 				String choise = sc.nextLine();
 				choise = choise.toLowerCase().trim();
 				if (choise.equals("si") || choise.equals("yes") || choise.equals("y")) {

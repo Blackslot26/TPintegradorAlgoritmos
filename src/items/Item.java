@@ -41,6 +41,6 @@ public abstract class Item implements Serializable{
 		return cantidad;
 	}
 	public void setCantidad(int amount) {
-		cantidad += amount;
+		cantidad = amount;
 	}
 }

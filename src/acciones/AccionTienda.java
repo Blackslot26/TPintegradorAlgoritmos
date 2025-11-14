@@ -58,7 +58,7 @@ public class AccionTienda implements Accion {
 				enTienda = false;
 				MyUtil.limpiarConsola();
 
-			} else if (inputTienda.equals("/comandos") || inputTienda.equals("/help")) {
+			} else if (inputTienda.equals("/comandos") || inputTienda.equals("/help") || inputTienda.equals("/c")) {
 				mostrarComandosTienda(scTienda);
 
 			} else if (inputTienda.equals("/next") || inputTienda.equals("/siguiente") || inputTienda.equals("/n")) {

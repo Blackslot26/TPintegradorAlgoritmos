@@ -20,7 +20,7 @@ public class Mercader extends Trabajar implements Accion{
 	private static final int SEG_COOLDOWN= 60;
 	@Override
 	public void realizar(Jugador jugador, Scanner sc) {
-		jugador.setMultVenta(2 + (jugador.getNivel() / 10));
+		jugador.setMultVenta(1);
 		Random r = new Random();
 		int ganancia = (int) (1000 + r.nextInt(1000)) * (1 + jugador.getNivel() / 10);
 		jugador.modMonedas(ganancia);

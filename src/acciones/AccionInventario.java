@@ -25,7 +25,7 @@ public class AccionInventario implements Accion {
 
 			System.out.println("[INVENTARIO] Opciones:");
 			System.out.println("  /usar [N° item]    -> Consumir una poción o ítem usable.");
-			System.out.println("  /equipar [N° item] -> Equipar un arma o armadura.");
+			System.out.println("  /equipar [N° item] [N° slot] -> Equipar un arma o armadura.");
 			System.out.println("  /desequipar [N° item] -> Desequipa un item del inventario");
 			System.out.println("  /descripcion [N° item] -> Muesta la descripcion de un item");
 			System.out.println("  /salir        -> Volver al menú principal.");
@@ -133,10 +133,19 @@ public class AccionInventario implements Accion {
 
 				} else {
 					if (item instanceof IEquipable) {
-						listaItems.remove(indexReal);
-						jugador.equiparItem(item, 0);
+						if (partes.length < 3) {
+							System.out.println("Debes indicar en que slot deseas equipar el item.");
+							return;
+						}
+						int slotVisual = Integer.parseInt(partes[2]);
+						int slotReal = slotVisual - 1;
 
-						System.out.println("Has equipado: " + item.getNombre());
+						if (slotReal >= 0 && slotReal < jugador.getItemsEquipados().length) {
+							listaItems.remove(indexReal);
+							jugador.equiparItem(item, slotReal);
+						} else {
+							System.out.println("Slot inválido. Debe ser entre 1 y 4.");
+						}
 
 					} else {
 						System.out.println("El ítem '" + item.getNombre() + "' no se puede equipar.");

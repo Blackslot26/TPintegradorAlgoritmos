@@ -224,6 +224,7 @@ public class DatosJuego {
 			MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Muestra la lista de comandos disponibles",
 			MyUtil.ANSI_GREEN + "/leaderboard" + MyUtil.ANSI_RESET + " -> muestra el top global de jugadores de esta computadora",
 			MyUtil.ANSI_GREEN + "/inventario" + MyUtil.ANSI_RESET + " -> Muestra las estadísticas del jugador y su inventario",
+			MyUtil.ANSI_GREEN + "/rebirth" + MyUtil.ANSI_RESET + " -> empiezas desde 0 a cambio de ganar más dinero",
 			MyUtil.ANSI_GREEN + "/alias" + MyUtil.ANSI_RESET + " -> Muestra la lista de abreviaciones de comandos"};
 
 	
@@ -232,8 +233,7 @@ public class DatosJuego {
 		    MyUtil.ANSI_GREEN + "/buy [index]" + MyUtil.ANSI_RESET + " -> Comprar en inglés",
 		    MyUtil.ANSI_GREEN + "/b [index]" + MyUtil.ANSI_RESET + " -> Comando corto para comprar",
 		    MyUtil.ANSI_GREEN + "/salir" + MyUtil.ANSI_RESET + " -> Salir de la tienda",
-		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos",
-		    MyUtil.ANSI_GREEN + "/rebirth" + MyUtil.ANSI_RESET + " -> empiezas desde 0 a cambio de ganar más dinero"
+		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos"		   
 		};
 
 
