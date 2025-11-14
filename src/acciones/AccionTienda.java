@@ -109,6 +109,7 @@ public class AccionTienda implements Accion {
 		while (true) {
 			String input = sc.nextLine().toLowerCase().trim();
 			if (input.equals("/comprar 1") || input.equals("/buy 1") || input.equals("/b 1")) {
+				jugador.addItem(stock.get(0));
 				MyUtil.limpiarConsola();
 				break;
 			}

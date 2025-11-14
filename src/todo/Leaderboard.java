@@ -55,7 +55,7 @@ public class Leaderboard {
 		}
 	}
 	
-	public static void update(Jugador jugador) {
+	public static void update(Jugador jugador) {	
 		Leaderboard.actualizarPuntaje(
 				jugador.getNombre(),
 				jugador.getNivel(),
@@ -68,7 +68,7 @@ public class Leaderboard {
 	 * Lee el archivo de puntajes, los procesa, los ordena y los muestra en consola
 	 * en formato de tabla.
 	 */
-	public static void mostrarLeaderboard() {
+	public static void mostrarLeaderboard() {	
 		ArrayList<String> lineas = new ArrayList<>();
 
 		try (Scanner sc = new Scanner(new File(ARCHIVO))) {
@@ -83,13 +83,13 @@ public class Leaderboard {
 		ArrayList<String[]> datosJugadores = convertirLeaderboard(lineas);
 		ordenarLeaderboard(datosJugadores);
 
-		System.out.println("--- LEADERBOARD ---");
+		System.out.println("---------------------- LEADERBOARD ----------------------");
 		int pos = 1;
 		for (String[] datos : datosJugadores) {
-			System.out.println(pos + ". " + datos[0] + " - Nivel: " + datos[1] + " - Monedas: " + datos[3]);
+			System.out.println(pos + ". " + datos[0] + " - Nivel: " + datos[1] + " - Monedas: " + datos[3] + " - Rebirths: " + datos[2]);
 			pos++;
 		}
-		System.out.println("---------------------------------------------");
+		System.out.println("---------------------------------------------------------");
 
 	}
 
