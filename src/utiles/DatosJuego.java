@@ -33,6 +33,10 @@ public class DatosJuego {
 		aliasComandos.put("/cz", "/cazar");
 		aliasComandos.put("/i", "/inventario");
 		aliasComandos.put("/a", "/alias");
+		aliasComandos.put("/bj", "/blackjack");
+		aliasComandos.put("/help", "/comandos");
+		aliasComandos.put("/renacer", "/rebirth");
+		
 
 
 		preguntas.add(new Pregunta(
@@ -216,6 +220,7 @@ public class DatosJuego {
 			MyUtil.ANSI_GREEN + "/trabajar" + MyUtil.ANSI_RESET + " -> Realizas el trabajo de tu profesión para obtener algo de dinero",
 			MyUtil.ANSI_GREEN + "/explorar" + MyUtil.ANSI_RESET + " -> Te encuentras con un evento aleatorio para obtener recompensas",
 			MyUtil.ANSI_GREEN + "/cazar" + MyUtil.ANSI_RESET + " -> Te envuelves en un combate con una criatura a cambio de recompensas",
+			MyUtil.ANSI_GREEN + "/blackjack" + MyUtil.ANSI_RESET + " -> apuestas una cantidad de dinero, juegas para duplicarla o perder todo",
 			MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Muestra la lista de comandos disponibles",
 			MyUtil.ANSI_GREEN + "/leaderboard" + MyUtil.ANSI_RESET + " -> muestra el top global de jugadores de esta computadora",
 			MyUtil.ANSI_GREEN + "/inventario" + MyUtil.ANSI_RESET + " -> Muestra las estadísticas del jugador y su inventario",
@@ -223,11 +228,12 @@ public class DatosJuego {
 
 	
 	public static final String[] comandosTienda = {
-		    MyUtil.ANSI_GREEN + "/comprar [ítem]" + MyUtil.ANSI_RESET + " -> Comprar un Item específico",
-		    MyUtil.ANSI_GREEN + "/buy [item]" + MyUtil.ANSI_RESET + " -> Comprar en inglés",
-		    MyUtil.ANSI_GREEN + "/b [item]" + MyUtil.ANSI_RESET + " -> Comando corto para comprar",
+		    MyUtil.ANSI_GREEN + "/comprar [index]" + MyUtil.ANSI_RESET + " -> Comprar un Item específico",
+		    MyUtil.ANSI_GREEN + "/buy [index]" + MyUtil.ANSI_RESET + " -> Comprar en inglés",
+		    MyUtil.ANSI_GREEN + "/b [index]" + MyUtil.ANSI_RESET + " -> Comando corto para comprar",
 		    MyUtil.ANSI_GREEN + "/salir" + MyUtil.ANSI_RESET + " -> Salir de la tienda",
-		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos"
+		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos",
+		    MyUtil.ANSI_GREEN + "/rebirth" + MyUtil.ANSI_RESET + " -> empiezas desde 0 a cambio de ganar más dinero"
 		};
 
 
@@ -243,5 +249,5 @@ public class DatosJuego {
 			"isrs", "fluoxetina", "sertralina", "escitalopram", "citalopram", "paroxetina", "venlafaxina", "duloxetina",
 			"mirtazapina", "bupropion", "trazodona", "amitriptilina", "nortriptilina", "ansiolitico", "antidepresivo",
 			// Otras opciones
-			"gambling", "apuestas", "alcohol", "methyl", "problemas" };
+			"gambling", "apuestas", "alcohol", "methyl", "problemas","blackjack" };
 }

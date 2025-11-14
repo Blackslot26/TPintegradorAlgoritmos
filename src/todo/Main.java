@@ -40,6 +40,7 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
+		controlador.setAccionTrabajo(jugadorActual.getTrabajo());
 		/**/
 		// Bucle Principal
 		while (enJuego) {

@@ -147,6 +147,10 @@ public class Jugador extends Personaje implements Serializable {
 	public void modSuerte(double valor) {
 		suerte += valor;
 	}
+	
+	public void setSuerte(double valor) {
+		suerte = valor;
+	}
 	public double getDefensa() {
 		return defensa;
 	}

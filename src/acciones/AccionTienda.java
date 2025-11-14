@@ -20,7 +20,6 @@ import utiles.Titulos;
  */
 public class AccionTienda implements Accion {
 
-	Titulos titulos;
 	private ArrayList<Item> stock = new ArrayList<>();
 	private int paginaActual;
 	private final int itemsPorPagina;
@@ -43,28 +42,28 @@ public class AccionTienda implements Accion {
 
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
-		mostrarItems();
+		mostrarItems(jugador); // Pasar jugador para mostrar monedas en el pie de página
 
 		while (enTienda) {
 			MyUtil.limpiarConsola();
 			MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
-			mostrarItems();
-			System.out.print("\n[TIENDA] Prueba /comprar [item],/comandos o /salir > \n");
-			MyUtil.marco("Monedas: " + jugador.getMonedas());
+			mostrarItems(jugador); // Pasar jugador
+
+			MyUtil.marco("Monedas: " + MyUtil.ANSI_YELLOW + "$" + jugador.getMonedas() + MyUtil.ANSI_RESET);
+			System.out.print("¿Qué deseas? (/c para ayuda) > ");
+
 			inputTienda = scTienda.nextLine().toLowerCase().trim();
 
 			if (inputTienda.equals("/salir") || inputTienda.equals("/s") || inputTienda.equals("/exit")) {
 				enTienda = false;
 				MyUtil.limpiarConsola();
 
-			} else if (inputTienda.equals("/comandos")) {
+			} else if (inputTienda.equals("/comandos") || inputTienda.equals("/help")) {
 				mostrarComandosTienda(scTienda);
 
-			} else if (inputTienda.equals("/next") || inputTienda.equals("/siguiente") // PAGINADO//PAGINADO//PAGINADO
-					|| inputTienda.equals("/n")) {
+			} else if (inputTienda.equals("/next") || inputTienda.equals("/siguiente") || inputTienda.equals("/n")) {
 				paginaActual++;
-			} else if (inputTienda.equals("/previous") || inputTienda.equals("/anterior") // PAGINADO//PAGINADO//PAGINADO
-					|| inputTienda.equals("/p")) {
+			} else if (inputTienda.equals("/previous") || inputTienda.equals("/anterior") || inputTienda.equals("/p")) {
 				paginaActual--;
 			} else if (inputTienda.startsWith("/comprar ") || inputTienda.startsWith("/buy ")
 					|| inputTienda.startsWith("/b ")) {
@@ -75,22 +74,27 @@ public class AccionTienda implements Accion {
 						Item itemAComprar = stock.get(indexCorrecto);
 						realizarVenta(jugador, itemAComprar, scTienda);
 					} else {
-						System.out.println("El numero de item " + indexItem + " no es valido");
+
+						MyUtil.marco(MyUtil.ANSI_RED + "El numero de item " + indexItem + " no es válido"
+								+ MyUtil.ANSI_RESET);
 						pulsarEnter(scTienda);
 					}
 				} catch (NumberFormatException e) {
-					System.out.println("Por favor introduzca un numero valido");
+
+					MyUtil.marco(MyUtil.ANSI_RED + "Por favor introduzca un numero valido" + MyUtil.ANSI_RESET);
 					pulsarEnter(scTienda);
-				}catch(Exception e) {
-					System.out.println("Ocurrio un error inesperado");
+				} catch (Exception e) {
+
+					MyUtil.marco(MyUtil.ANSI_RED + "Ocurrio un error inesperado" + MyUtil.ANSI_RESET);
 					pulsarEnter(scTienda);
 				}
 
 			}else if(inputTienda.startsWith("/vender") || inputTienda.startsWith("/v")){
 				menuVenta(jugador, scTienda);
-				}else {
-				System.out.print(
-						"\nNo se reconoció el comando. Usa /comprar [item], /buy [item], /b [item], /comandos o /salir. > ");
+			} else {
+
+				MyUtil.marco(MyUtil.ANSI_RED + "No se reconoció el comando. Usa /comprar, /comandos o /salir."
+						+ MyUtil.ANSI_RESET);
 				pulsarEnter(scTienda);
 			}
 		}
@@ -100,7 +104,7 @@ public class AccionTienda implements Accion {
 	public void realizarTutorial(Jugador jugador, Scanner sc) {
 		MyUtil.limpiarConsola();
 		MyUtil.dibujarArrayString(Titulos.TITULO_TIENDA, 10);
-		mostrarItems();
+		mostrarItems(jugador); // Pasar jugador
 		System.out.println("\nAhora dentro de la tienda utiliza el comando \"" + MyUtil.ANSI_GREEN
 				+ "/comprar [numero de ítem]" + MyUtil.ANSI_RESET + "\" para comprar un ítem.");
 		System.out.print("\nPor ahora vamos a comprar una poción de vida. Utiliza el comando " + MyUtil.ANSI_GREEN
@@ -111,9 +115,11 @@ public class AccionTienda implements Accion {
 			if (input.equals("/comprar 1") || input.equals("/buy 1") || input.equals("/b 1")) {
 				jugador.addItem(stock.get(0));
 				MyUtil.limpiarConsola();
+				// Simular la compra en el tutorial
+				realizarVenta(jugador, stock.get(0), sc);
 				break;
 			}
-			System.out.print("\nComando incorrecto. Por favor escriba " + MyUtil.ANSI_GREEN + "/comprar pocion"
+			System.out.print("\nComando incorrecto. Por favor escriba " + MyUtil.ANSI_GREEN + "/comprar 1"
 					+ MyUtil.ANSI_RESET + ". " + MyUtil.ANSI_GREEN + "> " + MyUtil.ANSI_RESET);
 		}
 	}
@@ -133,13 +139,12 @@ public class AccionTienda implements Accion {
 	 * Muestra los ítems disponibles en la página actual. Calcula dinámicamente el
 	 * inicio y fin del índice basado en la página.
 	 */
-	private void mostrarItems() {
+	private void mostrarItems(Jugador jugador) {
 		int totalItems = stock.size();
-		int totalPaginas = (int) Math.ceil((double) totalItems / itemsPorPagina); // la funcion ceil es un redondeo pero
-																					// hacia
-		// arriba. Al revez del casteo a int que
-		// elimina el decimal para abajo este lo
-		// elima para arriba.
+		int totalPaginas = (int) Math.ceil((double) totalItems / itemsPorPagina);
+		if (totalPaginas == 0)
+			totalPaginas = 1;
+
 		if (paginaActual < 0)
 			paginaActual = 0;
 		if (paginaActual >= totalPaginas && totalPaginas > 0)
@@ -149,24 +154,35 @@ public class AccionTienda implements Accion {
 		int fin = Math.min(inicio + itemsPorPagina, totalItems);
 
 		int largoTienda = 150;
-		String textoNumeroPagina = "Pagina Numero " + (paginaActual + 1) + " de " + totalPaginas;
-		System.out.println("╔" + "═".repeat((largoTienda - textoNumeroPagina.length()) / 2) + textoNumeroPagina
-				+ "═".repeat(
-						largoTienda - textoNumeroPagina.length() - ((largoTienda - textoNumeroPagina.length()) / 2))
-				+ "╗");
+
+		String textoNumeroPagina = MyUtil.ANSI_CYAN + " Pagina " + (paginaActual + 1) + " de " + totalPaginas + " "
+				+ MyUtil.ANSI_RESET;
+
+		// Usar stripAnsi para medir la longitud visible en lugar de length()
+		int visibleLen = MyUtil.stripAnsi(textoNumeroPagina).length();
+		int espacioTotal = Math.max(0, largoTienda - visibleLen);
+		int leftRepeat = espacioTotal / 2;
+		int rightRepeat = espacioTotal - leftRepeat;
+
+		System.out.println("╔" + "═".repeat(leftRepeat) + textoNumeroPagina + "═".repeat(rightRepeat) + "╗");
 
 		for (int i = inicio; i < fin; i++) {
-			String[] a = { ">" + (i + 1) + ". " + stock.get(i).getNombre() + " : $" + stock.get(i).getPrecio(),
-					"   Descripcion: " + stock.get(i).getDescripcion() };
-			MyUtil.marcoTienda(a, largoTienda);
+			String linea1 = ">" + MyUtil.ANSI_CYAN + (i + 1) + MyUtil.ANSI_RESET + ". " + stock.get(i).getNombre()
+					+ " : " + MyUtil.ANSI_YELLOW + "$" + stock.get(i).getPrecio() + MyUtil.ANSI_RESET;
+			String linea2 = "Descripcion: " + stock.get(i).getDescripcion();
+
+			// Llamar a la versión de marco que hace wrapping
+			MyUtil.marcoTienda(new String[] { linea1, "   " + linea2 }, largoTienda);
 		}
-		System.out.println("╚" + "═".repeat(largoTienda) + "╝\n");
 
 		String controlesNavegacion = "Cambio de pagina: ";
 		if (paginaActual > 0)
-			controlesNavegacion += "Pagina anterior: /anterior (/p)";
-		if (paginaActual < totalPaginas - 1)
-			controlesNavegacion += "|| Pagina siguiente: /siguiente (/n)";
+			controlesNavegacion += MyUtil.ANSI_CYAN + "/anterior (/p)" + MyUtil.ANSI_RESET;
+		if (paginaActual < totalPaginas - 1) {
+			if (!controlesNavegacion.endsWith(" "))
+				controlesNavegacion += " || ";
+			controlesNavegacion += MyUtil.ANSI_CYAN + "/siguiente (/n)" + MyUtil.ANSI_RESET;
+		}
 		System.out.println(controlesNavegacion);
 	}
 
@@ -176,19 +192,19 @@ public class AccionTienda implements Accion {
 	 * 
 	 * @param item El ítem modelo de la estantería.
 	 */
-	private void realizarVenta(Jugador jugador, Item item, Scanner scTienda) {
+	private void realizarVenta(Jugador jugador, Item item, Scanner sc) {
 		if (jugador.getMonedas() >= item.getPrecio()) {
 			Item itemNuevo = clonarItem(item);
 			if (itemNuevo != null) {
 				jugador.addItem(itemNuevo);
 				jugador.modMonedas(-itemNuevo.getPrecio());
-				System.out.println(
-						"Compraste [ " + itemNuevo.getNombre() + " ] por " + itemNuevo.getPrecio() + " monedas");
-				pulsarEnter(scTienda);
+				MyUtil.marco("Compraste [ " + MyUtil.ANSI_GREEN + itemNuevo.getNombre() + MyUtil.ANSI_RESET + " ] por "
+						+ MyUtil.ANSI_YELLOW + itemNuevo.getPrecio() + MyUtil.ANSI_RESET + " monedas");
+				pulsarEnter(sc);
 			}
 		} else {
-			System.out.println("No tienes suficiente dinero");
-			pulsarEnter(scTienda);
+			MyUtil.marco(MyUtil.ANSI_RED + "No tienes suficiente dinero" + MyUtil.ANSI_RESET);
+			pulsarEnter(sc);
 		}
 	}
 
@@ -230,9 +246,9 @@ public class AccionTienda implements Accion {
 
 	}
 
-	private void pulsarEnter(Scanner scTienda) {
-		System.out.println("[ Pulsa Enter para continuar ]");
-		scTienda.nextLine();
+	private void pulsarEnter(Scanner sc) {
+		System.out.println("\n[ Pulsa " + MyUtil.ANSI_GREEN + "Enter " + MyUtil.ANSI_RESET + "para continuar ]");
+		sc.nextLine();
 	}
 
 	private void menuVenta(Jugador jugador, Scanner scTienda) {
