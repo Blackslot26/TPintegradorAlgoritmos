@@ -16,7 +16,6 @@ public class AccionAhorcado implements Accion {
 	int recompensaBase, recompensaBaseXP;
 
 	public AccionAhorcado() {
-
 		// Asignar las recompensas base
 		recompensaBase = 3000;
 		recompensaBaseXP = 15;
@@ -61,12 +60,13 @@ public class AccionAhorcado implements Accion {
 			StringBuilder tablero, ArrayList<Character> letrasIntentadas, Scanner scAhorcado)
 			throws InterruptedException {
 
-		if (input.equals("/casino") || input.equals("/salir")) { // Siempre puedes salir
+		if (input.equals("/casino") || input.equals("/salir") || input.equals("/escapar")) { // Siempre puedes salir
 			MyUtil.marco("Has recurrido a ténicas prohibidas para salir de tu grave situación");
 			int monedasPerdidas = (int) (jugador.getMonedas() * -0.25);
 			jugador.modMonedas(monedasPerdidas); // Pierde 1/4 de sus monedas
 			MyUtil.marco("Has perdido " + MyUtil.ANSI_RED + monedasPerdidas + MyUtil.ANSI_RESET);
-			Thread.sleep(3000);
+			System.out.println("[Enter para continuar]");
+			scAhorcado.nextLine();
 			return false;
 		}
 

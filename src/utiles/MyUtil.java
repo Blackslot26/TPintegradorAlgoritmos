@@ -24,7 +24,7 @@ public class MyUtil {
 	 * @return El texto sin códigos (ej. "Hola")
 	 */
 
-	private static String stripAnsi(String texto) {
+	public static String stripAnsi(String texto) {
 		if (texto == null) {
 			return "";
 		}
@@ -116,43 +116,113 @@ public class MyUtil {
 	}
 
 	public static void marcoTienda(String[] textos, int largo) {
-		final int paddingCostados = 2; // espacios de los costados
+	    final int paddingCostados = 2; // espacios de los costados
+	    if (textos == null || textos.length == 0) {
+	        textos = new String[] { " " };
+	    }
 
-		if (textos == null || textos.length == 0) {
-			textos = new String[] { " " };
-		}
+	    int anchoVisibleInterior = largo - (paddingCostados * 2);
+	    if (anchoVisibleInterior < 10) anchoVisibleInterior = 10; // mínimo razonable
 
-		// El largo total del marco (el ancho de la línea '═')
-		int largoMarco = largo;
-		StringBuilder sb = new StringBuilder();
+	    StringBuilder sb = new StringBuilder();
 
-		// 2. Líneas centrales
-		for (String texto : textos) {
-			if (texto == null)
-				texto = "";
+	    for (String textoOriginal : textos) {
+	        String texto = textoOriginal == null ? "" : textoOriginal;
 
-			// --- SOLUCIÓN AQUÍ ---
-			// Calcular los espacios restantes basándose en el largo VISIBLE (sin ANSI)
-			int largoVisibleActual = stripAnsi(texto).length();
-			int espaciosRestantes = largoMarco - largoVisibleActual - (paddingCostados * 2);
+	        // Dividir en trozos que quepan en anchoVisibleInterior, usando la longitud visible (sin ANSI)
+	        String restante = texto;
+	        while (!restante.isEmpty()) {
+	            // Construir una subcadena que no exceda anchoVisibleInterior en longitud visible
+	            StringBuilder lineaVisibleBuilder = new StringBuilder();
+	            StringBuilder lineaRawBuilder = new StringBuilder(); // mantendrá códigos ANSI + texto en paralelo
+	            int visibleCount = 0;
+	            int pos = 0;
 
-			// Asegurarse de que los espacios no sean negativos si el texto es muy largo
-			if (espaciosRestantes < 0) {
-				espaciosRestantes = 0;
-			}
-			// --- FIN DE LA SOLUCICIÓN ---
+	            // Recorremos el string char a char para respetar códigos ANSI
+	            while (pos < restante.length() && visibleCount < anchoVisibleInterior) {
+	                char c = restante.charAt(pos);
+	                if (c == '\u001B') {
+	                    // comienzo de secuencia ANSI: copiar hasta la m incluida sin contar en visibleCount
+	                    int seqEnd = pos + 1;
+	                    while (seqEnd < restante.length() && restante.charAt(seqEnd) != 'm') seqEnd++;
+	                    if (seqEnd < restante.length()) {
+	                        // incluir la secuencia completa
+	                        String seq = restante.substring(pos, seqEnd + 1);
+	                        lineaRawBuilder.append(seq);
+	                        pos = seqEnd + 1;
+	                        continue;
+	                    } else {
+	                        // secuencia no terminada: copiar resto y romper
+	                        lineaRawBuilder.append(restante.substring(pos));
+	                        pos = restante.length();
+	                        break;
+	                    }
+	                } else {
+	                    lineaRawBuilder.append(c);
+	                    lineaVisibleBuilder.append(c);
+	                    pos++;
+	                    visibleCount++;
+	                }
+	            }
 
-			sb.append("║").append(" ".repeat(paddingCostados)).append(texto) // Imprime el texto ORIGINAL (con color)
-					.append(" ".repeat(espaciosRestantes)) // Añade el relleno correcto
-					.append(" ".repeat(paddingCostados)).append("║\n");
-		}
+	            String lineaRaw = lineaRawBuilder.toString();
+	            String lineaVisible = lineaVisibleBuilder.toString();
 
-		// 3. Línea inferior
-		sb.append("╠" + "═".repeat(largoMarco) + "╣");
+	            // Si quedamos en medio de una palabra y hay más texto, intentar retroceder hasta el último espacio visible
+	            if (pos < restante.length() && !lineaVisible.isEmpty()) {
+	                int ultimoEspacio = lineaVisible.lastIndexOf(' ');
+	                if (ultimoEspacio > Math.max(0, lineaVisible.length() / 2)) {
+	                    // reconstruir lineaRaw hasta la posición del último espacio visible
+	                    int visibleCut = ultimoEspacio;
+	                    // necesitamos mapear visibleCut a índice en lineaRaw que respeta códigos ANSI
+	                    int visibleSeen = 0;
+	                    int rawCutIndex = 0;
+	                    while (rawCutIndex < lineaRaw.length() && visibleSeen < visibleCut) {
+	                        if (lineaRaw.charAt(rawCutIndex) == '\u001B') {
+	                            // saltar secuencia ANSI
+	                            rawCutIndex++;
+	                            while (rawCutIndex < lineaRaw.length() && lineaRaw.charAt(rawCutIndex) != 'm') rawCutIndex++;
+	                            if (rawCutIndex < lineaRaw.length()) rawCutIndex++;
+	                        } else {
+	                            rawCutIndex++;
+	                            visibleSeen++;
+	                        }
+	                    }
+	                    // cortar lineaRaw y ajustar pos en restante acorde
+	                    String lineaRawCortada = lineaRaw.substring(0, rawCutIndex);
+	                    sb.append("║").append(" ".repeat(paddingCostados)).append(lineaRawCortada);
+	                    int relleno = anchoVisibleInterior - MyUtil.stripAnsi(lineaRawCortada).length();
+	                    sb.append(" ".repeat(Math.max(0, relleno))).append(" ".repeat(paddingCostados)).append("║\n");
 
-		// Imprimir el marco
-		System.out.println(sb.toString());
+	                    // calcular cuánto avanzamos en 'restante' en términos de caracteres reales (no visibles)
+	                    int avanzados = rawCutIndex;
+	                    restante = restante.substring(avanzados).trim();
+	                    continue;
+	                }
+	            }
+
+	            // Añadir la línea tal cual (pos caracteres consumidos de 'restante')
+	            int consumidos = pos;
+	            String lineaParaImprimir = lineaRaw;
+	            sb.append("║").append(" ".repeat(paddingCostados)).append(lineaParaImprimir);
+	            int espaciosRestantes = anchoVisibleInterior - MyUtil.stripAnsi(lineaParaImprimir).length();
+	            sb.append(" ".repeat(Math.max(0, espaciosRestantes))).append(" ".repeat(paddingCostados)).append("║\n");
+
+	            // Actualizar 'restante'
+	            if (consumidos >= restante.length()) {
+	                restante = "";
+	            } else {
+	                restante = restante.substring(consumidos).trim();
+	            }
+	        }
+	    }
+
+	    // Línea inferior del bloque
+	    sb.append("╠").append("═".repeat(largo)).append("╣");
+
+	    System.out.println(sb.toString());
 	}
+
 	public static void dibujarArrayString(String[] array) {
 		for (String linea : array) {
 			System.out.print(linea + "\n");

@@ -31,6 +31,8 @@ public class DatosJuego {
 		aliasComandos.put("/a", "/alias");
 		aliasComandos.put("/bj", "/blackjack");
 		aliasComandos.put("/help", "/comandos");
+		aliasComandos.put("/renacer", "/rebirth");
+		
 
 
 		preguntas.add(new Pregunta(
@@ -226,7 +228,8 @@ public class DatosJuego {
 		    MyUtil.ANSI_GREEN + "/buy [index]" + MyUtil.ANSI_RESET + " -> Comprar en inglés",
 		    MyUtil.ANSI_GREEN + "/b [index]" + MyUtil.ANSI_RESET + " -> Comando corto para comprar",
 		    MyUtil.ANSI_GREEN + "/salir" + MyUtil.ANSI_RESET + " -> Salir de la tienda",
-		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos"
+		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos",
+		    MyUtil.ANSI_GREEN + "/rebirth" + MyUtil.ANSI_RESET + " -> empiezas desde 0 a cambio de ganar más dinero"
 		};
 
 
