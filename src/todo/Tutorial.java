@@ -95,6 +95,7 @@ public class Tutorial {
 				MyUtil.limpiarConsola();
 				AccionTienda accionTienda = new AccionTienda();
 				accionTienda.realizarTutorial(jugador, sc);
+				accionTienda = null;
 				break;
 			}
 
