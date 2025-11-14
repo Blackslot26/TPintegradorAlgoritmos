@@ -232,6 +232,8 @@ public class DatosJuego {
 		    MyUtil.ANSI_GREEN + "/comprar [index]" + MyUtil.ANSI_RESET + " -> Comprar un Item específico",
 		    MyUtil.ANSI_GREEN + "/buy [index]" + MyUtil.ANSI_RESET + " -> Comprar en inglés",
 		    MyUtil.ANSI_GREEN + "/b [index]" + MyUtil.ANSI_RESET + " -> Comando corto para comprar",
+		    MyUtil.ANSI_GREEN + "/vender" + MyUtil.ANSI_RESET + " -> Abrir interfaz de ventas",
+		    MyUtil.ANSI_GREEN + "/v" + MyUtil.ANSI_RESET + " -> Comando corto para vender",
 		    MyUtil.ANSI_GREEN + "/salir" + MyUtil.ANSI_RESET + " -> Salir de la tienda",
 		    MyUtil.ANSI_GREEN + "/comandos" + MyUtil.ANSI_RESET + " -> Listar los comandos"		   
 		};

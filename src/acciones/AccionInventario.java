@@ -22,15 +22,16 @@ public class AccionInventario implements Accion {
 		while (enInventario) {
 			MyUtil.limpiarConsola();
 			jugador.mostrarEstadoJugador();
-
-			System.out.println("[INVENTARIO] Opciones:");
-			System.out.println("  /usar [N° item]    -> Consumir una poción o ítem usable.");
-			System.out.println("  /equipar [N° item] [N° slot] -> Equipar un arma o armadura.");
-			System.out.println("  /desequipar [N° item] -> Desequipa un item del inventario");
-			System.out.println("  /descripcion [N° item] -> Muesta la descripcion de un item");
-			System.out.println("  /salir        -> Volver al menú principal.");
-			System.out.print("> ");
-
+			String[] comandos = {
+			"[INVENTARIO] Opciones:",
+			"  /usar [N° item]    -> Consumir una poción o ítem usable.",
+			"  /equipar [N° item] [N° slot] -> Equipar un arma o armadura.",
+			"  /desequipar [N° item] -> Desequipa un item del inventario",
+			"  /descripcion [N° item] -> Muesta la descripcion de un item",
+			"  /salir        -> Volver al menú principal.",
+			"> "};
+			
+			MyUtil.marco(comandos);
 			String input = sc.nextLine().toLowerCase().trim();
 
 			if (input.equals("/salir") || input.equals("/s")) {

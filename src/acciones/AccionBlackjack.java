@@ -126,7 +126,7 @@ public class AccionBlackjack implements Accion {
 			System.out.println("La casa gana. Pierdes " + apuesta);
 			jugador.modMonedas(-apuesta);
 		} else if (BLACKJACK) {
-			System.out.println("Obtuviste un Blackjack! Que suerte!!! Ganas: " + apuesta);
+			System.out.println("Obtuviste un Blackjack! Que suerte!!! Ganas: " + ((int) apuesta * 1.5 * jugador.getMultGanancia()));
 			jugador.modMonedas((int) ((apuesta * 1.5) * jugador.getMultGanancia()));
 		}else{
 		System.out.println("La casa revela su carta...");
@@ -156,10 +156,10 @@ public class AccionBlackjack implements Accion {
 		System.out.println("_________________________________________");
 
 		if (puntosCasa > 21) {
-			System.out.println("La casa se paso! GANASTE: " + apuesta);
+			System.out.println("La casa se paso! GANASTE: " + ((int) apuesta * jugador.getMultGanancia()));
 			jugador.modMonedas((int) (apuesta * jugador.getMultGanancia()));
 		} else if (puntosJugador > puntosCasa) {
-			System.out.println("Tienes mas puntos que la casa! GANASTE: " + apuesta);
+			System.out.println("Tienes mas puntos que la casa! GANASTE: " + ((int) apuesta * jugador.getMultGanancia()));
 			jugador.modMonedas((int)(apuesta* jugador.getMultGanancia()));
 		} else if (puntosJugador < puntosCasa) {
 			System.out.println("La casa tiene mas puntos! PERDISTE: " + apuesta);

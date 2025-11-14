@@ -1,6 +1,7 @@
-<<<<<<< HEAD
-blackslot,1,0,7789
-=======
-iselnoob,1,0,2927
-blackslot,1,0,5952
->>>>>>> David
+Seth,99,30,77777777
+LeyLeyGooner34,4,0,10000
+xXCarlitosPro777Xx,30,2,500000
+Faker,66,6,666666
+si,1,0,1000
+ELNOOB,18,3,100000
+blackslot,1,0,5974

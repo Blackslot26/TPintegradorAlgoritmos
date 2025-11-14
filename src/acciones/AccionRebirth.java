@@ -20,7 +20,9 @@ public class AccionRebirth implements Accion{
 							"Rebirths actuales: " + jugadorActual.getRebirth()};
 		MyUtil.marco(rebirth);
 		
+		
 		while(true) {
+			System.out.println("Escribe"+ MyUtil.ANSI_GREEN + "YES" + MyUtil.ANSI_RESET + "para confirmar." + "Escribe"+ MyUtil.ANSI_RED + "NO" + MyUtil.ANSI_RESET + "para cancelar.");
 			String confirmacion = sc.nextLine().toLowerCase();
 			if(confirmacion.equals("yes") || confirmacion.equals("si")) {
 				if(jugadorActual.getMonedas() >= costeRebirth) {
@@ -35,6 +37,8 @@ public class AccionRebirth implements Accion{
 				}
 			}else if (confirmacion.equals("no")) {
 				break;
+			}else {
+				System.out.println("Comando incorrecto.");
 			}
 			
 		}
